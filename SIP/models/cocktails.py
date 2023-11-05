@@ -10,6 +10,7 @@ class Cocktails(models.Model):
     glass = models.CharField(max_length=255)
     instructions = models.TextField()
     ingredients = models.JSONField()
+    image = models.URLField(max_length=255, blank=True, null=True)
     image_source = models.URLField(max_length=255, blank=True, null=True)
     image_attribution = models.CharField(max_length=255, blank=True, null=True)
     date_modified = models.DateTimeField()
@@ -19,8 +20,10 @@ class Cocktails(models.Model):
 
 
 class OfficialCocktails(Cocktails):
-    pass
+    class Meta:
+        db_table = 'official_cocktails'
 
 
 class UnofficialCocktails(Cocktails):
-    pass
+    class Meta:
+        db_table = 'unofficial_cocktails'
