@@ -28,9 +28,15 @@ class Official(Cocktails):
     class Meta:
         db_table = 'sip_official_cocktails'
 
+    def __str__(self):
+        return self.drink_name
+
 
 class Unofficial(Cocktails):
     id_drink = models.AutoField(primary_key=True)
 
     class Meta:
         db_table = 'sip_unofficial_cocktails'
+
+    def __str__(self):
+        return self.drink_name

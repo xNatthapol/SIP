@@ -12,6 +12,9 @@ class Review(models.Model):
 
     class Meta:
         db_table = 'sip_review'
+    
+    def __str__(self):
+        return self.message
 
 class Star(models.Model):
     id_drink = models.IntegerField()
@@ -21,3 +24,6 @@ class Star(models.Model):
 
     class Meta:
         db_table = 'sip_star'
+
+    def __str__(self):
+        return self.score
