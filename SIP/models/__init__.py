@@ -1,1 +1,1 @@
-from .cocktails import Cocktails, OfficialCocktails, UnofficialCocktails
+from .cocktails import Cocktails, Official, Unofficial
