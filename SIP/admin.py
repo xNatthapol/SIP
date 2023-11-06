@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Official, Unofficial
 
-# Register your models here.
+admin.site.register(Official)
+admin.site.register(Unofficial)
