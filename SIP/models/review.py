@@ -26,4 +26,4 @@ class Star(models.Model):
         db_table = 'sip_star'
 
     def __str__(self):
-        return self.score
+        return str(self.score)
