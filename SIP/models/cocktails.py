@@ -3,7 +3,6 @@ from django.contrib.postgres import fields
 
 
 class Cocktails(models.Model):
-    id_drink = models.IntegerField(primary_key=True)
     drink_name = models.CharField(max_length=255)
     alternate_name = models.CharField(max_length=255, blank=True, null=True)
     tags = fields.ArrayField(
@@ -23,11 +22,13 @@ class Cocktails(models.Model):
         abstract = True
 
 
-class OfficialCocktails(Cocktails):
+class Official(Cocktails):
+    id_drink = models.IntegerField(primary_key=True)
     class Meta:
         db_table = 'official_cocktails'
 
 
-class UnofficialCocktails(Cocktails):
+class Unofficial(Cocktails):
+    id_drink = models.AutoField(primary_key=True)
     class Meta:
         db_table = 'unofficial_cocktails'
