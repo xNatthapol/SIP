@@ -24,11 +24,13 @@ class Cocktails(models.Model):
 
 class Official(Cocktails):
     id_drink = models.IntegerField(primary_key=True)
+
     class Meta:
-        db_table = 'official_cocktails'
+        db_table = 'sip_official_cocktails'
 
 
 class Unofficial(Cocktails):
     id_drink = models.AutoField(primary_key=True)
+
     class Meta:
-        db_table = 'unofficial_cocktails'
+        db_table = 'sip_unofficial_cocktails'

@@ -1,11 +1,23 @@
 from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
+
 
 class Review(models.Model):
-    star = models.ForeignKey("Star", on_delete=models.CASCADE)
+    id_drink = models.IntegerField()
+    tag = models.CharField(max_length=1)  # 'o' for official, 'u' for unofficial
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=255)
+    reviewed_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'sip_review'
 
 class Star(models.Model):
-    id_user = models.IntegerField(max_length=10)
-    id_drink = models.IntegerField(max_length=10)
-    tag = models.CharField(max_length=50)
+    id_drink = models.IntegerField()
+    tag = models.CharField(max_length=1)  # 'o' for official, 'u' for unofficial
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.IntegerField()
+
+    class Meta:
+        db_table = 'sip_star'
