@@ -468,6 +468,24 @@
     }
   },
   {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$BzTI988QFF82NHlZhKvlq6$PHU7VaBJMLDMI9CgrricEnzMbqbdC4KeFHLwo9Z8PNc=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-11-07T02:16:20.230Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
     "model": "sites.site",
     "pk": 4,
     "fields": {
