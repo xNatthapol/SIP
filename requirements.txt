@@ -1,0 +1,4 @@
+Django>=4.2, <5.0
+django-allauth>=0.58.2, <0.60
+psycopg2-binary>=2.9.9, <3.2
+requests>=2.31.0, <2.33.0

@@ -1,0 +1,566 @@
+[
+  {
+    "model": "auth.permission",
+    "pk": 65,
+    "fields": {
+      "name": "Can add log entry",
+      "content_type": 1,
+      "codename": "add_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 66,
+    "fields": {
+      "name": "Can change log entry",
+      "content_type": 1,
+      "codename": "change_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 67,
+    "fields": {
+      "name": "Can delete log entry",
+      "content_type": 1,
+      "codename": "delete_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 68,
+    "fields": {
+      "name": "Can view log entry",
+      "content_type": 1,
+      "codename": "view_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 69,
+    "fields": {
+      "name": "Can add permission",
+      "content_type": 2,
+      "codename": "add_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 70,
+    "fields": {
+      "name": "Can change permission",
+      "content_type": 2,
+      "codename": "change_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 71,
+    "fields": {
+      "name": "Can delete permission",
+      "content_type": 2,
+      "codename": "delete_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 72,
+    "fields": {
+      "name": "Can view permission",
+      "content_type": 2,
+      "codename": "view_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 73,
+    "fields": {
+      "name": "Can add group",
+      "content_type": 3,
+      "codename": "add_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 74,
+    "fields": {
+      "name": "Can change group",
+      "content_type": 3,
+      "codename": "change_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 75,
+    "fields": {
+      "name": "Can delete group",
+      "content_type": 3,
+      "codename": "delete_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 76,
+    "fields": {
+      "name": "Can view group",
+      "content_type": 3,
+      "codename": "view_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 77,
+    "fields": {
+      "name": "Can add user",
+      "content_type": 4,
+      "codename": "add_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 78,
+    "fields": {
+      "name": "Can change user",
+      "content_type": 4,
+      "codename": "change_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 79,
+    "fields": {
+      "name": "Can delete user",
+      "content_type": 4,
+      "codename": "delete_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 80,
+    "fields": {
+      "name": "Can view user",
+      "content_type": 4,
+      "codename": "view_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 81,
+    "fields": {
+      "name": "Can add content type",
+      "content_type": 5,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 82,
+    "fields": {
+      "name": "Can change content type",
+      "content_type": 5,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 83,
+    "fields": {
+      "name": "Can delete content type",
+      "content_type": 5,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 84,
+    "fields": {
+      "name": "Can view content type",
+      "content_type": 5,
+      "codename": "view_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 85,
+    "fields": {
+      "name": "Can add session",
+      "content_type": 6,
+      "codename": "add_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 86,
+    "fields": {
+      "name": "Can change session",
+      "content_type": 6,
+      "codename": "change_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 87,
+    "fields": {
+      "name": "Can delete session",
+      "content_type": 6,
+      "codename": "delete_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 88,
+    "fields": {
+      "name": "Can view session",
+      "content_type": 6,
+      "codename": "view_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 89,
+    "fields": {
+      "name": "Can add site",
+      "content_type": 7,
+      "codename": "add_site"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 90,
+    "fields": {
+      "name": "Can change site",
+      "content_type": 7,
+      "codename": "change_site"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 91,
+    "fields": {
+      "name": "Can delete site",
+      "content_type": 7,
+      "codename": "delete_site"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 92,
+    "fields": {
+      "name": "Can view site",
+      "content_type": 7,
+      "codename": "view_site"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 93,
+    "fields": {
+      "name": "Can add email address",
+      "content_type": 8,
+      "codename": "add_emailaddress"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 94,
+    "fields": {
+      "name": "Can change email address",
+      "content_type": 8,
+      "codename": "change_emailaddress"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 95,
+    "fields": {
+      "name": "Can delete email address",
+      "content_type": 8,
+      "codename": "delete_emailaddress"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 96,
+    "fields": {
+      "name": "Can view email address",
+      "content_type": 8,
+      "codename": "view_emailaddress"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 97,
+    "fields": {
+      "name": "Can add email confirmation",
+      "content_type": 9,
+      "codename": "add_emailconfirmation"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 98,
+    "fields": {
+      "name": "Can change email confirmation",
+      "content_type": 9,
+      "codename": "change_emailconfirmation"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 99,
+    "fields": {
+      "name": "Can delete email confirmation",
+      "content_type": 9,
+      "codename": "delete_emailconfirmation"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 100,
+    "fields": {
+      "name": "Can view email confirmation",
+      "content_type": 9,
+      "codename": "view_emailconfirmation"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 101,
+    "fields": {
+      "name": "Can add social account",
+      "content_type": 10,
+      "codename": "add_socialaccount"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 102,
+    "fields": {
+      "name": "Can change social account",
+      "content_type": 10,
+      "codename": "change_socialaccount"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 103,
+    "fields": {
+      "name": "Can delete social account",
+      "content_type": 10,
+      "codename": "delete_socialaccount"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 104,
+    "fields": {
+      "name": "Can view social account",
+      "content_type": 10,
+      "codename": "view_socialaccount"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 105,
+    "fields": {
+      "name": "Can add social application",
+      "content_type": 11,
+      "codename": "add_socialapp"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 106,
+    "fields": {
+      "name": "Can change social application",
+      "content_type": 11,
+      "codename": "change_socialapp"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 107,
+    "fields": {
+      "name": "Can delete social application",
+      "content_type": 11,
+      "codename": "delete_socialapp"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 108,
+    "fields": {
+      "name": "Can view social application",
+      "content_type": 11,
+      "codename": "view_socialapp"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 109,
+    "fields": {
+      "name": "Can add social application token",
+      "content_type": 12,
+      "codename": "add_socialtoken"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 110,
+    "fields": {
+      "name": "Can change social application token",
+      "content_type": 12,
+      "codename": "change_socialtoken"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 111,
+    "fields": {
+      "name": "Can delete social application token",
+      "content_type": 12,
+      "codename": "delete_socialtoken"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 112,
+    "fields": {
+      "name": "Can view social application token",
+      "content_type": 12,
+      "codename": "view_socialtoken"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$2hvItZc3KZoJw5InHYUaC3$zChWhfWa4CwVgrGfnOZgn8aOgy6QqTJxEow7xw+nop4=",
+      "last_login": "2023-11-06T03:51:02.558Z",
+      "is_superuser": true,
+      "username": "zanut",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-11-05T08:29:42.008Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "!4UQ6NHgkB8LXYbYaAX7HuJAgpTAe4RqPGT5UreWB",
+      "last_login": "2023-11-06T03:19:18.819Z",
+      "is_superuser": false,
+      "username": "chanun",
+      "first_name": "Chanun",
+      "last_name": "SUNTRAPIWAT",
+      "email": "chanun.s@ku.th",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-11-06T03:19:18.793Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$BzTI988QFF82NHlZhKvlq6$PHU7VaBJMLDMI9CgrricEnzMbqbdC4KeFHLwo9Z8PNc=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-11-07T02:16:20.230Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "sites.site",
+    "pk": 4,
+    "fields": {
+      "domain": "http://127.0.0.1:8000",
+      "name": "http://127.0.0.1:8000"
+    }
+  },
+  {
+    "model": "account.emailaddress",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "email": "chanun.s@ku.th",
+      "verified": true,
+      "primary": true
+    }
+  },
+  {
+    "model": "socialaccount.socialapp",
+    "pk": 1,
+    "fields": {
+      "provider": "google",
+      "provider_id": "google",
+      "name": "Google API",
+      "client_id": "538189286255-34uvnm7h2u9atqanl9drqdv3saqgemaq.apps.googleusercontent.com",
+      "secret": "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",
+      "key": "",
+      "settings": {},
+      "sites": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "socialaccount.socialapp",
+    "pk": 2,
+    "fields": {
+      "provider": "github",
+      "provider_id": "github",
+      "name": "GitHub API",
+      "client_id": "0cd8749795cfb1ab4726",
+      "secret": "b266f96ceaf7946cb85ee51c690a9c2b1f707c08",
+      "key": "",
+      "settings": {},
+      "sites": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "socialaccount.socialaccount",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "provider": "google",
+      "uid": "111450949309108160522",
+      "last_login": "2023-11-06T03:19:18.808Z",
+      "date_joined": "2023-11-06T03:19:18.808Z",
+      "extra_data": {
+        "iss": "https://accounts.google.com",
+        "azp": "538189286255-34uvnm7h2u9atqanl9drqdv3saqgemaq.apps.googleusercontent.com",
+        "aud": "538189286255-34uvnm7h2u9atqanl9drqdv3saqgemaq.apps.googleusercontent.com",
+        "sub": "111450949309108160522",
+        "hd": "ku.th",
+        "email": "chanun.s@ku.th",
+        "email_verified": true,
+        "at_hash": "R8IIMIucC1HtbG3hk0-ypQ",
+        "name": "Chanun SUNTRAPIWAT",
+        "picture": "https://lh3.googleusercontent.com/a/ACg8ocIIc0Y_6K_lckJssZARqYHFtS2--URDjx_sZLbBgqkr=s96-c",
+        "given_name": "Chanun",
+        "family_name": "SUNTRAPIWAT",
+        "locale": "en",
+        "iat": 1699240758,
+        "exp": 1699244358
+      }
+    }
+  }
+]
