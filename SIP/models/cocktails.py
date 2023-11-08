@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.postgres import fields
+from django.utils import timezone
 
 
 class Cocktails(models.Model):
@@ -16,7 +17,6 @@ class Cocktails(models.Model):
     image = models.URLField(max_length=255, blank=True, null=True)
     image_source = models.URLField(max_length=255, blank=True, null=True)
     image_attribution = models.CharField(max_length=255, blank=True, null=True)
-    date_modified = models.DateTimeField()
 
     class Meta:
         abstract = True
@@ -24,6 +24,7 @@ class Cocktails(models.Model):
 
 class Official(Cocktails):
     id_drink = models.IntegerField(primary_key=True)
+    date_modified = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         db_table = 'sip_official_cocktails'
@@ -34,6 +35,7 @@ class Official(Cocktails):
 
 class Unofficial(Cocktails):
     id_drink = models.AutoField(primary_key=True)
+    date_created = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'sip_unofficial_cocktails'

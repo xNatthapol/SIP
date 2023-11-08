@@ -59,7 +59,7 @@ class UnofficialModelTest(TestCase):
                 'testingredient2': 'testmeasure2',
                 'testingredient3': 'testmeasure3'
             },
-            date_modified=datetime(2023, 11, 7, tzinfo=timezone.utc)
+            date_created=datetime(2023, 11, 7, tzinfo=timezone.utc)
         )
     
     def test_unofficial_model_created(self):
@@ -77,4 +77,4 @@ class UnofficialModelTest(TestCase):
             'testingredient2': 'testmeasure2',
             'testingredient3': 'testmeasure3'
         })
-        self.assertEqual(self.unofficial.date_modified, datetime(2023, 11, 7, tzinfo=timezone.utc))
+        self.assertEqual(self.unofficial.date_created, datetime(2023, 11, 7, tzinfo=timezone.utc))
