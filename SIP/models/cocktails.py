@@ -9,7 +9,7 @@ class Cocktails(models.Model):
         models.CharField(max_length=255, blank=True, null=True),
         blank=True, null=True
     )
-    catalog = models.CharField(max_length=255, blank=True, null=True)
+    category = models.CharField(max_length=255, blank=True, null=True)
     glass = models.CharField(max_length=255)
     instructions = models.TextField()
     ingredients = models.JSONField(default=dict)
