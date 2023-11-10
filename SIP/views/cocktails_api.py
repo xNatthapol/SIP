@@ -1,5 +1,7 @@
 import requests
-from SIP.models import Official
+from datetime import datetime
+from django.utils import timezone
+from SIP.models import Cocktail
 
 
 class CocktailApi:
@@ -37,11 +39,17 @@ class CocktailApi:
                     ingredient = cocktails_data['strIngredient' + str(i)]
                     if ingredient is not None:
                         ingredients_dict[ingredient] = cocktails_data['strMeasure' + str(i)]
+            
+            date_modified_str = cocktails_data['dateModified']
+            if date_modified_str:
+                date_modified = datetime.strptime(date_modified_str, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)
+            else:
+                date_modified = None
                 
-            official_cocktail = Official(
-                id_drink = cocktails_data['idDrink'],
-                drink_name = cocktails_data['strDrink'],
+            cocktail = Cocktail(
+                name = cocktails_data['strDrink'],
                 alternate_name = cocktails_data['strDrinkAlternate'],
+                cocktail_tag = 'o',
                 tags = tag_list,
                 category = cocktails_data['strCategory'],
                 glass = cocktails_data['strGlass'],
@@ -50,8 +58,8 @@ class CocktailApi:
                 image = cocktails_data['strDrinkThumb'],
                 image_source = cocktails_data['strImageSource'],
                 image_attribution = cocktails_data['strImageAttribution'],
-                date_modified = cocktails_data['dateModified']
+                date_modified = date_modified
             )
-            official_cocktail.save()
-            cocktails_list.append(official_cocktail)
+            cocktail.save()
+            cocktails_list.append(cocktail)
         return cocktails_list

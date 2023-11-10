@@ -1,2 +1,2 @@
-from .cocktails import Cocktails, Official, Unofficial
+from .cocktail import Cocktail
 from .review import Review, Star
