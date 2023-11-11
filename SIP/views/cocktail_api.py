@@ -1,0 +1,94 @@
+import requests
+from datetime import datetime
+from django.utils import timezone
+from SIP.models import Tag, Ingredient, CocktailIngredient, Cocktail
+
+
+class CocktailApi:
+    def __init__(self):
+        self.base_url = 'https://www.thecocktaildb.com/api/json/v1/1/'
+
+    def build_url(self, endpoint):
+        return self.base_url + endpoint
+
+    def get_cocktail_by_name(self, name):
+        url = self.build_url('search.php?s=' + name)
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            response_data = response.json()
+        except requests.exceptions.RequestException as e:
+            print(f'Error: {e}')
+            return None
+
+        if response_data['drinks'] is None:
+            return None
+
+        cocktails_list = []
+        for i in range(len(response_data['drinks'])):
+            cocktails_data = response_data['drinks'][i]
+
+            tags_list = []
+            if cocktails_data['strTags']:
+                for tag_name in cocktails_data['strTags'].split(','):
+                    tag_exist = Tag.objects.filter(name__exact=tag_name.strip())
+                    if not tag_exist:
+                        tag = Tag(name=tag_name.strip())
+                        tag.save()
+                    else:
+                        tag = tag_exist.first()
+                    tags_list.append(tag)
+
+            ingredients_list = []
+            if cocktails_data['strIngredient1'] is not None:
+                for i in range(1, 16):
+                    ingredient_name = cocktails_data['strIngredient' + str(i)]
+                    measure = cocktails_data['strMeasure' + str(i)]
+                    if ingredient_name is None:
+                        break
+                    ingredient_exist = Ingredient.objects.filter(name__exact=ingredient_name)
+                    if not ingredient_exist:
+                        ingredient = Ingredient(name=ingredient_name)
+                        ingredient.save()
+                    else:
+                        ingredient = ingredient_exist.first()
+                    ingredients_list.append({
+                        'ingredient': ingredient,
+                        'measure': measure
+                    })
+            
+            date_modified_str = cocktails_data['dateModified']
+            if date_modified_str:
+                date_modified = datetime.strptime(date_modified_str, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)
+            else:
+                date_modified = None
+                
+            cocktail_name = cocktails_data['strDrink']
+            name_exist = Cocktail.objects.filter(name__exact=cocktail_name)
+            if not name_exist:
+                cocktail = Cocktail(
+                    name = cocktails_data['strDrink'],
+                    alternate_name = cocktails_data['strDrinkAlternate'],
+                    cocktail_tag = 'o',
+                    category = cocktails_data['strCategory'],
+                    glass = cocktails_data['strGlass'],
+                    instructions = cocktails_data['strInstructions'],
+                    image = cocktails_data['strDrinkThumb'],
+                    image_source = cocktails_data['strImageSource'],
+                    image_attribution = cocktails_data['strImageAttribution'],
+                    date_modified = date_modified
+                )
+                cocktail.save()
+                for tag in tags_list:
+                    cocktail.tags.add(tag)
+                for ingredient in ingredients_list:
+                    cocktail_ingredient = CocktailIngredient(
+                        cocktail=cocktail,
+                        ingredient=ingredient['ingredient'],
+                        measure=ingredient['measure']
+                    )
+                    cocktail_ingredient.save()
+            else:
+                cocktail = name_exist.first()
+            cocktails_list.append(cocktail)
+        return cocktails_list

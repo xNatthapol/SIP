@@ -14,15 +14,12 @@ class ReviewModelTest(TestCase):
         )
 
         self.cocktail = Cocktail.objects.create(
-            name='Mojito',
+            name='testcocktail',
+            alternate_name='testalternatename',
             cocktail_tag='o',
-            tags=['testtag'],
+            category='testcategory',
             glass='testglass',
             instructions='testinstructions',
-            ingredients={
-                'testingredient1': 'testmeasure1',
-                'testingredient2': 'testmeasure2'
-            },
             date_modified=datetime(2023, 11, 7, tzinfo=timezone.utc)
         )
 
@@ -50,15 +47,12 @@ class StarModelTest(TestCase):
         )
 
         self.cocktail = Cocktail.objects.create(
-            name='Mojito',
+            name='testcocktail',
+            alternate_name='testalternatename',
             cocktail_tag='o',
-            tags=['testtag'],
+            category='testcategory',
             glass='testglass',
             instructions='testinstructions',
-            ingredients={
-                'testingredient1': 'testmeasure1',
-                'testingredient2': 'testmeasure2'
-            },
             date_modified=datetime(2023, 11, 7, tzinfo=timezone.utc)
         )
 

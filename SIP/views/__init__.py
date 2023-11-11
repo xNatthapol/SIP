@@ -1,1 +1,1 @@
-from .cocktails_api import CocktailApi
+from .cocktail_api import CocktailApi
