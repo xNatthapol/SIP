@@ -22,5 +22,6 @@ urlpatterns = [
     # path("SIP/", include("SIP.urls")),
     path("admin/", admin.site.urls),
     path('', TemplateView.as_view(template_name="login_page/login.html")),
+    path('', TemplateView.as_view(template_name="sip/index.html")),
     path('accounts/', include('allauth.urls')),
 ]
