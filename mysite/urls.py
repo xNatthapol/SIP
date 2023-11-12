@@ -19,9 +19,10 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    # path("SIP/", include("SIP.urls")),
+    path("SIP/", include("SIP.urls")),
+    path('accounts/', include('django.contrib.auth.urls')),
     path("admin/", admin.site.urls),
-    path('', TemplateView.as_view(template_name="login_page/login.html")),
-    path('', TemplateView.as_view(template_name="sip/index.html")),
+    path('login/', TemplateView.as_view(template_name="registration/login.html")),
+    path('index/', TemplateView.as_view(template_name="sip/index.html")),
     path('accounts/', include('allauth.urls')),
 ]
