@@ -5,7 +5,7 @@ from django.views import View
 from ..models import Cocktail, Review, Star
 
 
-class MyCocktailView(View):
+class CocktailDetailView(View):
     template_name = 'sip/cocktail_detail.html'
 
     def get(self, request, pk):
