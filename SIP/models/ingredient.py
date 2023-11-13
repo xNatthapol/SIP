@@ -14,6 +14,6 @@ class CocktailIngredient(models.Model):
     cocktail = models.ForeignKey('SIP.Cocktail', on_delete=models.CASCADE, null=True)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, null=True)
     measure = models.CharField(max_length=255, blank=True, null=True)
-    
+
     def __str__(self):
         return self.measure + ' ' + str(self.ingredient)

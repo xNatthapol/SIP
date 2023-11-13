@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from SIP.views.cocktail_api import CocktailApi
 
+
 class IndexView(View):
     template_name = 'sip/index.html'
 
