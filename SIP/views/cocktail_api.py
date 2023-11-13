@@ -69,7 +69,7 @@ class CocktailApi:
                         ingredient = ingredient_exist.first()
                         if 'strDescription' in ingredient_data and ingredient.description is None:
                             ingredient.description = ingredient_data['strDescription']
-                        if 'strDescription' in ingredient_data and ingredient.image is None:
+                        if ingredient.image is None:
                             ingredient.image = f'www.thecocktaildb.com/images/ingredients/{ingredient_name}-Medium.png'
                         ingredient.save()
                     ingredients_list.append({
