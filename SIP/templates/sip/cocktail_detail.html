@@ -32,16 +32,15 @@
         color: white;
     }
 
-    .star,
-    .half-star {
+    .star {
         color: white;
         font-size: 24px; /* Adjust the size as needed */
         display: inline-block;
     }
-
-    .half-star {
-        position: relative;
-        overflow: hidden;
+    .star.half {
+    background: linear-gradient(90deg, white 50%, transparent 50%);  /* Half green background */
+    -webkit-background-clip: text;
+    color: transparent;
     }
 
 </style>
@@ -54,6 +53,13 @@
     <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
+
+    {% if clean_error %}
+        <div class="error">
+            <p>{{ clean_error }}</p>
+        </div>
+    {% endif %}
+
     <a href="{% url 'index' %}" class="text">Back to Cocktail Index</a>
     <h1 class="text">{{ cocktail.name }} Detail Page</h1>
 
@@ -71,14 +77,15 @@
 
     {% if star_rating %}
         <p class="text">Average Rating: {{ average_score }}</p>
-    <div class="star-rating">
-        {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
+        <!-- Display integer part of the stars -->\
+        {% for _ in star_rating.0|default:0 %}
             <span class="star">&#9733;</span>
         {% endfor %}
+
+        <!-- Display fractional part of the stars -->
         {% if star_rating.1 %}
-            <span class="star">&#9733;</span>
+            <span class="star half">&#9733;</span>
         {% endif %}
-    </div>
     {% else %}
         <p class="text">No ratings yet.</p>
     {% endif %}
@@ -91,6 +98,37 @@
     {% else %}
         <p class="text">No reviews available.</p>
     {% endif %}
+
+    <!-- Display Review Form -->
+    <h3 class="text">Add a New Review:</h3>
+    <form method="post" action="{% url 'add_review' pk=cocktail.pk %}">
+        {% csrf_token %}
+        {{ comment_form.message }}
+        <button type="submit">Add Review</button>
+    </form>
+
+    <!-- Display Star Form -->
+    <h3 class="text">Add a New Star Rating:</h3>
+    <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
+        {% csrf_token %}
+        {{ star_form.score }}
+        <button type="submit">Add Star Rating</button>
+    </form>
+
+    {% if comment_form.errors %}
+        <div class="error">
+            <p>Please correct the errors below:</p>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    {% if star_form.errors %}
+        <div class="error">
+            <p>Please correct the errors below:</p>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
 
 </body>
 </html>
