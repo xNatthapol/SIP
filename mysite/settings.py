@@ -120,7 +120,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sipdb',
-        'USER': 'sip',
+        'USER': 'zanut',
         'PASSWORD': 'sip',
         'HOST': 'localhost',
         'PORT': '5432',

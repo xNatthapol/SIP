@@ -2,6 +2,7 @@ from django.test import TestCase
 from SIP.models import Cocktail
 from SIP.views import CocktailApi
 
+
 class CocktailApiTest(TestCase):
     def test_get_cocktail_by_name(self):
         cocktail_api = CocktailApi()

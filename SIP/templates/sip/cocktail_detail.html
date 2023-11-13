@@ -8,17 +8,16 @@
 {% extends "sip/base.html" %}
 
 {% block content %}
-
 <style>
     body {
         background-color: #002C1D;
     }
-    
+
     .text {
         font-family: 'Barlow Semi Condensed', sans-serif;
         color: #F5F5DC;
     }
-    
+
     .tdy-rec-text {
         font-family: 'Italianno', cursive;
         color: #FCDF76;
@@ -28,6 +27,23 @@
         margin-top: 120px;
         text-align: center;
     }
+
+    .star-rating {
+        color: white;
+    }
+
+    .star {
+        color: white;
+        font-size: 24px; /* Adjust the size as needed */
+        display: inline-block;
+    }
+
+    .star.half {
+    background: linear-gradient(90deg, white 50%, transparent 50%);  /* Half green background */
+    -webkit-background-clip: text;
+    color: transparent;
+    }
+
 </style>
 
 <!DOCTYPE html>
@@ -42,7 +58,7 @@
     <h1 class="text">{{ cocktail.name }} Detail Page</h1>
 
     <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
-    
+
     <h2 class="text">Ingredients</h2>
     <ul class="text">
         {% for ingredient in cocktail.cocktailingredient_set.all %}
@@ -52,6 +68,29 @@
 
     <h2 class="text">Instructions</h2>
     <p class="text">{{ cocktail.instructions }}</p>
+
+    {% if star_rating %}
+        <p class="text">Average Rating: {{ average_score }}</p>
+    <div class="star-rating">
+        {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
+            <span class="star">&#9733;</span>
+        {% endfor %}
+        {% if star_rating.1 %}
+            <span class="star half">&#9733;</span>
+        {% endif %}
+    </div>
+    {% else %}
+        <p class="text">No ratings yet.</p>
+    {% endif %}
+
+    {% if reviews %}
+        <h2 class="text">Reviews</h2>
+        {% for review in reviews %}
+            <p class="text">{{ review.user }} : {{ review.message }}</p>
+        {% endfor %}
+    {% else %}
+        <p class="text">No reviews available.</p>
+    {% endif %}
 
 </body>
 </html>
