@@ -114,9 +114,8 @@
     <a class ="navbar-brand" href="{% url 'index' %}">Sip</a>
 
     <ul class="nav-right">
-
-        <li> <!-- Search -->
-            <form method="get">
+        <li>
+            <form method="get" action="{% url 'index' %}">
                 <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
             </form>
         </li>
