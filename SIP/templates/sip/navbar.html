@@ -7,79 +7,83 @@
 
 
 <style>
-.navbar {
-    width: 100%;
-    height: 110px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin: 0px;
-    right: 0;
-    background-color: #002C1D;
-    border-bottom: #F5F5DC solid 5px;
-}
+    body {
+        padding-top: 110px;
+    }
 
-.navbar-brand {
-    font-family: Riesling;
-    font-size: 90px;
-    font-weight: 400;
-    color: #F5F5DC;
-    word-wrap: break-word;
-    margin-left: 25px;
-    text-decoration: none;
-}
+    .navbar {
+        width: 100%;
+        height: 110px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0px;
+        right: 0;
+        background-color: #002C1D;
+        border-bottom: #F5F5DC solid 5px;
+    }
 
-.nav-right {
-    font-family: 'Barlow Semi Condensed', sans-serif;
-    position: fixed;
-    float: right;
-    right: 0;
-    margin-top: 27px;
-    margin-right: 25px;
-    display: flex;
-    list-style: none;
-}
+    .navbar-brand {
+        font-family: Riesling;
+        font-size: 90px;
+        font-weight: 400;
+        color: #F5F5DC;
+        word-wrap: break-word;
+        margin-left: 25px;
+        text-decoration: none;
+    }
 
-.log-auths {
-    font-family: 'Barlow Semi Condensed', sans-serif;
-    background-color: #FFFDD1;
-    border-radius: 3px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    border: none;
-    margin-left: 25px;
-    /* padding: 9px; */
-    font-size: 15px;
-    font-weight: 600;
-    color: #282828;
-    word-wrap: break-word;
-}
+    .nav-right {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        position: fixed;
+        float: right;
+        right: 0;
+        margin-top: 27px;
+        margin-right: 25px;
+        display: flex;
+        list-style: none;
+    }
 
-.nav-link {
-    color: #282828;
-    text-decoration: none;
-    padding-left: 20px;
-    padding-right: 20px;
-}
+    .log-auths {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        background-color: #FFFDD1;
+        border-radius: 3px;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+        border: none;
+        margin-left: 25px;
+        /* padding: 9px; */
+        font-size: 15px;
+        font-weight: 600;
+        color: #282828;
+        word-wrap: break-word;
+    }
 
-.about-us {
-    font-family: 'Barlow Semi Condensed', sans-serif;
-    text-decoration: none;
-    background-color: #FFFDD1;
-    border-radius: 25px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    border: none;
-    margin-left: 25px;
-    padding: 9px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #282828;
-    word-wrap: break-word;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-top: 5.5px;
-    width: 110px;
-    height: 30px;
-    line-height: 11px;
+    .nav-link {
+        color: #282828;
+        text-decoration: none;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .about-us {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        text-decoration: none;
+        background-color: #FFFDD1;
+        border-radius: 25px;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+        border: none;
+        margin-left: 25px;
+        padding: 9px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #282828;
+        word-wrap: break-word;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-top: 5.5px;
+        width: 110px;
+        height: 30px;
+        line-height: 11px;
     }
 </style>
 
@@ -107,28 +111,34 @@
 </div> -->
 
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class ="navbar-brand" href="index.html">Sip</a>
+    <a class ="navbar-brand" href="{% url 'index' %}">Sip</a>
 
     <ul class="nav-right">
+
+        <li> <!-- Search -->
+            <form method="get">
+                <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
+            </form>
+        </li>
+
         <li> <!-- About Us -->
             <form action="https://github.com/xNatthapol/SIP/wiki" target="_blank">
                 <input class="about-us" type="submit" value="About us"/>
             </form>
         </li> 
-
         <li> <!-- Login/Logout -->
-            <!-- {% if user.is_authenticated %}
+            {% if user.is_authenticated %}
                 <button class="log-auths">
                     <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">
                         <p class="logs-text">Logout</p>
                     </a>
                 </button>
-            {% else %} -->
+            {% else %}
 
                 <button class="log-auths" style="padding: 9px;">
                     <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
                 </button>
-            <!-- {% endif %} -->
+            {% endif %}
         </li>
 
     </ul>
