@@ -15,21 +15,110 @@
 
     .text {
         font-family: 'Barlow Semi Condensed', sans-serif;
-        color: #F5F5DC;
+        color: black;
     }
 
-    .tdy-rec-text {
+    .text-ingre {
+        /* width: 50%; */
+        float: right;
+        margin-top: 30px;
+        margin-right: 250px;
+    }
+
+    .ingree {
+        width: 450px;
+    }
+
+    #ingr-text {
+        color: #ffffff;
+        float: right;
+        font-size: 25px;
+        margin-right: 10px;
+    }
+
+    .small-ingree {
+        background-color: #F5F5DC;
+        display: inline-flex;
+        border-radius: 5px;
+        width: 450px;
+        max-width: 450px;
+        height: 300px;
+        max-height: 300px;
+        padding: 15px;
+        overflow-y: scroll;
+    }
+
+    #ingr-names, #ingr-measure {
+        list-style: none;
+        /* margin-left: 0p
+        padding-left: 0px; */
+    }
+
+    #ingr-names {
+        margin-left: 15px;
+    }
+
+    #ingr-measure {
+        margin-left: 215px;
+        padding-left: 15px;
+        border-left: black solid 2px;
+        border-radius: 2px;
+        /* background-color: aqua; */
+    }
+
+    #cock-text {
         font-family: 'Italianno', cursive;
         color: #FCDF76;
         font-size: 55px;
         font-weight: 400;
         word-wrap: break-word;
-        margin-top: 120px;
+        /* margin-right: 25px; */
+        margin-bottom: 30px;
         text-align: center;
+    }
+
+    .img-intr {
+        /* background-color: aqua; */
+        /* display: flex; */
+        margin-top: 30px;
+        margin-left: 200px;
+    }
+
+    .intrr {
+        /* background-color: aqua; */
+        display: inline-table;
+        margin-top: 30px;
+        border-top: white solid 2px;
+        width: 450px;
+        height: 200px;
+        max-width: 450px;
+        max-height: 200px;
+        /* padding-left: 15px; */
+        padding-right: 40px;
+    }
+
+    #intr-text {
+        color: #ffffff;
+        font-size: 25px;
+        margin-left: 10px;
+        margin-top: 15px;
+    }
+
+    #intr {
+        background-color: #F5F5DC;
+        border-radius: 5px;
+        width: 450px;
+        height: 200px;
+        max-width: 450px;
+        max-height: 200px;
+        padding: 15px;
+        overflow-y: scroll;
     }
 
     .star-rating {
         color: white;
+        background-color: aqua;
+        display: inline-flex;
     }
 
     .star {
@@ -44,6 +133,53 @@
     color: transparent;
     }
 
+    img {
+        width: 450px;
+        height: 270px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    #back-butt {
+        background-color: #36454F;
+        padding: 10px;
+        text-decoration: none;
+        margin-left: 20px;
+        /* top: 30px; */
+        color: white;
+        border-radius: 5px;
+    }
+
+    .reviews {
+        /* background-color: aqua; */
+        margin-top: 10px;
+        margin-left: 200px;
+        width: 69vw;
+        max-width: 69vw;
+        display: inline-table;
+        margin-bottom: 50px;
+    }
+
+    #comm {
+        color: #ffffff;
+        font-size: 25px;
+        margin-left: 10px;
+        margin-top: 15px;
+        float: right;
+        margin-right: 10px;
+    }
+
+    .rev-block {
+        background-color: #F5F5DC;
+        border-radius: 5px;
+        width: 69vw;
+        height: 200px;
+        /* max-width: 450px; */
+        /* max-height: 200px; */
+        padding: 15px;
+        overflow-y: scroll;
+    }
+
 </style>
 
 <!DOCTYPE html>
@@ -54,43 +190,67 @@
     <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
-    <a href="{% url 'index' %}" class="text">Back to Cocktail Index</a>
-    <h1 class="text">{{ cocktail.name }} Detail Page</h1>
+    <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a>
 
-    <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+    <!-- Text and ingredients block -->
+    <div class="text-ingre">
+        <h1 class="text" id="cock-text">{{ cocktail.name }}</h1>
 
-    <h2 class="text">Ingredients</h2>
-    <ul class="text">
-        {% for ingredient in cocktail.cocktailingredient_set.all %}
-            <li class="text">{{ ingredient.measure }} {{ ingredient.ingredient.name }}</li>
-        {% endfor %}
-    </ul>
-
-    <h2 class="text">Instructions</h2>
-    <p class="text">{{ cocktail.instructions }}</p>
-
-    {% if star_rating %}
-        <p class="text">Average Rating: {{ average_score }}</p>
-    <div class="star-rating">
-        {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
-            <span class="star">&#9733;</span>
-        {% endfor %}
-        {% if star_rating.1 %}
-            <span class="star half">&#9733;</span>
-        {% endif %}
+        <!-- {% if star_rating %}
+            <p class="text">Average Rating: {{ average_score }}</p>
+            <div class="star-rating">
+                {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
+                    <span class="star">&#9733;</span>
+                {% endfor %}
+                {% if star_rating.1 %}
+                    <span class="star half">&#9733;</span>
+                {% endif %}
+            </div>
+        {% else %}
+            <p class="text">No ratings yet.</p>
+        {% endif %} -->
+        
+        <div class="ingree">
+            <h2 class="text" id="ingr-text">Ingredients</h2>
+            <div class="small-ingree">
+                <div class="text" id="ingr-names">
+                    {% for ingredient in cocktail.cocktailingredient_set.all %}
+                        <li class="text" id="name">{{ ingredient.ingredient.name }}</li>
+                    {% endfor %}
+                </div>
+                <div class="text" id="ingr-measure">
+                    {% for ingredient in cocktail.cocktailingredient_set.all %}
+                        <li class="text" id="measure">{{ ingredient.measure }}</li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-    {% else %}
-        <p class="text">No ratings yet.</p>
-    {% endif %}
 
-    {% if reviews %}
-        <h2 class="text">Reviews</h2>
-        {% for review in reviews %}
-            <p class="text">{{ review.user }} : {{ review.message }}</p>
-        {% endfor %}
-    {% else %}
-        <p class="text">No reviews available.</p>
-    {% endif %}
+    <!-- Image and instructions block -->
+    <div class="img-intr">
+        <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+
+        <div class="intrr">
+            <h2 class="text" id="intr-text">Instructions</h2>
+            <p class="text" id="intr">{{ cocktail.instructions }}</p>
+        </div>
+    </div>
+
+    <!-- Reviews block -->
+    <div class="reviews">
+        <h2 class="text" id="comm">Comments</h2>
+        <div class="rev-block">
+            {% if reviews %}
+                {% for review in reviews %}
+                    <p class="text">{{ review.user }} : {{ review.message }}</p>
+                    <br>
+                {% endfor %}
+            {% else %}
+                <p class="text">No reviews available.</p>
+            {% endif %}
+        </div>
+    </div>
 
 </body>
 </html>
