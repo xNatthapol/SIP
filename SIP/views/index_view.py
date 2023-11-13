@@ -1,27 +1,15 @@
-import requests
-from datetime import datetime, timezone
-from django.utils import timezone
-from SIP.models import Tag, Ingredient, CocktailIngredient, Cocktail
-from django.views.generic import TemplateView
 from django.shortcuts import render
+from django.views import View
+from SIP.views.cocktail_api import CocktailApi
 
+class IndexView(View):
+    template_name = 'sip/index.html'
 
-class IndexView(TemplateView):
-    template_name = "sip/index.html"
-    cocktail_api = "SIP.CocktailApi"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['cocktails'] = Cocktail.objects.all()
-        context['tags'] = Tag.objects.all()
-        context['ingredients'] = Ingredient.objects.all()
-        return context
-    
-    def get(self, request, *args, **kwargs):
-        if request.GET.get('search'):
-            search = request.GET.get('search')
-            context = self.get_context_data(**kwargs)
-            context['cocktails'] = Cocktail.objects.filter(name__icontains=search)
-            return render(request, self.template_name, context)
+    def get(self, request):
+        cocktail_api = CocktailApi()
+        search_cocktail = request.GET.get('search')
+        if search_cocktail:
+            cocktails = cocktail_api.get_cocktail_by_name(search_cocktail)
         else:
-            return super().get(request, *args, **kwargs)
+            cocktails = cocktail_api.get_cocktail_by_name('negroni')
+        return render(request, self.template_name, context={'cocktails': cocktails, 'search_query': search_cocktail})

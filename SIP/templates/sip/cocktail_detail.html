@@ -35,26 +35,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cocktail Index</title>
+    <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
-    <h1 class="tdy-rec-text">Cocktail Index Page</h1>
+    <a href="{% url 'index' %}" class="text">Back to Cocktail Index</a>
+    <h1 class="text">{{ cocktail.name }} Detail Page</h1>
 
+    <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+    
+    <h2 class="text">Ingredients</h2>
+    <ul class="text">
+        {% for ingredient in cocktail.cocktailingredient_set.all %}
+            <li class="text">{{ ingredient.measure }} {{ ingredient.ingredient.name }}</li>
+        {% endfor %}
+    </ul>
 
-    {% if cocktails %}
-        <ul>
-            {% for cocktail in cocktails %}
-                <li>
-                    <a href="{% url 'cocktail_detail' cocktail.id %}">
-                        <h2 class="text">{{ cocktail.name }}</h2>
-                        <img src="{{ cocktail.image }}">
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No cocktails found.</p>
-    {% endif %}
+    <h2 class="text">Instructions</h2>
+    <p class="text">{{ cocktail.instructions }}</p>
+
 </body>
 </html>
 
