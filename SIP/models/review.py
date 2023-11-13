@@ -9,6 +9,9 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=255)
     reviewed_at = models.DateTimeField(default=timezone.now)
+
+    def is_valid(self):
+        return len(self.message) <= 255
     
     def __str__(self):
         return self.message
@@ -21,6 +24,9 @@ class Star(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
     rated_at = models.DateTimeField(default=timezone.now)
+
+    def is_valid(self):
+        return 1 <= self.score <= 5
 
     def __str__(self):
         return str(self.score)

@@ -190,6 +190,7 @@
     <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
+
     <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a>
 
     <!-- Text and ingredients block -->
@@ -251,6 +252,45 @@
             {% endif %}
         </div>
     </div>
+
+
+    {% if clean_error %}
+        <div class="error">
+            <p>{{ clean_error }}</p>
+        </div>
+    {% endif %}
+
+
+    <!-- Display Review Form -->
+    <h3 class="text">Add a New Review:</h3>
+    <form method="post" action="{% url 'add_review' pk=cocktail.pk %}">
+        {% csrf_token %}
+        {{ comment_form.message }}
+        <button type="submit">Add Review</button>
+    </form>
+
+    <!-- Display Star Form -->
+    <h3 class="text">Add a New Star Rating:</h3>
+    <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
+        {% csrf_token %}
+        {{ star_form.score }}
+        <button type="submit">Add Star Rating</button>
+    </form>
+
+    {% if comment_form.errors %}
+        <div class="error">
+            <p>Please correct the errors below:</p>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    {% if star_form.errors %}
+        <div class="error">
+            <p>Please correct the errors below:</p>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
 
 </body>
 </html>
