@@ -62,7 +62,12 @@
     <h2 class="text">Ingredients</h2>
     <ul class="text">
         {% for ingredient in cocktail.cocktailingredient_set.all %}
-            <li class="text">{{ ingredient.measure }} {{ ingredient.ingredient.name }}</li>
+            <li class="text">
+                {{ ingredient.measure }}
+                <a href="{% url 'ingredient_detail' ingredient.ingredient.id %}">
+                    {{ ingredient.ingredient.name }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 
