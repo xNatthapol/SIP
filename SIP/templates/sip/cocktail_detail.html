@@ -32,16 +32,16 @@
         color: white;
     }
 
-    .star,
-    .half-star {
+    .star {
         color: white;
         font-size: 24px; /* Adjust the size as needed */
         display: inline-block;
     }
 
-    .half-star {
-        position: relative;
-        overflow: hidden;
+    .star.half {
+    background: linear-gradient(90deg, white 50%, transparent 50%);  /* Half green background */
+    -webkit-background-clip: text;
+    color: transparent;
     }
 
 </style>
@@ -76,7 +76,7 @@
             <span class="star">&#9733;</span>
         {% endfor %}
         {% if star_rating.1 %}
-            <span class="star">&#9733;</span>
+            <span class="star half">&#9733;</span>
         {% endif %}
     </div>
     {% else %}
