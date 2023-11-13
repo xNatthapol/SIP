@@ -8,7 +8,7 @@ from ..models import Cocktail, Review, Star
 from ..forms import ReviewForm, StarForm
 
 
-class MyCocktailView(View):
+class CocktailDetailView(View):
     template_name = 'sip/cocktail_detail.html'
 
     def get(self, request, pk):
