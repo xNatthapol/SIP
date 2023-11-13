@@ -1,0 +1,34 @@
+[
+{
+  "model": "socialaccount.socialapp",
+  "pk": 1,
+  "fields": {
+    "provider": "google",
+    "provider_id": "google",
+    "name": "Google API",
+    "client_id": "538189286255-34uvnm7h2u9atqanl9drqdv3saqgemaq.apps.googleusercontent.com",
+    "secret": "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",
+    "key": "",
+    "settings": {},
+    "sites": [
+      3
+    ]
+  }
+},
+{
+  "model": "socialaccount.socialapp",
+  "pk": 2,
+  "fields": {
+    "provider": "github",
+    "provider_id": "github",
+    "name": "GitHub API",
+    "client_id": "0cd8749795cfb1ab4726",
+    "secret": "4010d8dac530b6edad922259352b5c9cf9812f4a",
+    "key": "",
+    "settings": {},
+    "sites": [
+      3
+    ]
+  }
+}
+]
