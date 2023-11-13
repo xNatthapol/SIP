@@ -47,11 +47,31 @@ class CocktailApi:
                     if ingredient_name is None:
                         break
                     ingredient_exist = Ingredient.objects.filter(name__exact=ingredient_name)
+
+                    url_ingre = self.build_url('search.php?i=' + ingredient_name)
+                    try:
+                        response_ingre = requests.get(url_ingre)
+                        response_ingre.raise_for_status()
+                        response_ingre_data = response_ingre.json()
+                    except requests.exceptions.RequestException as e:
+                        print(f'Error: {e}')
+                        return None
+
+                    ingredient_data = response_ingre_data['ingredients'][0]
                     if not ingredient_exist:
-                        ingredient = Ingredient(name=ingredient_name)
+                        ingredient = Ingredient(
+                            name = ingredient_data['strIngredient'],
+                            description = ingredient_data['strDescription'],
+                            image = f'https://www.thecocktaildb.com/images/ingredients/{ingredient_name}-Medium.png'
+                        )
                         ingredient.save()
                     else:
                         ingredient = ingredient_exist.first()
+                        if 'strDescription' in ingredient_data and ingredient.description is None:
+                            ingredient.description = ingredient_data['strDescription']
+                        if 'strDescription' in ingredient_data and ingredient.image is None:
+                            ingredient.image = f'www.thecocktaildb.com/images/ingredients/{ingredient_name}-Medium.png'
+                        ingredient.save()
                     ingredients_list.append({
                         'ingredient': ingredient,
                         'measure': measure
