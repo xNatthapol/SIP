@@ -29,8 +29,11 @@ class IndexView(View):
         average_score = Star.objects.filter(cocktail=cocktail).aggregate(Avg('score'))['score__avg']
 
         if average_score is not None:
-            integer_part = int(average_score)
-            fractional_part = average_score - integer_part
+            digit = int(average_score)
+            integer_part = [1] * digit
+            fractional_part = average_score - digit
+            if fractional_part == 0:
+                fractional_part = None
             return integer_part, fractional_part
         else:
             return None

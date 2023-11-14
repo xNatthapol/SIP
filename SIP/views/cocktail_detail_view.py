@@ -1,6 +1,6 @@
 # views.py
 from django.core.exceptions import ValidationError
-from django.db.models import Avg
+from django.db.models import Avg, DecimalField
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
@@ -16,9 +16,8 @@ class CocktailDetailView(View):
         # Fetch reviews for the cocktail
         reviews = Review.objects.filter(cocktail=cocktail)
         # Calculate average score for the cocktail
-        average_score = \
-        Star.objects.filter(cocktail=cocktail).aggregate(Avg('score'))[
-            'score__avg']
+        queryset = Star.objects.filter(cocktail=cocktail).aggregate(Avg('score'))['score__avg']
+        average_score = round(queryset, 2) if queryset else None
         rating = self.calculate_star_rating(average_score)
 
         # Initialize the forms
@@ -45,8 +44,7 @@ class CocktailDetailView(View):
             if fractional_part == 0:
                 fractional_part = None
             return integer_part, fractional_part
-        else:
-            return None
+        return None
 
 
 class AddReviewView(View):
@@ -83,7 +81,6 @@ class AddReviewView(View):
 
 class AddStarView(View):
     template_name = 'sip/cocktail_detail.html'
-
 
     def post(self, request, pk):
         cocktail = get_object_or_404(Cocktail, pk=pk)
