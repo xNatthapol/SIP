@@ -82,10 +82,10 @@
                         <h2 class="text">{{ cocktail.name }}</h2>
                         {% if cocktail.average_score %}
                         <div class="star-rating">
-                            {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
+                            {% for _ in cocktail.average_score.0|default:0 %}
                                 <span class="star">&#9733;</span>
                             {% endfor %}
-                            {% if star_rating.1 %}
+                            {% if cocktail.average_score.1 %}
                                 <span class="star half">&#9733;</span>
                             {% endif %}
                         </div>
