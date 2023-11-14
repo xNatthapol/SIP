@@ -16,10 +16,8 @@ class CocktailDetailView(View):
         # Fetch reviews for the cocktail
         reviews = Review.objects.filter(cocktail=cocktail)
         # Calculate average score for the cocktail
-        queryset = Star.objects.filter(cocktail=cocktail).annotate(
-            avg_score=Avg('score', output_field=DecimalField(decimal_places=2,
-                                                             max_digits=3)))
-        average_score = round(queryset.values('avg_score').first()['avg_score'], 2) if queryset else None
+        queryset = Star.objects.filter(cocktail=cocktail).aggregate(Avg('score'))['score__avg']
+        average_score = round(queryset, 2) if queryset else None
         rating = self.calculate_star_rating(average_score)
 
         # Initialize the forms
