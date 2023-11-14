@@ -44,8 +44,7 @@ class CocktailDetailView(View):
             if fractional_part == 0:
                 fractional_part = None
             return integer_part, fractional_part
-        else:
-            return None
+        return None
 
 
 class AddReviewView(View):

@@ -250,7 +250,7 @@
         <div class="star-container">
             {% if star_rating %}
                 <div class="star-rating">
-                    {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
+                    {% for _ in star_rating.0|default:0 %}
                         <span class="star">&#9733;</span>
                     {% endfor %}
                     {% if star_rating.1 %}
