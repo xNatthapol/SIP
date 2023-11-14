@@ -23,10 +23,17 @@
         float: right;
         margin-top: 30px;
         margin-right: 250px;
+        /* text-align: center; */
     }
 
     .ingree {
         width: 450px;
+        margin-top: 15px;
+        /* background-color: aqua; */
+        padding-bottom: 45px;
+        padding-top: 20px;
+        border-bottom: #ffffff solid 2px;
+        border-top: #ffffff solid 2px;
     }
 
     #ingr-text {
@@ -116,21 +123,30 @@
     }
 
     .star-rating {
-        color: white;
-        background-color: aqua;
+        /* color: white; */
+        background-color:#282828;
         display: inline-flex;
+        /* padding: 4px; */
+        padding-left: 6px;
+        border-radius: 5px;
+        /* text-align: center; */
+        margin-left: 155px
     }
 
     .star {
-        color: white;
+        color: #FCDF76;
         font-size: 24px; /* Adjust the size as needed */
         display: inline-block;
     }
 
     .star.half {
-    background: linear-gradient(90deg, white 50%, transparent 50%);  /* Half green background */
+    background: linear-gradient(90deg, #FCDF76 50%, transparent 50%);  /* Half green background */
     -webkit-background-clip: text;
     color: transparent;
+    }
+
+    .star.half, .star {
+        margin-top: 10px;
     }
 
     img {
@@ -158,6 +174,7 @@
         max-width: 69vw;
         display: inline-table;
         margin-bottom: 50px;
+        overflow-y: scroll;
     }
 
     #comm {
@@ -180,6 +197,38 @@
         overflow-y: scroll;
     }
 
+    /* .comm-form {
+        display: inline-flex;
+        margin-left: 10px;
+        width: 300px;
+    } */
+
+    .send-butt {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        background-color: #36454F;
+        /* padding: 10px; */
+        text-decoration: none;
+        /* top: 30px; */
+        color: white;
+        border-radius: 5px;
+        margin-right: 15px;
+    }
+
+    .form-group {
+        display: inline-flex;
+        /* margin-left: 10px;
+        width: 300px; */
+    }
+
+    #avg-scr {
+        font-size: 17px;
+        color: #ffffff;
+        margin-left: 10px;
+        margin-top: 15px;
+        /* float: right; */
+        margin-right: 10px;
+    }
+
 </style>
 
 <!DOCTYPE html>
@@ -190,27 +239,29 @@
     <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
-
     <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a>
 
     <!-- Text and ingredients block -->
     <div class="text-ingre">
         <h1 class="text" id="cock-text">{{ cocktail.name }}</h1>
 
-        <!-- {% if star_rating %}
-            <p class="text">Average Rating: {{ average_score }}</p>
-            <div class="star-rating">
-                {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
-                    <span class="star">&#9733;</span>
-                {% endfor %}
-                {% if star_rating.1 %}
-                    <span class="star half">&#9733;</span>
-                {% endif %}
-            </div>
-        {% else %}
-            <p class="text">No ratings yet.</p>
-        {% endif %} -->
-        
+        <!-- Star Rating -->
+        <div class="star-container">
+            {% if star_rating %}
+                <div class="star-rating">
+                    {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
+                        <span class="star">&#9733;</span>
+                    {% endfor %}
+                    {% if star_rating.1 %}
+                        <span class="star half">&#9733;</span>
+                    {% endif %}
+                    <p class="text" id="avg-scr">{{ average_score }} / 5</p>
+                </div>
+            {% else %}
+                <p class="text">No ratings yet.</p>
+            {% endif %}
+        </div>
+
         <div class="ingree">
             <h2 class="text" id="ingr-text">Ingredients</h2>
             <div class="small-ingree">
@@ -242,6 +293,23 @@
     <div class="reviews">
         <h2 class="text" id="comm">Comments</h2>
         <div class="rev-block">
+            
+            <div class="form-group">
+                <!-- Comment Form -->
+                <form class="comm-form" method="post" action="{% url 'add_review' pk=cocktail.pk %}">
+                    {% csrf_token %}
+                    {{ comment_form.message }}
+                    <button class="send-butt" type="submit">Send</button>
+                </form>
+
+                <!-- Star Form -->
+                <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
+                    {% csrf_token %}
+                    {{ star_form.score }}
+                    <button class="send-butt" type="submit">Add Star</button>
+                </form>
+            </div>
+
             {% if reviews %}
                 {% for review in reviews %}
                     <p class="text">{{ review.user }} : {{ review.message }}</p>
@@ -260,22 +328,6 @@
         </div>
     {% endif %}
 
-
-    <!-- Display Review Form -->
-    <h3 class="text">Add a New Review:</h3>
-    <form method="post" action="{% url 'add_review' pk=cocktail.pk %}">
-        {% csrf_token %}
-        {{ comment_form.message }}
-        <button type="submit">Add Review</button>
-    </form>
-
-    <!-- Display Star Form -->
-    <h3 class="text">Add a New Star Rating:</h3>
-    <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
-        {% csrf_token %}
-        {{ star_form.score }}
-        <button type="submit">Add Star Rating</button>
-    </form>
 
     {% if comment_form.errors %}
         <div class="error">
