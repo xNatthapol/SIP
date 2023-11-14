@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.views import View
+from django.db.models import Avg
+
 from SIP.views.cocktail_api import CocktailApi
+from ..models import Star
 
 
 class IndexView(View):
@@ -13,4 +16,21 @@ class IndexView(View):
             cocktails = cocktail_api.get_cocktail_by_name(search_cocktail)
         else:
             cocktails = cocktail_api.get_cocktail_by_name('negroni')
-        return render(request, self.template_name, context={'cocktails': cocktails, 'search_query': search_cocktail})
+
+        for cocktail in cocktails:
+            cocktail.average_score = self.calculate_star_rating(cocktail)
+
+        return render(request, self.template_name,
+                      context={'cocktails': cocktails,
+                               'search_query': search_cocktail})
+
+    def calculate_star_rating(self, cocktail):
+        # Customize this function based on your design for star ratings
+        average_score = Star.objects.filter(cocktail=cocktail).aggregate(Avg('score'))['score__avg']
+
+        if average_score is not None:
+            integer_part = int(average_score)
+            fractional_part = average_score - integer_part
+            return integer_part, fractional_part
+        else:
+            return None

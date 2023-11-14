@@ -12,11 +12,12 @@
 <style>
     body {
         background-color: #002C1D;
+        padding: 50px;
     }
     
     .text {
         font-family: 'Barlow Semi Condensed', sans-serif;
-        color: #F5F5DC;
+        color: black;
     }
     
     .tdy-rec-text {
@@ -27,6 +28,38 @@
         word-wrap: break-word;
         margin-top: 120px;
         text-align: center;
+    }
+
+    .cocktail-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 50px;
+    }
+
+    .cocktail-item {
+        background: white;
+        text-align: center;
+    }
+
+    .cocktail-container img {
+        width: 100%;
+        height: auto;
+    }
+
+    .star-rating {
+        color: gold;
+    }
+
+    .star {
+        color: gold;
+        font-size: 24px;
+        display: inline-block;
+    }
+
+    .star.half {
+        background: linear-gradient(90deg, gold 50%, transparent 50%);
+        -webkit-background-clip: text;
+        color: transparent;
     }
 </style>
 
@@ -40,18 +73,29 @@
 <body>
     <h1 class="tdy-rec-text">Cocktail Index Page</h1>
 
-
     {% if cocktails %}
-        <ul>
+        <div class="cocktail-container">
             {% for cocktail in cocktails %}
-                <li>
+                <div class="cocktail-item">
                     <a href="{% url 'cocktail_detail' cocktail.id %}">
+                        <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
                         <h2 class="text">{{ cocktail.name }}</h2>
-                        <img src="{{ cocktail.image }}">
+                        {% if cocktail.average_score %}
+                        <div class="star-rating">
+                            {% for _ in star_rating.0|default:0|yesno:"no,yes" %}
+                                <span class="star">&#9733;</span>
+                            {% endfor %}
+                            {% if star_rating.1 %}
+                                <span class="star half">&#9733;</span>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                            <p class="text">No ratings yet.</p>
+                        {% endif %}
                     </a>
-                </li>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>No cocktails found.</p>
     {% endif %}
