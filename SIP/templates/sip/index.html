@@ -30,6 +30,16 @@
         text-align: center;
     }
 
+    .text-not-found {
+        font-family: 'Italianno', cursive;
+        color: #FCDF76;
+        font-size: 45px;
+        font-weight: 350;
+        word-wrap: break-word;
+        margin-top: 40px;
+        text-align: center;
+    }
+
     .cocktail-container {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -97,7 +107,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <p>No cocktails found.</p>
+        <p class="text-not-found">No cocktails found.</p>
     {% endif %}
 </body>
 </html>
