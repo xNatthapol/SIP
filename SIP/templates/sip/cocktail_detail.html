@@ -157,16 +157,15 @@
         border-radius: 5px;
     }
 
-    #back-butt {
+    /* #back-butt {
         background-color: #36454F;
         padding: 10px;
         text-decoration: none;
         margin-left: 20px;
         /* top: 30px; */
-        color: white;
+        /* color: white;
         border-radius: 5px;
-    }
-
+    } */
     .reviews {
         /* background-color: aqua; */
         margin-top: 10px;
@@ -232,6 +231,12 @@
 
 </style>
 
+<script>
+    function goBack() {
+      window.history.back();
+    }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -240,7 +245,7 @@
     <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
-{#    <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a>#}
+    <!-- <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a> -->
 
     <!-- Text and ingredients block -->
     <div class="text-ingre">
@@ -268,7 +273,11 @@
             <div class="small-ingree">
                 <div class="text" id="ingr-names">
                     {% for ingredient in cocktail.cocktailingredient_set.all %}
-                        <li class="text" id="name">{{ ingredient.ingredient.name }}</li>
+                        <li class="text" id="name">
+                            <a class="text" href="{% url 'ingredient_detail' ingredient.ingredient.id %}">
+                                {{ ingredient.ingredient.name }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </div>
                 <div class="text" id="ingr-measure">
