@@ -12,6 +12,7 @@
 <style>
     body {
         background-color: #002C1D;
+        margin-left: 20px;
     }
 
     .text {
@@ -28,7 +29,25 @@
         margin-top: 120px;
         text-align: center;
     }
+
+    #back-butt {
+        background-color: #F5F5DC;
+        padding: 5px;
+        text-decoration: none;
+        /* margin-left: 20px; */
+        margin-top: 20px;
+        /* top: 30px; */
+        color: black;
+        border-radius: 5px;
+    }
+
 </style>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,8 +57,9 @@
         <title>{{ ingredient.name }} Detail</title>
     </head>
     <body>
-        <a href="{% url 'index' %}" class="text">Back to Cocktail Index</a>
-        <h1 class="text">{{ ingredient.name }} Detail Page</h1>
+        <!-- <a href="{% url 'index' %}" class="text">Back to Cocktail Index</a> -->
+        <button class="text" id="back-butt" onclick="goBack()">Back to Cocktail Page</button>
+        <h1 class="text">{{ ingredient.name }}</h1>
 
         <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
 
