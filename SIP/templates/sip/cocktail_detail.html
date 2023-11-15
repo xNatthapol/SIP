@@ -308,14 +308,16 @@
                 <!-- Comment Form -->
                 <form class="comm-form" method="post" action="{% url 'add_review' pk=cocktail.pk %}">
                     {% csrf_token %}
-                    {{ comment_form.message }}
+                    <textarea name="{{ comment_form.message.html_name }}" maxlength="255"> </textarea>
+
                     <button class="send-butt" type="submit">Send</button>
                 </form>
 
                 <!-- Star Form -->
                 <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
                     {% csrf_token %}
-                    {{ star_form.score }}
+                    <input type="number" min="1" max="5" id="{{ star_form.score.id_for_label }}" name="{{ star_form.score.html_name }}">
+                    <label for="{{ star_form.score.id_for_label }}"></label>
                     <button class="send-butt" type="submit">Add Star</button>
                 </form>
             </div>

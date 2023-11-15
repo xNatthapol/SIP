@@ -86,16 +86,7 @@ class AddStarView(View):
         cocktail = get_object_or_404(Cocktail, pk=pk)
 
         form = StarForm(request.POST)
-        # try:
-        #     form.clean()  # Call clean method to perform additional validation
-        # except ValidationError as e:
-        #     # Handle ValidationError by rendering the template with the error
-        #     context = {
-        #         'cocktail': cocktail,
-        #         'form': form,
-        #         'clean_error': e.message,
-        #     }
-        #     return render(request, self.template_name, context)
+        print(form)
 
         if form.is_valid():
             star = form.save(commit=False)

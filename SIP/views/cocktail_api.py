@@ -2,11 +2,12 @@ import requests
 from datetime import datetime
 from django.utils import timezone
 from SIP.models import Tag, Ingredient, CocktailIngredient, Cocktail
+from decouple import config
 
 
 class CocktailApi:
     def __init__(self):
-        self.base_url = 'https://www.thecocktaildb.com/api/json/v1/1/'
+        self.base_url = config("API_KEY", default="www.thecocktaildb.com/api/json/v1/1/")
 
     def build_url(self, endpoint):
         return self.base_url + endpoint
