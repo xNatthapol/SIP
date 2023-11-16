@@ -1,6 +1,7 @@
 from django.test import TestCase
-from SIP.models import Official
+from SIP.models import Cocktail
 from SIP.views import CocktailApi
+
 
 class CocktailApiTest(TestCase):
     def test_get_cocktail_by_name(self):
@@ -9,9 +10,9 @@ class CocktailApiTest(TestCase):
         self.assertIsInstance(cocktails_list, list)
         if cocktails_list != []:
             first_cocktail = cocktails_list[0]
-            self.assertIsInstance(first_cocktail, Official)
+            self.assertIsInstance(first_cocktail, Cocktail)
             
-            self.assertEqual(first_cocktail.drink_name, 'Mojito')
+            self.assertEqual(first_cocktail.name, 'Mojito')
 
     def test_get_cocktail_by_name_not_found(self):
         cocktail_api = CocktailApi()

@@ -1,0 +1,115 @@
+<link href="https://fonts.cdnfonts.com/css/riesling" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&family=Italianno&display=swap" rel="stylesheet">
+
+
+{% extends "sip/base.html" %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #002C1D;
+        padding: 50px;
+    }
+    
+    .text {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        color: black;
+    }
+    
+    .tdy-rec-text {
+        font-family: 'Italianno', cursive;
+        color: #FCDF76;
+        font-size: 55px;
+        font-weight: 400;
+        word-wrap: break-word;
+        margin-top: 120px;
+        text-align: center;
+    }
+
+    .text-not-found {
+        font-family: 'Italianno', cursive;
+        color: #FCDF76;
+        font-size: 45px;
+        font-weight: 350;
+        word-wrap: break-word;
+        margin-top: 40px;
+        text-align: center;
+    }
+
+    .cocktail-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 50px;
+    }
+
+    .cocktail-item {
+        background: white;
+        text-align: center;
+    }
+
+    .cocktail-container img {
+        width: 100%;
+        height: auto;
+    }
+
+    .star-rating {
+        color: gold;
+    }
+
+    .star {
+        color: gold;
+        font-size: 24px;
+        display: inline-block;
+    }
+
+    .star.half {
+        background: linear-gradient(90deg, gold 50%, transparent 50%);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cocktail Index</title>
+</head>
+<body>
+    <h1 class="tdy-rec-text">Cocktail Index Page</h1>
+
+    {% if cocktails %}
+        <div class="cocktail-container">
+            {% for cocktail in cocktails %}
+                <div class="cocktail-item">
+                    <a href="{% url 'cocktail_detail' cocktail.id %}">
+                        <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+                        <h2 class="text">{{ cocktail.name }}</h2>
+                        {% if cocktail.average_score %}
+                        <div class="star-rating">
+                            {% for _ in cocktail.average_score.0|default:0 %}
+                                <span class="star">&#9733;</span>
+                            {% endfor %}
+                            {% if cocktail.average_score.1 %}
+                                <span class="star half">&#9733;</span>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                            <p class="text">No ratings yet.</p>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-not-found">No cocktails found.</p>
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}
