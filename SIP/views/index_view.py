@@ -3,7 +3,7 @@ from django.views import View
 from django.db.models import Avg
 
 from SIP.views.cocktail_api import CocktailApi
-from ..models import Star, Cocktail
+from ..models import Star, Cocktail, Ingredient
 
 
 class IndexView(View):
@@ -12,21 +12,36 @@ class IndexView(View):
     def get(self, request):
         cocktail_api = CocktailApi()
         cocktails = Cocktail.objects.all()
-        search_cocktail = request.GET.get('search')
-        if search_cocktail:
-            if Cocktail.objects.filter(name__icontains=search_cocktail).exists():
-                cocktails = Cocktail.objects.filter(name__icontains=search_cocktail)
+        ingredients = Ingredient.objects.all()
+        search_query = request.GET.get('search')
+        search_type = request.GET.get('search_type')
+
+        if search_query and search_type:
+            if search_type == 'cocktail' and Cocktail.objects.filter(
+                    name__icontains=search_query).exists():
+                cocktails = Cocktail.objects.filter(name__icontains=search_query)
+                ingredients = []
+            elif search_type == 'ingredient' and Ingredient.objects.filter(
+                    name__icontains=search_query).exists():
+                ingredients = Ingredient.objects.filter(name__icontains=search_query)
+                cocktails = []
             else:
-                cocktails = cocktail_api.get_cocktail_by_name(search_cocktail)
+                cocktails = []
+                ingredients = []
+
         if cocktails is not None:
             for cocktail in cocktails:
                 cocktail.average_score = self.calculate_star_rating(cocktail)
-            content = {
+            context = {
                 'cocktails': cocktails,
+                'ingredients': ingredients,
+                'search_type': search_type,
+                'search_query': search_query,
             }
         else:
             return render(request, self.template_name)
-        return render(request, self.template_name, content)
+
+        return render(request, self.template_name, context)
 
     def calculate_star_rating(self, cocktail):
         # Customize this function based on your design for star ratings
@@ -41,9 +56,3 @@ class IndexView(View):
             return integer_part, fractional_part
         else:
             return None
-
-# class NewCocktailView(View):
-#     template_name = 'sip/new_cocktail.html'
-#
-#     def get(self, request):
-#         return render(request, self.template_name)

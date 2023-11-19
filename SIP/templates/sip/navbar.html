@@ -5,7 +5,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-
 <style>
     body {
         padding-top: 110px;
@@ -51,7 +50,6 @@
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         border: none;
         margin-left: 25px;
-        /* padding: 9px; */
         font-size: 15px;
         font-weight: 600;
         color: #282828;
@@ -75,7 +73,6 @@
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         border: none;
         margin-left: 25px;
-        padding: 9px;
         font-size: 15px;
         font-weight: 600;
         color: #282828;
@@ -83,7 +80,6 @@
         padding-left: 20px;
         padding-right: 20px;
         margin-top: 5.5px;
-        width: 110px;
         height: 30px;
         line-height: 11px;
     }
@@ -93,45 +89,30 @@
     }
 </style>
 
-
-<!-- <div style="width: 100%; height: 100%; position: relative">
-    <div style="width: 2560px; height: 263px; left: 0px; top: 0px; position: absolute; background: #002C1D"></div>
-    <div style="width: 375px; height: 235px; left: 55px; top: 0px; position: absolute; color: #F5F5DC; font-size: 225px; font-family: Riesling; font-weight: 400; word-wrap: break-word">Sip</div>
-    <div style="width: 240px; height: 79px; left: 2229px; top: 89px; position: absolute">
-        <div style="width: 240px; height: 79px; left: 0px; top: 0px; position: absolute; background: #FFFDD1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 5px"></div>
-        <div style="width: 185px; height: 35px; left: 47px; top: 24px; position: absolute; color: #282828; font-size: 24px; font-family: Barlow Semi Condensed; font-weight: 600; word-wrap: break-word">LOGIN/LOGOUT</div>
-    </div>
-    <div style="width: 696px; height: 58px; left: 1209px; top: 99px; position: absolute">
-        <div style="width: 696px; height: 58px; left: 0px; top: 0px; position: absolute; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.50); border-radius: 30px"></div>
-        <div style="width: 73px; height: 22px; left: 34px; top: 14px; position: absolute; color: black; font-size: 24px; font-family: Barlow Semi Condensed; font-weight: 600; word-wrap: break-word">Search</div>
-    </div>
-    <div style="width: 240px; height: 58px; left: 1947px; top: 99px; position: absolute">
-        <div style="width: 240px; height: 58px; left: 0px; top: 0px; position: absolute; background: #FFFDD1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 23px"></div>
-        <div style="width: 135px; height: 25.70px; left: 69px; top: 12px; position: absolute; color: #282828; font-size: 24px; font-family: Barlow Semi Condensed; font-weight: 600; word-wrap: break-word">ABOUT US<br/></div>
-    </div>
-    <div style="width: 51px; height: 40px; left: 1116px; top: 108px; position: absolute">
-        <div style="width: 51px; height: 8px; left: 0px; top: 32px; position: absolute; background: #C0C0C0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25); border-radius: 50px; border: 1px rgba(0, 0, 0, 0.20) solid"></div>
-        <div style="width: 51px; height: 8px; left: 0px; top: 16px; position: absolute; background: #C0C0C0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25); border-radius: 50px; border: 1px rgba(0, 0, 0, 0.20) solid"></div>
-        <div style="width: 51px; height: 8px; left: 0px; top: 0px; position: absolute; background: #C0C0C0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25); border-radius: 50px; border: 1px rgba(0, 0, 0, 0.20) solid"></div>
-    </div>
-</div> -->
-
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class ="navbar-brand" href="{% url 'index' %}">Sip</a>
+    <a class="navbar-brand" href="{% url 'index' %}">Sip</a>
+
+    <form class="form-inline" method="get" action="{% url 'index' %}">
+        <ul class="nav-right">
+            <li>
+                <select name="search_type">
+                    <option value="cocktail" {% if search_type == 'cocktail' %}selected{% endif %}>Cocktail</option>
+                    <option value="ingredient" {% if search_type == 'ingredient' %}selected{% endif %}>Ingredient</option>
+                </select>
+                <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
+<!--                <input class="search-button" type="submit" value/>-->
+            </li>
+        </ul>
+    </form>
 
     <ul class="nav-right">
         <li>
-            <form method="get" action="{% url 'index' %}">
-                <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
-            </form>
-        </li>
-
-        <li> <!-- About Us -->
+            <!-- About Us -->
             <form action="https://github.com/xNatthapol/SIP/wiki" target="_blank">
                 <input class="about-us" type="submit" value="About us"/>
             </form>
-        </li> 
-        <li> <!-- Login/Logout -->
+        </li>
+        <li>
             {% if user.is_authenticated %}
                 <button class="log-auths">
                     <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">
@@ -139,16 +120,11 @@
                     </a>
                 </button>
             {% else %}
-
                 <button class="log-auths" style="padding: 9px;">
                     <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
                 </button>
             {% endif %}
         </li>
-
     </ul>
-
-
-
 </nav>
 
