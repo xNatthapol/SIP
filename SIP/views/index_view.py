@@ -41,3 +41,9 @@ class IndexView(View):
             return integer_part, fractional_part
         else:
             return None
+
+# class NewCocktailView(View):
+#     template_name = 'sip/new_cocktail.html'
+#
+#     def get(self, request):
+#         return render(request, self.template_name)
