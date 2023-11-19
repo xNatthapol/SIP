@@ -123,13 +123,12 @@
     }
 
     .star-rating {
-        /* color: white; */
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        color: white;
         background-color:#282828;
         display: inline-flex;
-        /* padding: 4px; */
         padding-left: 6px;
         border-radius: 5px;
-        /* text-align: center; */
         margin-left: 155px
     }
 
@@ -140,9 +139,10 @@
     }
 
     .star.half {
-    background: linear-gradient(90deg, #FCDF76 50%, transparent 50%);  /* Half green background */
-    -webkit-background-clip: text;
-    color: transparent;
+        background: linear-gradient(90deg, #FCDF76 50%, transparent 50%);  /* Half green background */
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
     }
 
     .star.half, .star {
@@ -152,20 +152,12 @@
     img {
         max-width: 450px;
         max-height: 270px;
-        width: auto;
-        height: auto;
+        /* width: auto;
+        height: auto; */
         border-radius: 5px;
+        object-fit: cover;
     }
 
-    /* #back-butt {
-        background-color: #36454F;
-        padding: 10px;
-        text-decoration: none;
-        margin-left: 20px;
-        /* top: 30px; */
-        /* color: white;
-        border-radius: 5px;
-    } */
     .reviews {
         /* background-color: aqua; */
         margin-top: 10px;
@@ -231,12 +223,6 @@
 
 </style>
 
-<script>
-    function goBack() {
-      window.history.back();
-    }
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -264,7 +250,7 @@
                     <p class="text" id="avg-scr">{{ average_score }} / 5</p>
                 </div>
             {% else %}
-                <p class="text">No ratings yet.</p>
+                <p class="star-rating">No ratings yet</p>
             {% endif %}
         </div>
 

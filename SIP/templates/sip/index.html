@@ -3,10 +3,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&family=Italianno&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
 
 {% extends "sip/base.html" %}
-
 {% block content %}
 
 <style>
@@ -18,6 +20,8 @@
     .text {
         font-family: 'Barlow Semi Condensed', sans-serif;
         color: black;
+        list-style: none;
+        text-decoration: none;
     }
     
     .tdy-rec-text {
@@ -28,10 +32,11 @@
         word-wrap: break-word;
         margin-top: 120px;
         text-align: center;
+        margin-bottom: 50px;
     }
 
     .text-not-found {
-        font-family: 'Italianno', cursive;
+        font-family: 'Barlow Semi Condensed', sans-serif;
         color: #FCDF76;
         font-size: 45px;
         font-weight: 350;
@@ -40,24 +45,30 @@
         text-align: center;
     }
 
-    .cocktail-container {
+    /* .cocktail-container {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 50px;
-    }
+    } */
 
     .cocktail-item {
         background: white;
         text-align: center;
     }
 
-    .cocktail-container img {
+    /* .cocktail-container img {
         width: 100%;
         height: auto;
-    }
+    } */
 
     .star-rating {
-        color: gold;
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        color: white;
+        background-color:#282828;
+        display: inline-flex;
+        padding-left: 6px;
+        border-radius: 5px;
+        margin-left: 155px
     }
 
     .star {
@@ -69,8 +80,62 @@
     .star.half {
         background: linear-gradient(90deg, gold 50%, transparent 50%);
         -webkit-background-clip: text;
+        background-clip: text;
         color: transparent;
     }
+
+    .star.half, .star {
+        list-style: none;
+        text-decoration: none;
+    }
+
+    a, a:hover, a:visited {
+        list-style: none;
+        text-decoration: none;
+    }
+
+    * {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    img {
+        max-width: 450px;
+        max-height: 350px;
+        width: 450px;
+        height: 350px;
+        object-fit: cover;
+    }
+
+    .gallery {
+        display: flex;
+        overflow: auto;
+        /* scroll-snap-type: x mandatory;
+        scroll-behavior: smooth; */
+        /* animation: moveSlideshow 1s linear infinite; */
+        /* transition: 0.3s; */
+    }
+
+    .gallery-cell {
+        /* width: 66%;
+        height: 200px; */
+        scroll-snap-align: start;
+        margin-right: 20px;
+        background-color: white;
+        /* counter-increment: gallery-cell; */
+        border-radius: 3px;
+        animation: carousel 10s linear infinite;
+    }
+
+    /* @keyframes carousel {
+        0% { 
+            transform: translateX(0); 
+        }
+        100% { 
+            transform: translateX(-100%);  
+        }
+    } */
+
 </style>
 
 <!DOCTYPE html>
@@ -81,35 +146,68 @@
     <title>Cocktail Index</title>
 </head>
 <body>
-    <h1 class="tdy-rec-text">Cocktail Index Page</h1>
+    <h1 class="tdy-rec-text">Today's Recommendations</h1>
 
     {% if cocktails %}
         <div class="cocktail-container">
-            {% for cocktail in cocktails %}
-                <div class="cocktail-item">
-                    <a href="{% url 'cocktail_detail' cocktail.id %}">
-                        <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
-                        <h2 class="text">{{ cocktail.name }}</h2>
-                        {% if cocktail.average_score %}
-                        <div class="star-rating">
-                            {% for _ in cocktail.average_score.0|default:0 %}
-                                <span class="star">&#9733;</span>
-                            {% endfor %}
-                            {% if cocktail.average_score.1 %}
-                                <span class="star half">&#9733;</span>
-                            {% endif %}
-                        </div>
-                        {% else %}
-                            <p class="text">No ratings yet.</p>
-                        {% endif %}
-                    </a>
-                </div>
-            {% endfor %}
+
+            <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
+                {% for cocktail in cocktails %}
+                    <div class="gallery-cell">
+                        <a href="{% url 'cocktail_detail' cocktail.id %}">
+                            <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+                            <h2 class="text">{{ cocktail.name }}</h2>
+                                {% if cocktail.average_score %}
+                                    <div class="star-rating"></div>
+                                        {% for _ in cocktail.average_score.0|default:0 %}
+                                            <span class="star">&#9733;</span>
+                                        {% endfor %}
+                                        {% if cocktail.average_score.1 %}
+                                            <span class="star half">&#9733;</span>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <p class="text">No ratings yet.</p>
+                                {% endif %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% else %}
         <p class="text-not-found">No cocktails found.</p>
     {% endif %}
 </body>
 </html>
+
+<!-- <script>
+$(document).ready(function(){
+  $('.gallery').slick({
+    centerMode: true,
+    centerPadding: '60px',
+    slidesToShow: 3,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 3
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 1
+        }
+      }
+    ]
+  });
+});
+</script> -->
 
 {% endblock %}
