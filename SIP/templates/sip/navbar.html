@@ -86,12 +86,17 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{% url 'index' %}">Sip</a>
 
-    <form class="form-inline" method="get" action="{% url 'index' %}">
+    <form class="form-inline" method="post" action="{% url 'index' %}">
+        {% csrf_token %}
         <ul class="nav-right">
             <li>
                 <select name="search_type">
                     <option value="cocktail" {% if search_type == 'cocktail' %}selected{% endif %}>Cocktail</option>
                     <option value="ingredient" {% if search_type == 'ingredient' %}selected{% endif %}>Ingredient</option>
+                </select>
+                <select name="search_by">
+                    <option value="api" {% if search_by == 'api' %}selected{% endif %}>API</option>
+                    <option value="db" {% if search_by == 'db' %}selected{% endif %}>DB</option>
                 </select>
                 <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
 <!--                <input class="search-button" type="submit" value/>-->
