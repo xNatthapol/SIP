@@ -18,15 +18,69 @@
         body {
             background-color: #002C1D;
             padding: 50px;
-            margin-top: 120px;
+            align-items: center;
         }
         
         .text {
             font-family: 'Barlow Semi Condensed', sans-serif;
             color: white;
         }
-        
-        .tdy-rec-text {
+
+        .select {
+            /* display: grid; */
+            /* grid-template-columns: repeat(3, 1fr); */
+            max-width: 500px;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .select-item {
+            padding: 10px;
+            cursor: pointer;
+            font-family: "Heebo", sans-serif;
+            text-align: center;
+            border-radius: 3px;
+            background-color: #F5F5DC;
+            transition: background 0.1s ease-in-out;
+
+            display: block;
+            margin: 10px;
+        }
+
+        #choice-img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin: 20px;
+        }
+
+        #choice-img:hover, #choice-text:hover, .select-item:hover {
+            cursor: pointer;
+        }
+
+        #choice-text {
+            color: #282828;
+        }
+
+        .select-item input[type="checkbox"] {
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .selected-item {
+            background: #6b6b6b;
+        }
+
+        .info {
+            margin-top: 20px;
+        }
+
+        .jote {
+            text-align: center;
+        }
+
+        #jote-name {
             font-family: 'Italianno', cursive;
             color: #FCDF76;
             font-size: 55px;
@@ -36,66 +90,74 @@
             text-align: center;
         }
 
-        .img-intr {
-            margin-top: 30px;
-            margin-left: 200px;
+        #jote-img {
+            max-width: 450px;
+            max-height: 270px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin: 20px;
         }
 
-        .select {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            max-width: 500px;
-            gap: 20px;
+        #selectedCount {
+            padding: 5px;
+            background-color: #282828;
+            color: white;
+            border-radius: 5px;
         }
 
-        .select-item {
+        .choices {
             padding: 10px;
-            cursor: pointer;
-            font-family: "Heebo", sans-serif;
-            text-align: center;
-            border-radius: 3px;
-            background: #002C1D;
-            transition: background 0.1s;
+            /* display: flex;
+            flex-wrap: wrap; */
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
         }
 
-        .select-item input[type="checkbox"] {
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .selected-item {
-            background: #00140d;
-            color: #002C1D;
-        }
-
-        .info {
+        .subbutt {
+            font-family: 'Barlow Semi Condensed', sans-serif;
+            color: white;
+            background-color: #282828;
+            border-radius: 5px;
+            padding: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
             margin-top: 20px;
+            margin-bottom: 20px;
+            border: white solid 1px;
+            transition: background 0.1s ease-in-out;
         }
+
     </style>
 </head>
 <body>
-    <h2 class="text">{{ cocktail.name }}</h2>
-    <img class="img-intr" src="{{ cocktail.image }}" alt="cocktail image">
+    <div class="jote">
+        <h2 class="text" id="jote-name">{{ cocktail.name }}</h2>
+        <img id="jote-img" class="img-intr" src="{{ cocktail.image }}" alt="cocktail image">
 
-    <h2 class="text">Choose the correct ingredients (Select up to {{ cocktail.ingredients.count }})</h2>
-    <div class="info">
-        <h4 class="text" id="selectedCount">Selected: 0</h4>
-        <!-- <h4 class="text" id="selectionLimit">You can only select up to {{ cocktail.ingredients.count }} ingredients.</h4> -->
+        <h2 class="text">Choose the correct ingredients (Select up to {{ cocktail.ingredients.count }})</h2>
+
+        <div class="info">
+            <h4 class="text" id="selectedCount">Selected: 0</h4>
+            <!-- <h4 class="text" id="selectionLimit">You can only select up to {{ cocktail.ingredients.count }} ingredients.</h4> -->
+        </div>
     </div>
+
     <div class="select">
         <form action="{% url 'game' %}" method="post">
             {% csrf_token %}
-            {% for ingredient in ingredients %}
-                <div class="select-item">
-                    <label for="ingredient{{ ingredient.id }}">
-                        <input type="checkbox" id="ingredient{{ ingredient.id }}" name="ingredients" value="{{ ingredient.id }}">
-                        <img src="{{ ingredient.image }}" alt="ingredient image">
-                        <p class="text">{{ ingredient.name }}</p>
-                    </label>
-                </div>
-            {% endfor %}
+            <div class="choices">
+                {% for ingredient in ingredients %}
+                    <div class="select-item">
+                        <label for="ingredient{{ ingredient.id }}">
+                            <input type="checkbox" id="ingredient{{ ingredient.id }}" name="ingredients" value="{{ ingredient.id }}">
+                            <img id="choice-img" src="{{ ingredient.image }}" alt="ingredient image">
+                            <p class="text" id="choice-text">{{ ingredient.name }}</p>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
             <input type="hidden" name="cocktail_id" value="{{ cocktail.id }}">
-            <button type="submit">Submit</button>
+            <button type="submit" class="subbutt">Submit</button>
         </form>
     </div>
 

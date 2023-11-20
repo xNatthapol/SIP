@@ -13,7 +13,7 @@
     font-family: Riesling;
     font-size: 200px;
     font-weight: 400;
-    color: #F5F5DC;
+    color: #002C1D;
     word-wrap: break-word;
     text-decoration: none;
 }
@@ -58,8 +58,8 @@ p {
     <title>Login page</title>
   </head>
   <body>
-    <a class ="logo" href="{% url 'index' %}">Sip</a>
     <div class="block">
+      <a class ="logo" href="{% url 'index' %}">Sip</a>
       {% if user.is_authenticated %}
           <h1>Welcome, {{ user.username }} !</h1>
       {% else %}

@@ -124,14 +124,15 @@
     #argh {
         list-style: none;
     }
+
+    .gale {
+        text-align: center;
+        margin-top: 9px;
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{% url 'index' %}">Sip</a>
-
-    <a class="about-us" href="{% url 'game' %}">Game</a>
-
-    <a class="about-us" href="{% url 'leaderboard' %}">Leaderboard</a>
 
     <ul class="nav-right">
         <form id="argh" class="form-inline" method="post" action="{% url 'index' %}">
@@ -149,6 +150,11 @@
                 <!-- <input class="search-button" type="submit" value/> -->
             </li>
         </form>
+
+        <a class="about-us" href="{% url 'game' %}"><p class="gale">Game</p></a>
+
+        <a class="about-us" href="{% url 'leaderboard' %}"><p class="gale">Leaderboard</p></a>
+
         <li>
             <!-- About Us -->
             <form action="https://github.com/xNatthapol/SIP/wiki" target="_blank">
