@@ -134,13 +134,13 @@
 
 </head>
 <body>
-    <h1 class="tdy-rec-text">Today's Recommendations</h1>
+    <h1 class="tdy-rec-text">Searched Cocktails</h1>
 
     {% if search_type == 'ingredient' %}
         {% if ingredients|length > 1 %}
-                <div class="cocktail-container">
+                <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
                     {% for ingredient in ingredients %}
-                        <div class="cocktail-item">
+                        <div class="gallery-cell">
                             <a href="{% url 'ingredient_detail' ingredient.id %}">
                                 <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
                                 <h2 class="text">{{ ingredient.name }}</h2>
@@ -149,13 +149,13 @@
                     {% endfor %}
                 </div>
         {% elif ingredients %}
-            <div class="cocktail-container">
-            <div class="cocktail-item">
-                <a href="{% url 'ingredient_detail' ingredients.id %}">
-                    <img src="{{ ingredients.image }}" alt="{{ ingredients.name }}">
-                    <h2 class="text">{{ ingredients.name }}</h2>
-                </a>
-            </div>
+            <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
+                <div class="gallery-cell">
+                    <a href="{% url 'ingredient_detail' ingredients.id %}">
+                        <img src="{{ ingredients.image }}" alt="{{ ingredients.name }}">
+                        <h2 class="text">{{ ingredients.name }}</h2>
+                    </a>
+                </div>
             </div>
         {% else %}
             <p class="text-not-found">No ingredients found.</p>
