@@ -39,17 +39,13 @@ class IndexView(View):
                 cocktails = cocktail_api.get_cocktail_by_name(search_query)
             elif search_type == 'ingredient':
                 ingredients = cocktail_api.get_ingredient_by_name(search_query)
-                print('ingredients: ', ingredients)
                 return render(request, self.template_name, {'ingredients': ingredients, 'search_type': search_type})
         elif search_by == 'db':
             if search_type == 'cocktail':
                 cocktails = Cocktail.objects.filter(name__icontains=search_query)
             elif search_type == 'ingredient':
                 ingredients = Ingredient.objects.filter(name__icontains=search_query)
-                print('ingredients: ', ingredients)
                 return render(request, self.template_name, {'ingredients': ingredients, 'search_type': search_type})
-
-        print('cocktails: ', cocktails)
 
         if cocktails is not None:
             for cocktail in cocktails:
@@ -61,8 +57,6 @@ class IndexView(View):
                 }
 
         return render(request, self.template_name, context)
-
-
 
     def calculate_star_rating(self, cocktail):
         # Customize this function based on your design for star ratings

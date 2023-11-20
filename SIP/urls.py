@@ -11,5 +11,6 @@ urlpatterns = [
     path('ingredient/<int:pk>/', views.IngredientDetailView.as_view(), name='ingredient_detail'),
     path('ingredient/', RedirectView.as_view(url="/SIP/")),
     path('upload_image/', views.CreateCocktail.as_view(), name='upload_image'),
-
+    path('game/', views.GameView.as_view(), name='game'),
+    path('leaderboard/', views.LeaderboardView.as_view(), name='leaderboard'),
 ]

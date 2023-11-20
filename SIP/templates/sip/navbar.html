@@ -129,6 +129,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{% url 'index' %}">Sip</a>
 
+    <a class="about-us" href="{% url 'game' %}">Game</a>
+
+    <a class="about-us" href="{% url 'leaderboard' %}">Leaderboard</a>
+
     <ul class="nav-right">
         <form id="argh" class="form-inline" method="post" action="{% url 'index' %}">
             {% csrf_token %}
@@ -168,4 +172,3 @@
         </li>
     </ul>
 </nav>
-

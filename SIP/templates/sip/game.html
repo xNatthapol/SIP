@@ -1,0 +1,140 @@
+<link href="https://fonts.cdnfonts.com/css/riesling" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&family=Italianno&display=swap" rel="stylesheet">
+
+{% extends "sip/base.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cocktail Game</title>
+    <style>
+        body {
+            background-color: #002C1D;
+            padding: 50px;
+            margin-top: 120px;
+        }
+        
+        .text {
+            font-family: 'Barlow Semi Condensed', sans-serif;
+            color: white;
+        }
+        
+        .tdy-rec-text {
+            font-family: 'Italianno', cursive;
+            color: #FCDF76;
+            font-size: 55px;
+            font-weight: 400;
+            word-wrap: break-word;
+            margin-top: 120px;
+            text-align: center;
+        }
+
+        .img-intr {
+            margin-top: 30px;
+            margin-left: 200px;
+        }
+
+        .select {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 500px;
+            gap: 20px;
+        }
+
+        .select-item {
+            padding: 10px;
+            cursor: pointer;
+            font-family: "Heebo", sans-serif;
+            text-align: center;
+            border-radius: 3px;
+            background: #002C1D;
+            transition: background 0.1s;
+        }
+
+        .select-item input[type="checkbox"] {
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .selected-item {
+            background: #00140d;
+            color: #002C1D;
+        }
+
+        .info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="text">{{ cocktail.name }}</h2>
+    <img class="img-intr" src="{{ cocktail.image }}" alt="cocktail image">
+
+    <h2 class="text">Choose the correct ingredients (Select up to {{ cocktail.ingredients.count }})</h2>
+    <div class="info">
+        <h4 class="text" id="selectedCount">Selected: 0</h4>
+        <!-- <h4 class="text" id="selectionLimit">You can only select up to {{ cocktail.ingredients.count }} ingredients.</h4> -->
+    </div>
+    <div class="select">
+        <form action="{% url 'game' %}" method="post">
+            {% csrf_token %}
+            {% for ingredient in ingredients %}
+                <div class="select-item">
+                    <label for="ingredient{{ ingredient.id }}">
+                        <input type="checkbox" id="ingredient{{ ingredient.id }}" name="ingredients" value="{{ ingredient.id }}">
+                        <img src="{{ ingredient.image }}" alt="ingredient image">
+                        <p class="text">{{ ingredient.name }}</p>
+                    </label>
+                </div>
+            {% endfor %}
+            <input type="hidden" name="cocktail_id" value="{{ cocktail.id }}">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var checkboxes = document.querySelectorAll('.select-item input[type="checkbox"]');
+            var selectedCount = document.getElementById('selectedCount');
+            var selectionLimit = {{ cocktail.ingredients.count }};  // Set initial selection limit
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var parentDiv = this.closest('.select-item');
+                    var selectedCheckboxes = document.querySelectorAll('.select-item input[type="checkbox"]:checked');
+                    if (selectedCheckboxes.length > selectionLimit) {
+                        this.checked = false;
+                        alert('You can only select up to ' + selectionLimit + ' ingredients.');
+                    } else {
+                        updateSelectedCount(selectedCheckboxes.length);
+                    }
+                    if (this.checked) {
+                        parentDiv.classList.add('selected-item');
+                    } else {
+                        parentDiv.classList.remove('selected-item');
+                    }
+                });
+            });
+
+            function updateSelectedCount(count) {
+                selectedCount.textContent = 'Selected: ' + count;
+            }
+
+            // Attach event listener to the Submit button
+            var submitButton = document.getElementById('submitButton');
+            submitButton.addEventListener('click', function() {
+                checkSelection();
+            });
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}
