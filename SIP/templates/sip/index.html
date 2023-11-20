@@ -23,6 +23,14 @@
         list-style: none;
         text-decoration: none;
     }
+
+    #name {
+        font-size: 30px;
+        font-weight: 400;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
     
     .tdy-rec-text {
         font-family: 'Italianno', cursive;
@@ -45,21 +53,10 @@
         text-align: center;
     }
 
-    /* .cocktail-container {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 50px;
-    } */
-
     .cocktail-item {
         background: white;
         text-align: center;
     }
-
-    /* .cocktail-container img {
-        width: 100%;
-        height: auto;
-    } */
 
     .star-rating {
         font-family: 'Barlow Semi Condensed', sans-serif;
@@ -68,7 +65,8 @@
         display: inline-flex;
         padding-left: 6px;
         border-radius: 5px;
-        margin-left: 155px
+        margin: 7px;
+        /* text-align: center; */
     }
 
     .star {
@@ -105,6 +103,7 @@
         width: 450px;
         height: 350px;
         object-fit: cover;
+        border-radius: 5px;
     }
 
     .gallery {
@@ -123,8 +122,8 @@
         margin-right: 20px;
         background-color: white;
         /* counter-increment: gallery-cell; */
-        border-radius: 3px;
         animation: carousel 10s linear infinite;
+        border-radius: 5px;
     }
 
     /* @keyframes carousel {
@@ -149,30 +148,29 @@
     <h1 class="tdy-rec-text">Today's Recommendations</h1>
 
     {% if cocktails %}
-        <div class="cocktail-container">
-
-            <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
-                {% for cocktail in cocktails %}
-                    <div class="gallery-cell">
-                        <a href="{% url 'cocktail_detail' cocktail.id %}">
-                            <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
-                            <h2 class="text">{{ cocktail.name }}</h2>
+        <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
+            {% for cocktail in cocktails %}
+                <div class="gallery-cell">
+                    <a href="{% url 'cocktail_detail' cocktail.id %}">
+                        <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+                        <div class="block">
+                            <h2 class="text" id="name">{{ cocktail.name }}</h2>
+                            <div class="star-rating">
                                 {% if cocktail.average_score %}
-                                    <div class="star-rating"></div>
                                         {% for _ in cocktail.average_score.0|default:0 %}
                                             <span class="star">&#9733;</span>
                                         {% endfor %}
                                         {% if cocktail.average_score.1 %}
                                             <span class="star half">&#9733;</span>
                                         {% endif %}
-                                    </div>
                                 {% else %}
-                                    <p class="text">No ratings yet.</p>
+                                    <p class="text" style="color: white;">No ratings yet</p>
                                 {% endif %}
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
         </div>
     {% else %}
         <p class="text-not-found">No cocktails found.</p>
