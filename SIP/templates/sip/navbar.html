@@ -1,10 +1,11 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.cdnfonts.com/css/riesling" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&display=swap" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&family=Italianno&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
 <style>
     body {
@@ -51,7 +52,6 @@
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         border: none;
         margin-left: 25px;
-        /* padding: 9px; */
         font-size: 15px;
         font-weight: 600;
         color: #282828;
@@ -85,7 +85,6 @@
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         border: none;
         margin-left: 25px;
-        padding: 9px;
         font-size: 15px;
         font-weight: 600;
         color: #282828;
@@ -93,7 +92,6 @@
         padding-left: 20px;
         padding-right: 20px;
         margin-top: 5.5px;
-        width: 110px;
         height: 30px;
         line-height: 11px;
     }
@@ -103,23 +101,35 @@
     }
 </style>
 
-
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class ="navbar-brand" href="{% url 'index' %}">Sip</a>
+    <a class="navbar-brand" href="{% url 'index' %}">Sip</a>
+
+    <form class="form-inline" method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <ul class="nav-right">
+            <li>
+                <select name="search_type">
+                    <option value="cocktail" {% if search_type == 'cocktail' %}selected{% endif %}>Cocktail</option>
+                    <option value="ingredient" {% if search_type == 'ingredient' %}selected{% endif %}>Ingredient</option>
+                </select>
+                <select name="search_by">
+                    <option value="api" {% if search_by == 'api' %}selected{% endif %}>API</option>
+                    <option value="db" {% if search_by == 'db' %}selected{% endif %}>DB</option>
+                </select>
+                <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
+<!--                <input class="search-button" type="submit" value/>-->
+            </li>
+        </ul>
+    </form>
 
     <ul class="nav-right">
         <li>
-            <form method="get" action="{% url 'index' %}">
-                <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
-            </form>
-        </li>
-
-        <li> <!-- About Us -->
+            <!-- About Us -->
             <form action="https://github.com/xNatthapol/SIP/wiki" target="_blank">
                 <input class="about-us" type="submit" value="About us"/>
             </form>
-        </li> 
-        <li> <!-- Login/Logout -->
+        </li>
+        <li>
             {% if user.is_authenticated %}
                 <button class="log-auths">
                     <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">
@@ -127,7 +137,6 @@
                     </a>
                 </button>
             {% else %}
-
                 <button class="log-auths" style="padding: 9px;">
                     <a class="nav-link active" aria-current="page" href="{% url 'login' %}">
                         <p class="logs-text">Login</p>
@@ -135,10 +144,6 @@
                 </button>
             {% endif %}
         </li>
-
     </ul>
-
-
-
 </nav>
 

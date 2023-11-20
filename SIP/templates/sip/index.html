@@ -69,12 +69,6 @@
         /* text-align: center; */
     }
 
-    .star {
-        color: gold;
-        font-size: 24px;
-        display: inline-block;
-    }
-
     .star.half {
         background: linear-gradient(90deg, gold 50%, transparent 50%);
         -webkit-background-clip: text;
@@ -137,17 +131,37 @@
 
 </style>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cocktail Index</title>
+
 </head>
 <body>
     <h1 class="tdy-rec-text">Today's Recommendations</h1>
 
-    {% if cocktails %}
+    {% if search_type == 'ingredient' %}
+        {% if ingredients|length > 1 %}
+                <div class="cocktail-container">
+                    {% for ingredient in ingredients %}
+                        <div class="cocktail-item">
+                            <a href="{% url 'ingredient_detail' ingredient.id %}">
+                                <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
+                                <h2 class="text">{{ ingredient.name }}</h2>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+        {% elif ingredients %}
+            <div class="cocktail-container">
+            <div class="cocktail-item">
+                <a href="{% url 'ingredient_detail' ingredients.id %}">
+                    <img src="{{ ingredients.image }}" alt="{{ ingredients.name }}">
+                    <h2 class="text">{{ ingredients.name }}</h2>
+                </a>
+            </div>
+            </div>
+        {% else %}
+            <p class="text-not-found">No ingredients found.</p>
+        {% endif %}
+    {% elif search_type == 'cocktail' %}
+        {% if cocktails %}
         <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
             {% for cocktail in cocktails %}
                 <div class="gallery-cell">
@@ -172,9 +186,12 @@
                 </div>
             {% endfor %}
         </div>
-    {% else %}
-        <p class="text-not-found">No cocktails found.</p>
+        {% else %}
+            <p class="text-not-found">No cocktails found.</p>
+        {% endif %}
     {% endif %}
+
+
 </body>
 </html>
 
@@ -209,3 +226,5 @@ $(document).ready(function(){
 </script> -->
 
 {% endblock %}
+
+

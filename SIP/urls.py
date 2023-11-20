@@ -9,5 +9,7 @@ urlpatterns = [
     path('cocktail/<int:pk>/add_star/', views.AddStarView.as_view(), name='add_star'),
     path('cocktail/', RedirectView.as_view(url="/SIP/")),
     path('ingredient/<int:pk>/', views.IngredientDetailView.as_view(), name='ingredient_detail'),
-    path('ingredient/', RedirectView.as_view(url="/SIP/"))
+    path('ingredient/', RedirectView.as_view(url="/SIP/")),
+    path('upload_image/', views.CreateCocktail.as_view(), name='upload_image'),
+
 ]

@@ -113,3 +113,27 @@ class CocktailApi:
                 cocktail = name_exist.first()
             cocktails_list.append(cocktail)
         return cocktails_list
+
+    def get_ingredient_by_name(self, name):
+        ingredient_exist = Ingredient.objects.filter(name__exact=name)
+        if ingredient_exist:
+            return ingredient_exist.first()
+        url_ingre = self.build_url('search.php?i=' + name)
+        try:
+            response_ingre = requests.get(url_ingre)
+            response_ingre.raise_for_status()
+            response_ingre_data = response_ingre.json()
+        except requests.exceptions.RequestException as e:
+            print(f'Error: {e}')
+            return None
+
+        ingredient_data = response_ingre_data['ingredients'][0]
+
+        ingredient = Ingredient.objects.create(
+            name = ingredient_data['strIngredient'],
+            description = ingredient_data['strDescription'],
+            image = f'https://www.thecocktaildb.com/images/ingredients/{name}-Medium.png'
+        )
+
+        ingredient.save()
+        return ingredient
