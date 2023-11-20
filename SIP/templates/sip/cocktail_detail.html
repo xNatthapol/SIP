@@ -214,6 +214,19 @@
         margin-right: 10px;
     }
 
+    textarea {
+        max-height: 30px;
+        min-height: 30px;
+        width: 500px;
+        min-width: 300px;
+        overflow: scroll;
+    }
+
+    #senddd {
+        position: relative;
+        top: -8px;
+    }
+
 </style>
 
 <!DOCTYPE html>
@@ -289,7 +302,7 @@
                     {% csrf_token %}
                     <textarea name="{{ comment_form.message.html_name }}" maxlength="255"> </textarea>
 
-                    <button class="send-butt" type="submit">Send</button>
+                    <button id="senddd" class="send-butt" type="submit">Send</button>
                 </form>
 
                 <!-- Star Form -->
