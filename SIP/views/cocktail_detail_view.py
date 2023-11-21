@@ -76,7 +76,6 @@ class AddStarView(View):
         cocktail = get_object_or_404(Cocktail, pk=pk)
 
         form = StarForm(request.POST)
-        print(form)
 
         if form.is_valid():
             star = form.save(commit=False)

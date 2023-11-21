@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
 from SIP.models import Player, Ingredient, Cocktail
+from SIP.views import CocktailApi
 
 
 @method_decorator(login_required, name='dispatch')
@@ -19,6 +20,11 @@ class GameView(View):
 
     def get(self, request):
         player, created = Player.objects.get_or_create(user=request.user)
+        try:
+            random_cocktail = random.choice(Cocktail.objects.all())
+        except IndexError:
+            cocktail_api = CocktailApi()
+            cocktail_api.get_cocktail_by_name('punch')
         random_cocktail = random.choice(Cocktail.objects.all())
         ingredients = Ingredient.objects.all()
         ingredients_list = []

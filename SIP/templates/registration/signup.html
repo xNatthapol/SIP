@@ -4,12 +4,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&display=swap" rel="stylesheet">
 
-
 {% extends "sip/base.html" %}
 
 {% block content %}
-
-{% load socialaccount %}
 
 <style>
 
@@ -65,44 +62,34 @@ body {
 }
 
 </style>
-
-<html>
-  <head>
-    <title>Login page</title>
-  </head>
-  <body>
-      {% if user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
     <div class="block">
       <a class ="logo" href="{% url 'index' %}">Sip</a>
           <h1>Welcome, {{ user.username }} !</h1>
     </div>
-      {% else %}
+    {% else %}
     <div class="block">
       <a class ="logo" href="{% url 'index' %}">Sip</a>
-          <h1 class="text-black">Login Page</h1>
-            <section class="">
-                <h2 class="text">Login</h2>
-                <form method="post" class="">
-                    {% csrf_token %}
-                    <table>
-                    {{ form.as_p }}
-                    </table>
-                    <p>
-                    <button class="text-black" type="submit">Login</button>
-                    </p>
-                    <input type="hidden" name="next" value="{{next}}"/>
-                </form>
-                <p class="text-black">Don't have an account yet? <a class="text-black" href="{% url 'signup' %}">Sign up</a></p>
-            </section>
-          <button class="login-gg" onclick="document.location='{% provider_login_url 'google' %}'">
-              <p class="text">Login with Google</p>
-          </button>
-          <button class="login" onclick="document.location='{% provider_login_url 'github' %}'">
-              <p class="text">Login with GitHub</p>
-          </button>
-      {% endif %}
+    <section class="text-black">
+        <h2 class="text-black">Register</h2>
+        <form method="post" class="text-black">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="text-black" type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a class="text-black" href="{% url 'login' %}">Login</a></p>
+    </section>
     </div>
-  </body>
+    {% endif %}
+</body>
 </html>
 
 {% endblock %}
