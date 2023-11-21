@@ -135,9 +135,8 @@
 
 </head>
 <body>
-    <h1 class="tdy-rec-text">Searched Cocktails</h1>
-
     {% if search_type == 'ingredient' %}
+    <h1 class="tdy-rec-text">Searched Ingredient</h1>
         {% if ingredients|length > 1 %}
                 <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
                     {% for ingredient in ingredients %}
@@ -162,6 +161,7 @@
             <p class="text-not-found">No ingredients found.</p>
         {% endif %}
     {% elif search_type == 'cocktail' %}
+    <h1 class="tdy-rec-text">Searched Cocktails</h1>
         {% if cocktails %}
         <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
             {% for cocktail in cocktails %}

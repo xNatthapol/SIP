@@ -59,7 +59,7 @@ class CocktailApi:
                         return None
 
                     ingredient_data = response_ingre_data['ingredients'][0]
-                    if not ingredient_exist:
+                    if not ingredient_exist and Cocktail.ingredients.through.objects.filter(ingredient__name__exact=ingredient_name).count() == 0:
                         ingredient = Ingredient(
                             name = ingredient_data['strIngredient'],
                             description = ingredient_data['strDescription'],
