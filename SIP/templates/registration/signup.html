@@ -72,12 +72,12 @@ body {
 <body>
     {% if user.is_authenticated %}
     <div class="block">
-      <a class ="logo" href="{% url 'index' %}">Sip</a>
+      <a class ="logo" href="{% url 'SIP:index' %}">Sip</a>
           <h1>Welcome, {{ user.username }} !</h1>
     </div>
     {% else %}
     <div class="block">
-      <a class ="logo" href="{% url 'index' %}">Sip</a>
+      <a class ="logo" href="{% url 'SIP:index' %}">Sip</a>
     <section class="text-black">
         <h2 class="text-black">Register</h2>
         <form method="post" class="text-black">

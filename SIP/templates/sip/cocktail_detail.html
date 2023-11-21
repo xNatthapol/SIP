@@ -239,8 +239,6 @@
     <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
-    <!-- <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a> -->
-
     <!-- Text and ingredients block -->
     <div class="text-ingre">
         <h1 class="text" id="cock-text">{{ cocktail.name }}</h1>
@@ -268,7 +266,7 @@
                 <div class="text" id="ingr-names">
                     {% for ingredient in cocktail.cocktailingredient_set.all %}
                         <li class="text" id="name">
-                            <a class="text" href="{% url 'ingredient_detail' ingredient.ingredient.id %}">
+                            <a class="text" href="{% url 'SIP:ingredient_detail' ingredient.ingredient.id %}">
                                 {{ ingredient.ingredient.name }}
                             </a>
                         </li>
@@ -300,7 +298,7 @@
             
             <div class="form-group">
                 <!-- Comment Form -->
-                <form class="comm-form" method="post" action="{% url 'add_review' pk=cocktail.pk %}">
+                <form class="comm-form" method="post" action="{% url 'SIP:add_review' pk=cocktail.pk %}">
                     {% csrf_token %}
                     <textarea name="{{ comment_form.message.html_name }}" maxlength="255"> </textarea>
 
@@ -308,7 +306,7 @@
                 </form>
 
                 <!-- Star Form -->
-                <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
+                <form method="post" action="{% url 'SIP:add_star' pk=cocktail.pk %}">
                     {% csrf_token %}
                     <input type="number" min="1" max="5" id="{{ star_form.score.id_for_label }}" name="{{ star_form.score.html_name }}">
                     <label for="{{ star_form.score.id_for_label }}"></label>

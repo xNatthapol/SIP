@@ -37,6 +37,7 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv(), default="*")
 
 SITE_ID = 3
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`

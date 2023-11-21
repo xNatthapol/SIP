@@ -73,12 +73,12 @@ body {
   <body>
       {% if user.is_authenticated %}
     <div class="block">
-      <a class ="logo" href="{% url 'index' %}">Sip</a>
+      <a class ="logo" href="{% url 'SIP:index' %}">Sip</a>
           <h1>Welcome, {{ user.username }} !</h1>
     </div>
       {% else %}
     <div class="block">
-      <a class ="logo" href="{% url 'index' %}">Sip</a>
+      <a class ="logo" href="{% url 'SIP:index' %}">Sip</a>
           <h1 class="text-black">Login Page</h1>
             <section class="">
                 <h2 class="text">Login</h2>
@@ -94,12 +94,18 @@ body {
                 </form>
                 <p class="text-black">Don't have an account yet? <a class="text-black" href="{% url 'signup' %}">Sign up</a></p>
             </section>
-          <button class="login-gg" onclick="document.location='{% provider_login_url 'google' %}'">
-              <p class="text">Login with Google</p>
-          </button>
-          <button class="login" onclick="document.location='{% provider_login_url 'github' %}'">
-              <p class="text">Login with GitHub</p>
-          </button>
+            <form method="post" action="{% provider_login_url 'google' %}">
+                {% csrf_token %}
+                <button class="login-gg" type="submit">
+                    <p class="text">Login with Google</p>
+                </button>
+            </form>
+            <form method="post" action="{% provider_login_url 'github' %}">
+                {% csrf_token %}
+                <button class="login-gg" type="submit">
+                    <p class="text">Login with GitHub</p>
+                </button>
+            </form>
       {% endif %}
     </div>
   </body>
