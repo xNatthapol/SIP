@@ -129,6 +129,9 @@ class CocktailApi:
 
         ingredient_data = response_ingre_data['ingredients'][0]
 
+        if Ingredient.objects.filter(name__exact=ingredient_data['strIngredient']):
+            return Ingredient.objects.get(name__exact=ingredient_data['strIngredient']).first()
+
         ingredient = Ingredient.objects.create(
             name = ingredient_data['strIngredient'],
             description = ingredient_data['strDescription'],
