@@ -1,10 +1,11 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.cdnfonts.com/css/riesling" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&display=swap" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&family=Italianno&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
 <style>
     body {
@@ -46,18 +47,28 @@
 
     .log-auths {
         font-family: 'Barlow Semi Condensed', sans-serif;
-        background-color: #FFFDD1;
+        background-color: #282828;
         border-radius: 3px;
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         border: none;
         margin-left: 25px;
-        /* padding: 9px; */
         font-size: 15px;
         font-weight: 600;
         color: #282828;
         word-wrap: break-word;
         padding-top: 9px;
         height: 40px;
+    }
+
+    .logs-text {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        color: #F5F5DC;
+        font-size: 15px;
+        font-weight: 600;
+        word-wrap: break-word;
+        /* padding-left: 20px;
+        padding-right: 20px; */
+        margin-top: -9px;
     }
 
     .nav-link {
@@ -75,7 +86,6 @@
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         border: none;
         margin-left: 25px;
-        padding: 9px;
         font-size: 15px;
         font-weight: 600;
         color: #282828;
@@ -83,7 +93,6 @@
         padding-left: 20px;
         padding-right: 20px;
         margin-top: 5.5px;
-        width: 110px;
         height: 30px;
         line-height: 11px;
     }
@@ -91,47 +100,68 @@
     #search {
         width: 400px;
     }
+
+    .sel {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        text-decoration: none;
+        /* background-color: #FFFDD1; */
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+        border: none;
+        margin-left: 25px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #282828;
+        word-wrap: break-word;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-top: 5.5px;
+        height: 30px;
+        line-height: 11px;
+        list-style: none;
+    }
+
+    #argh {
+        list-style: none;
+    }
+
+    .gale {
+        text-align: center;
+        margin-top: 9px;
+    }
 </style>
 
-
-<!-- <div style="width: 100%; height: 100%; position: relative">
-    <div style="width: 2560px; height: 263px; left: 0px; top: 0px; position: absolute; background: #002C1D"></div>
-    <div style="width: 375px; height: 235px; left: 55px; top: 0px; position: absolute; color: #F5F5DC; font-size: 225px; font-family: Riesling; font-weight: 400; word-wrap: break-word">Sip</div>
-    <div style="width: 240px; height: 79px; left: 2229px; top: 89px; position: absolute">
-        <div style="width: 240px; height: 79px; left: 0px; top: 0px; position: absolute; background: #FFFDD1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 5px"></div>
-        <div style="width: 185px; height: 35px; left: 47px; top: 24px; position: absolute; color: #282828; font-size: 24px; font-family: Barlow Semi Condensed; font-weight: 600; word-wrap: break-word">LOGIN/LOGOUT</div>
-    </div>
-    <div style="width: 696px; height: 58px; left: 1209px; top: 99px; position: absolute">
-        <div style="width: 696px; height: 58px; left: 0px; top: 0px; position: absolute; background: white; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.50); border-radius: 30px"></div>
-        <div style="width: 73px; height: 22px; left: 34px; top: 14px; position: absolute; color: black; font-size: 24px; font-family: Barlow Semi Condensed; font-weight: 600; word-wrap: break-word">Search</div>
-    </div>
-    <div style="width: 240px; height: 58px; left: 1947px; top: 99px; position: absolute">
-        <div style="width: 240px; height: 58px; left: 0px; top: 0px; position: absolute; background: #FFFDD1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 23px"></div>
-        <div style="width: 135px; height: 25.70px; left: 69px; top: 12px; position: absolute; color: #282828; font-size: 24px; font-family: Barlow Semi Condensed; font-weight: 600; word-wrap: break-word">ABOUT US<br/></div>
-    </div>
-    <div style="width: 51px; height: 40px; left: 1116px; top: 108px; position: absolute">
-        <div style="width: 51px; height: 8px; left: 0px; top: 32px; position: absolute; background: #C0C0C0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25); border-radius: 50px; border: 1px rgba(0, 0, 0, 0.20) solid"></div>
-        <div style="width: 51px; height: 8px; left: 0px; top: 16px; position: absolute; background: #C0C0C0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25); border-radius: 50px; border: 1px rgba(0, 0, 0, 0.20) solid"></div>
-        <div style="width: 51px; height: 8px; left: 0px; top: 0px; position: absolute; background: #C0C0C0; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25); border-radius: 50px; border: 1px rgba(0, 0, 0, 0.20) solid"></div>
-    </div>
-</div> -->
-
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class ="navbar-brand" href="{% url 'index' %}">Sip</a>
+    <a class="navbar-brand" href="{% url 'SIP:index' %}">Sip</a>
 
     <ul class="nav-right">
-        <li>
-            <form method="get" action="{% url 'index' %}">
+        <form id="argh" class="form-inline" method="post" action="{% url 'SIP:index' %}">
+            {% csrf_token %}
+            <li>
+                <select class="sel" name="search_type">
+                    <option value="cocktail" {% if search_type == 'cocktail' %}selected{% endif %}>Cocktail</option>
+                    <option value="ingredient" {% if search_type == 'ingredient' %}selected{% endif %}>Ingredient</option>
+                </select>
+                <select class="sel" name="search_by">
+                    <option value="api" {% if search_by == 'api' %}selected{% endif %}>API</option>
+                    <option value="db" {% if search_by == 'db' %}selected{% endif %}>DB</option>
+                </select>
                 <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
-            </form>
-        </li>
+                <!-- <input class="search-button" type="submit" value/> -->
+            </li>
+        </form>
 
-        <li> <!-- About Us -->
+        <a class="about-us" href="{% url 'SIP:game' %}"><p class="gale">Game</p></a>
+
+        <a class="about-us" href="{% url 'SIP:leaderboard' %}"><p class="gale">Leaderboard</p></a>
+
+        <li>
+            <!-- About Us -->
             <form action="https://github.com/xNatthapol/SIP/wiki" target="_blank">
                 <input class="about-us" type="submit" value="About us"/>
             </form>
-        </li> 
-        <li> <!-- Login/Logout -->
+        </li>
+        <li>
             {% if user.is_authenticated %}
                 <button class="log-auths">
                     <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">
@@ -139,16 +169,12 @@
                     </a>
                 </button>
             {% else %}
-
                 <button class="log-auths" style="padding: 9px;">
-                    <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'login' %}">
+                        <p class="logs-text">Login</p>
+                    </a>
                 </button>
             {% endif %}
         </li>
-
     </ul>
-
-
-
 </nav>
-

@@ -3,30 +3,60 @@ from django.views import View
 from django.db.models import Avg
 
 from SIP.views.cocktail_api import CocktailApi
-from ..models import Star, Cocktail
+from ..models import Star, Cocktail, Ingredient
 
 
 class IndexView(View):
     template_name = 'sip/index.html'
 
     def get(self, request):
-        cocktail_api = CocktailApi()
         cocktails = Cocktail.objects.all()
-        search_cocktail = request.GET.get('search')
-        if search_cocktail:
-            if Cocktail.objects.filter(name__icontains=search_cocktail).exists():
-                cocktails = Cocktail.objects.filter(name__icontains=search_cocktail)
-            else:
-                cocktails = cocktail_api.get_cocktail_by_name(search_cocktail)
+        ingredients = Ingredient.objects.all()
+
         if cocktails is not None:
             for cocktail in cocktails:
                 cocktail.average_score = self.calculate_star_rating(cocktail)
-            content = {
+            context = {
                 'cocktails': cocktails,
+                'ingredients': ingredients,
+                'search_type': 'cocktail',
+
             }
         else:
             return render(request, self.template_name)
-        return render(request, self.template_name, content)
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        cocktail_api = CocktailApi()
+        search_query = request.POST.get('search')
+        search_type = request.POST.get('search_type')
+        search_by = request.POST.get('search_by')
+        cocktails = []
+
+        if search_by == 'api':
+            if search_type == 'cocktail':
+                cocktails = cocktail_api.get_cocktail_by_name(search_query)
+            elif search_type == 'ingredient':
+                ingredients = cocktail_api.get_ingredient_by_name(search_query)
+                return render(request, self.template_name, {'ingredients': ingredients, 'search_type': search_type})
+        elif search_by == 'db':
+            if search_type == 'cocktail':
+                cocktails = Cocktail.objects.filter(name__icontains=search_query)
+            elif search_type == 'ingredient':
+                ingredients = Ingredient.objects.filter(name__icontains=search_query)
+                return render(request, self.template_name, {'ingredients': ingredients, 'search_type': search_type})
+
+        if cocktails is not None:
+            for cocktail in cocktails:
+                cocktail.average_score = self.calculate_star_rating(cocktail)
+
+        context = {
+                'cocktails': cocktails,
+                'search_type': search_type,
+                }
+
+        return render(request, self.template_name, context)
 
     def calculate_star_rating(self, cocktail):
         # Customize this function based on your design for star ratings

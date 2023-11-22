@@ -1,0 +1,95 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.cdnfonts.com/css/riesling" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&display=swap" rel="stylesheet">
+
+{% extends "sip/base.html" %}
+
+{% block content %}
+
+<style>
+
+.logo {
+    font-family: Riesling;
+    font-size: 200px;
+    font-weight: 400;
+    color: #002C1D;
+    word-wrap: break-word;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    background-color: #002C1D;
+    text-align: center;
+}
+
+.login-gg {
+    margin-right: 10px;
+}
+
+.login-gg, .login {
+    background-color: #282828;
+    border-radius: 5px;
+}
+
+.login-gg:hover, .login:hover {
+    cursor: pointer;
+}
+
+/* p {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    padding: 5px;
+    color: #F5F5DC;
+} */
+
+.block {
+    display: inline-block;
+    background-color: #F5F5DC;
+    border-radius: 5px;
+    padding: 20px;
+    padding-top: 1px;
+    margin-top: 50px;
+}
+
+.text {
+    color: #F5F5DC;
+}
+
+.text-black {
+    color: #282828;
+}
+
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <div class="block">
+      <a class ="logo" href="{% url 'SIP:index' %}">Sip</a>
+          <h1>Welcome, {{ user.username }} !</h1>
+    </div>
+    {% else %}
+    <div class="block">
+      <a class ="logo" href="{% url 'SIP:index' %}">Sip</a>
+    <section class="text-black">
+        <h2 class="text-black">Register</h2>
+        <form method="post" class="text-black">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="text-black" type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a class="text-black" href="{% url 'login' %}">Login</a></p>
+    </section>
+    </div>
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}

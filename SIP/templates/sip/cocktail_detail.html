@@ -11,6 +11,7 @@
 <style>
     body {
         background-color: #002C1D;
+        position: relative;
     }
 
     .text {
@@ -85,14 +86,12 @@
     }
 
     .img-intr {
-        /* background-color: aqua; */
-        /* display: flex; */
         margin-top: 30px;
         margin-left: 200px;
+        text-align: center;
     }
 
     .intrr {
-        /* background-color: aqua; */
         display: inline-table;
         margin-top: 30px;
         border-top: white solid 2px;
@@ -100,8 +99,6 @@
         height: 200px;
         max-width: 450px;
         max-height: 200px;
-        /* padding-left: 15px; */
-        padding-right: 40px;
     }
 
     #intr-text {
@@ -109,6 +106,7 @@
         font-size: 25px;
         margin-left: 10px;
         margin-top: 15px;
+        float: left;
     }
 
     #intr {
@@ -120,16 +118,16 @@
         max-height: 200px;
         padding: 15px;
         overflow-y: scroll;
+        text-align: left;
     }
 
     .star-rating {
-        /* color: white; */
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        color: white;
         background-color:#282828;
         display: inline-flex;
-        /* padding: 4px; */
         padding-left: 6px;
         border-radius: 5px;
-        /* text-align: center; */
         margin-left: 155px
     }
 
@@ -140,9 +138,10 @@
     }
 
     .star.half {
-    background: linear-gradient(90deg, #FCDF76 50%, transparent 50%);  /* Half green background */
-    -webkit-background-clip: text;
-    color: transparent;
+        background: linear-gradient(90deg, #FCDF76 50%, transparent 50%);  /* Half green background */
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
     }
 
     .star.half, .star {
@@ -152,20 +151,12 @@
     img {
         max-width: 450px;
         max-height: 270px;
-        width: auto;
-        height: auto;
-        border-radius: 5px;
+        /* width: auto;
+        height: auto; */
+        border-radius: 50%;
+        object-fit: cover;
     }
 
-    /* #back-butt {
-        background-color: #36454F;
-        padding: 10px;
-        text-decoration: none;
-        margin-left: 20px;
-        /* top: 30px; */
-        /* color: white;
-        border-radius: 5px;
-    } */
     .reviews {
         /* background-color: aqua; */
         margin-top: 10px;
@@ -197,14 +188,9 @@
         overflow-y: scroll;
     }
 
-    /* .comm-form {
-        display: inline-flex;
-        margin-left: 10px;
-        width: 300px;
-    } */
-
     .send-butt {
         font-family: 'Barlow Semi Condensed', sans-serif;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         background-color: #36454F;
         /* padding: 10px; */
         text-decoration: none;
@@ -212,6 +198,7 @@
         color: white;
         border-radius: 5px;
         margin-right: 15px;
+        border: none;
     }
 
     .form-group {
@@ -229,13 +216,20 @@
         margin-right: 10px;
     }
 
-</style>
-
-<script>
-    function goBack() {
-      window.history.back();
+    textarea {
+        max-height: 30px;
+        min-height: 30px;
+        width: 500px;
+        min-width: 300px;
+        overflow: scroll;
     }
-</script>
+
+    #senddd {
+        position: relative;
+        top: -8px;
+    }
+
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -245,8 +239,6 @@
     <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
-    <!-- <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a> -->
-
     <!-- Text and ingredients block -->
     <div class="text-ingre">
         <h1 class="text" id="cock-text">{{ cocktail.name }}</h1>
@@ -264,7 +256,7 @@
                     <p class="text" id="avg-scr">{{ average_score }} / 5</p>
                 </div>
             {% else %}
-                <p class="text">No ratings yet.</p>
+                <p class="star-rating">No ratings yet</p>
             {% endif %}
         </div>
 
@@ -274,7 +266,7 @@
                 <div class="text" id="ingr-names">
                     {% for ingredient in cocktail.cocktailingredient_set.all %}
                         <li class="text" id="name">
-                            <a class="text" href="{% url 'ingredient_detail' ingredient.ingredient.id %}">
+                            <a class="text" href="{% url 'SIP:ingredient_detail' ingredient.ingredient.id %}">
                                 {{ ingredient.ingredient.name }}
                             </a>
                         </li>
@@ -306,15 +298,15 @@
             
             <div class="form-group">
                 <!-- Comment Form -->
-                <form class="comm-form" method="post" action="{% url 'add_review' pk=cocktail.pk %}">
+                <form class="comm-form" method="post" action="{% url 'SIP:add_review' pk=cocktail.pk %}">
                     {% csrf_token %}
                     <textarea name="{{ comment_form.message.html_name }}" maxlength="255"> </textarea>
 
-                    <button class="send-butt" type="submit">Send</button>
+                    <button id="senddd" class="send-butt" type="submit">Send</button>
                 </form>
 
                 <!-- Star Form -->
-                <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
+                <form method="post" action="{% url 'SIP:add_star' pk=cocktail.pk %}">
                     {% csrf_token %}
                     <input type="number" min="1" max="5" id="{{ star_form.score.id_for_label }}" name="{{ star_form.score.html_name }}">
                     <label for="{{ star_form.score.id_for_label }}"></label>

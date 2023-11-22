@@ -1,0 +1,76 @@
+<link href="https://fonts.cdnfonts.com/css/riesling" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&family=Italianno&display=swap" rel="stylesheet">
+
+
+{% extends "sip/base.html" %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #002C1D;
+        padding: 50px;
+        margin-top: 120px;
+        color: white;
+        text-align: center;
+    }
+
+    .text {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        color: white;
+    }
+
+    table {
+        width: 50%;
+        margin-top: 20px;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid white;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #FCDF76;
+        color: #002C1D;
+    }
+
+    #tavola {
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+</head>
+<body>
+    <h2 class="text">Leaderboard</h2>
+
+    <table class="text" id="tavola">
+        <tr>
+            <th>Rank</th>
+            <th>User</th>
+            <th>Score</th>
+        </tr>
+        {% for player in players %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ player.user.username }}</td>
+                <td>{{ player.score }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
+{% endblock %}

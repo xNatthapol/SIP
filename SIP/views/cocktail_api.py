@@ -7,7 +7,7 @@ from decouple import config
 
 class CocktailApi:
     def __init__(self):
-        self.base_url = config("API_KEY", default="www.thecocktaildb.com/api/json/v1/1/")
+        self.base_url = config("API_KEY", default="https://www.thecocktaildb.com/api/json/v1/1/")
 
     def build_url(self, endpoint):
         return self.base_url + endpoint
@@ -59,7 +59,7 @@ class CocktailApi:
                         return None
 
                     ingredient_data = response_ingre_data['ingredients'][0]
-                    if not ingredient_exist:
+                    if not ingredient_exist and Cocktail.ingredients.through.objects.filter(ingredient__name__exact=ingredient_name).count() == 0:
                         ingredient = Ingredient(
                             name = ingredient_data['strIngredient'],
                             description = ingredient_data['strDescription'],
@@ -113,3 +113,30 @@ class CocktailApi:
                 cocktail = name_exist.first()
             cocktails_list.append(cocktail)
         return cocktails_list
+
+    def get_ingredient_by_name(self, name):
+        ingredient_exist = Ingredient.objects.filter(name__exact=name)
+        if ingredient_exist:
+            return ingredient_exist.first()
+        url_ingre = self.build_url('search.php?i=' + name)
+        try:
+            response_ingre = requests.get(url_ingre)
+            response_ingre.raise_for_status()
+            response_ingre_data = response_ingre.json()
+        except requests.exceptions.RequestException as e:
+            print(f'Error: {e}')
+            return None
+
+        ingredient_data = response_ingre_data['ingredients'][0]
+
+        if Ingredient.objects.filter(name__exact=ingredient_data['strIngredient']):
+            return Ingredient.objects.get(name__exact=ingredient_data['strIngredient']).first()
+
+        ingredient = Ingredient.objects.create(
+            name = ingredient_data['strIngredient'],
+            description = ingredient_data['strDescription'],
+            image = f'https://www.thecocktaildb.com/images/ingredients/{name}-Medium.png'
+        )
+
+        ingredient.save()
+        return ingredient

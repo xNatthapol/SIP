@@ -32,6 +32,7 @@
 
     #back-butt {
         background-color: #F5F5DC;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         padding: 5px;
         text-decoration: none;
         /* margin-left: 20px; */
@@ -39,8 +40,25 @@
         /* top: 30px; */
         color: black;
         border-radius: 5px;
+        border: none;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
+    #desp {
+        background-color: #F5F5DC;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .text-desp {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        color: black;
+    }
+
+    .block {
+        text-align: center;
+    }
 </style>
 
 <script>
@@ -57,14 +75,13 @@ function goBack() {
         <title>{{ ingredient.name }} Detail</title>
     </head>
     <body>
-        <!-- <a href="{% url 'index' %}" class="text">Back to Cocktail Index</a> -->
-        <button class="text" id="back-butt" onclick="goBack()">Back to Cocktail Page</button>
-        <h1 class="text">{{ ingredient.name }}</h1>
-
-        <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
-
+        <button class="text" id="back-butt" onclick="goBack()">Back</button>
+        <div class="block">
+            <h1 class="text">{{ ingredient.name }}</h1>
+            <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
+        </div>
         <h2 class="text">Description</h2>
-        <p class="text">{{ ingredient.description }}</p>
+        <p class="text-desp" id="desp">{{ ingredient.description }}</p>
     </body>
 </html>
 

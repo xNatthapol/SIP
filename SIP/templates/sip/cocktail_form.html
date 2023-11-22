@@ -1,0 +1,16 @@
+<!-- templates/cocktail_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Cocktail</title>
+</head>
+<body>
+    <h2>Create Cocktail</h2>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Include fields for CocktailForm -->
+        {{ cocktail_form.as_p }}
+        <button type="submit">Create Cocktail</button>
+    </form>
+</body>
+</html>
