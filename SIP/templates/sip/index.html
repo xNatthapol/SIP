@@ -183,7 +183,7 @@
         {% elif ingredients %}
             <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
                 <div class="gallery-cell">
-                    <a href="{% url 'SIP:ingredient_detail' ingredients.id %}">
+                    <a href="{% url 'ingredient_detail' ingredients.id %}">
                         <img src="{{ ingredients.image }}" alt="{{ ingredients.name }}">
                         <h2 class="text">{{ ingredients.name }}</h2>
                     </a>
@@ -199,7 +199,11 @@
             {% for cocktail in cocktails %}
                 <div class="gallery-cell">
                     <a href="{% url 'SIP:cocktail_detail' cocktail.id %}">
+                        {% if cocktail.image %}
                         <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+                        {% else %}
+                        <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
+                        {% endif %}
                         <div class="block">
                             <h2 class="text" id="name">{{ cocktail.name }}</h2>
                             <div class="star-rating">

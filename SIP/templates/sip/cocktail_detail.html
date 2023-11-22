@@ -283,7 +283,11 @@
 
     <!-- Image and instructions block -->
     <div class="img-intr">
+        {% if cocktail.image %}
         <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+        {% else %}
+        <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
+        {% endif %}
 
         <div class="intrr">
             <h2 class="text" id="intr-text">Instructions</h2>

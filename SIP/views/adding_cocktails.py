@@ -28,7 +28,7 @@ class CreateCocktail(View):
             cocktail = cocktail_form.save()
             ingredient_formset.instance = cocktail
             ingredient_formset.save()
-            return redirect('success_page')
+            return redirect('SIP:index')
 
         return render(request, self.template_name, {
             'cocktail_form': cocktail_form,
