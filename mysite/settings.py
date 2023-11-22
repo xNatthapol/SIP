@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 from decouple import config, Csv
 import environ
+import dj_database_url
+import django_heroku
 
 env = environ.Env(
     # set casting, default value
@@ -46,7 +48,6 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -118,9 +120,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -132,7 +132,6 @@ DATABASES = {
         default="postgres:///sipdb",
     ),
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -152,7 +151,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -164,7 +162,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -175,7 +172,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # STATIC_ROOT = BASE_DIR / 'static'd
 
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -185,8 +181,17 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 # AWS S3
 # STORAGES = {"default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"}}
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# settings.py
 
+# Use this if you're running on Heroku and using Amazon S3 for static files
+if 'AWS_S3_BUCKET_NAME' in os.environ:
+    # Use Amazon S3 for storage for uploaded media files.
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+else:
+    # Use WhiteNoise for serving static files during development.
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
@@ -196,4 +201,8 @@ AWS_QUERYSTRING_EXPIRE = 600
 
 AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN")
 AWS_CLOUDFRONT_KEY_ID = env.str("AWS_CLOUDFRONT_KEY_ID").strip()
-AWS_CLOUDFRONT_KEY = env.str("AWS_CLOUDFRONT_KEY", multiline=True).encode("ascii").strip()
+AWS_CLOUDFRONT_KEY = env.str("AWS_CLOUDFRONT_KEY", multiline=True).encode(
+    "ascii").strip()
+
+
+django_heroku.settings(locals())
