@@ -285,7 +285,7 @@
     <div class="img-intr">
         {% if cocktail.image %}
         <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
-        {% else %}
+        {% elif cocktail.user_uploaded_image %}
         <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
         {% endif %}
 

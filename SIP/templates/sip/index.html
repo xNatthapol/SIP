@@ -201,7 +201,7 @@
                     <a href="{% url 'SIP:cocktail_detail' cocktail.id %}">
                         {% if cocktail.image %}
                         <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
-                        {% else %}
+                        {% elif cocktail.user_uploaded_image %}
                         <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
                         {% endif %}
                         <div class="block">
