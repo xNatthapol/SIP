@@ -16,11 +16,11 @@
         /* overflow-x: scroll; */
     }
 
-    @media all and (max-width: 1250px) {
+    /* @media all and (max-width: 1350px) {
         img {
             display: none;
         }
-    }
+    } */
 
     .text {
         font-family: 'Barlow Semi Condensed', sans-serif;
@@ -28,11 +28,11 @@
     }
 
     .text-ingre {
-        /* width: 50%; */
+        /* display: grid; */
         float: right;
         margin-top: 30px;
-        margin-right: 250px;
-        /* text-align: center; */
+        /* margin-right: 250px; */
+        max-width: 450px;
     }
 
     .ingree {
@@ -97,8 +97,8 @@
     }
 
     .img-intr {
+        max-width: 450px;
         margin-top: 30px;
-        margin-left: 200px;
         text-align: center;
     }
 
@@ -166,17 +166,20 @@
         height: auto; */
         border-radius: 50%;
         object-fit: cover;
+        margin-left: 50%;
+        transform: translateX(-50%);
     }
 
     .reviews {
-        /* background-color: aqua; */
         margin-top: 10px;
-        margin-left: 200px;
+        /* margin-left: 200px; */
         width: 69vw;
         max-width: 69vw;
         display: inline-table;
         margin-bottom: 50px;
         overflow-y: scroll;
+        margin-left: 50%;
+        transform: translateX(-50%);
     }
 
     #comm {
@@ -240,6 +243,15 @@
         top: -8px;
     }
 
+    .big-block {
+        /* background-color: aqua; */
+        display: inline-block;
+        width: 70vw;
+        min-width: 900px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+
 </style>
 
 <!DOCTYPE html>
@@ -251,61 +263,62 @@
 </head>
 <body>
     <!-- <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a> -->
+    <div class="big-block">
+        <!-- Text and ingredients block -->
+        <div class="text-ingre" id="small-block">
+            <h1 class="text" id="cock-text">{{ cocktail.name }}</h1>
 
-    <!-- Text and ingredients block -->
-    <div class="text-ingre">
-        <h1 class="text" id="cock-text">{{ cocktail.name }}</h1>
-
-        <!-- Star Rating -->
-        <div class="star-container">
-            {% if star_rating %}
-                <div class="star-rating">
-                    {% for _ in star_rating.0|default:0 %}
-                        <span class="star">&#9733;</span>
-                    {% endfor %}
-                    {% if star_rating.1 %}
-                        <span class="star half">&#9733;</span>
-                    {% endif %}
-                    <p class="text" id="avg-scr">{{ average_score }} / 5</p>
-                </div>
-            {% else %}
-                <p class="star-rating">No ratings yet</p>
-            {% endif %}
-        </div>
-
-        <div class="ingree">
-            <h2 class="text" id="ingr-text">Ingredients</h2>
-            <div class="small-ingree">
-                <div class="text" id="ingr-names">
-                    {% for ingredient in cocktail.cocktailingredient_set.all %}
-                        <li class="text" id="name">
-                            <a class="text" href="{% url 'ingredient_detail' ingredient.ingredient.id %}">
-                                {{ ingredient.ingredient.name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </div>
-                <div class="text" id="ingr-measure">
-                    {% for ingredient in cocktail.cocktailingredient_set.all %}
-                        <!-- <li class="text" id="measure">{{ ingredient.measure }}</li> -->
-                        {% if ingredient.measure %}
-                            <li class="text" id="measure">{{ ingredient.measure }}</li>
-                        {% else %}
-                            <li class="text" id="measure">Varies</li>
+            <!-- Star Rating -->
+            <div class="star-container">
+                {% if star_rating %}
+                    <div class="star-rating">
+                        {% for _ in star_rating.0|default:0 %}
+                            <span class="star">&#9733;</span>
+                        {% endfor %}
+                        {% if star_rating.1 %}
+                            <span class="star half">&#9733;</span>
                         {% endif %}
-                    {% endfor %}
+                        <p class="text" id="avg-scr">{{ average_score }} / 5</p>
+                    </div>
+                {% else %}
+                    <p class="star-rating">No ratings yet</p>
+                {% endif %}
+            </div>
+
+            <div class="ingree">
+                <h2 class="text" id="ingr-text">Ingredients</h2>
+                <div class="small-ingree">
+                    <div class="text" id="ingr-names">
+                        {% for ingredient in cocktail.cocktailingredient_set.all %}
+                            <li class="text" id="name">
+                                <a class="text" href="{% url 'ingredient_detail' ingredient.ingredient.id %}">
+                                    {{ ingredient.ingredient.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </div>
+                    <div class="text" id="ingr-measure">
+                        {% for ingredient in cocktail.cocktailingredient_set.all %}
+                            <!-- <li class="text" id="measure">{{ ingredient.measure }}</li> -->
+                            {% if ingredient.measure %}
+                                <li class="text" id="measure">{{ ingredient.measure }}</li>
+                            {% else %}
+                                <li class="text" id="measure">Varies</li>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Image and instructions block -->
-    <div class="img-intr">
-        <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+        <!-- Image and instructions block -->
+        <div class="img-intr" id="small-block">
+            <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
 
-        <div class="intrr">
-            <h2 class="text" id="intr-text">Instructions</h2>
-            <p class="text" id="intr">{{ cocktail.instructions }}</p>
+            <div class="intrr">
+                <h2 class="text" id="intr-text">Instructions</h2>
+                <p class="text" id="intr">{{ cocktail.instructions }}</p>
+            </div>
         </div>
     </div>
 
