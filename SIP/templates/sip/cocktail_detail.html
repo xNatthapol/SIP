@@ -11,7 +11,15 @@
 <style>
     body {
         background-color: #002C1D;
-        position: relative;
+        /* background-color: aqua; */
+        /* position: static; */
+        /* overflow-x: scroll; */
+    }
+
+    @media all and (max-width: 1250px) {
+        img {
+            display: none;
+        }
     }
 
     .text {
@@ -58,20 +66,23 @@
 
     #ingr-names, #ingr-measure {
         list-style: none;
-        /* margin-left: 0p
-        padding-left: 0px; */
     }
 
     #ingr-names {
         margin-left: 15px;
+        height: 100%;
+        width: 100%;
+        overflow-y: scroll;
+        overflow-x: scroll;
     }
 
     #ingr-measure {
-        margin-left: 215px;
         padding-left: 15px;
         border-left: black solid 2px;
         border-radius: 2px;
-        /* background-color: aqua; */
+        width: 43%;
+        overflow-x: scroll;
+        overflow-y: scroll;
     }
 
     #cock-text {
@@ -276,7 +287,12 @@
                 </div>
                 <div class="text" id="ingr-measure">
                     {% for ingredient in cocktail.cocktailingredient_set.all %}
-                        <li class="text" id="measure">{{ ingredient.measure }}</li>
+                        <!-- <li class="text" id="measure">{{ ingredient.measure }}</li> -->
+                        {% if ingredient.measure %}
+                            <li class="text" id="measure">{{ ingredient.measure }}</li>
+                        {% else %}
+                            <li class="text" id="measure">Varies</li>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -350,7 +366,7 @@
     {% endif %}
 
 
-</body>
+</bodv>
 </html>
 
 {% endblock %}

@@ -11,6 +11,12 @@ class CocktailApi:
 
     def build_url(self, endpoint):
         return self.base_url + endpoint
+    
+    # def change_none_measure(self, measure):
+    #     """If the measure unit of that ingredient is None, return 'Varies'."""
+    #     if measure is None:
+    #         return 'Varies'
+    #     return measure
 
     def get_cocktail_by_name(self, name):
         url = self.build_url('search.php?s=' + name)
@@ -47,6 +53,9 @@ class CocktailApi:
                     measure = cocktails_data['strMeasure' + str(i)]
                     if ingredient_name is None:
                         break
+                    
+                    # measure = self.change_none_measure(measure)
+
                     ingredient_exist = Ingredient.objects.filter(name__exact=ingredient_name)
 
                     url_ingre = self.build_url('search.php?i=' + ingredient_name)
