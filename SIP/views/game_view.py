@@ -1,7 +1,5 @@
 import random
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -12,7 +10,7 @@ from SIP.views import CocktailApi
 
 @method_decorator(login_required, name='dispatch')
 class GameView(View):
-    template_name = 'SIP/game.html'
+    template_name = 'sip/game.html'
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -52,7 +50,8 @@ class GameView(View):
         selected_values = request.POST.getlist('ingredients')
         cocktail_id = request.POST.get('cocktail_id')
 
-        if 'reload_next_question' in request.session and request.session['reload_next_question'] == True:
+        if 'reload_next_question' in request.session and request.session[
+            'reload_next_question'] == True:
             return redirect(reverse('game'))
         cocktail = Cocktail.objects.get(id=cocktail_id)
         ingredients = cocktail.ingredients.all()
@@ -89,7 +88,7 @@ class GameView(View):
 
 
 class LeaderboardView(View):
-    template_name = 'SIP/leaderboard.html'
+    template_name = 'sip/leaderboard.html'
 
     def get(self, request):
         players = Player.objects.order_by('-score')

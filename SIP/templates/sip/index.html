@@ -233,7 +233,15 @@
 
 <!--    <a class="upload" href="{% url 'SIP:upload_image' %}"><p class="text">Upload</p></a>-->
 
-
+    {% if messages %}
+        <script>
+            window.onload = function() {
+                {% for message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            };
+        </script>
+    {% endif %}
 
 </body>
 </html>
