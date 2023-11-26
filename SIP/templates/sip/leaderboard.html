@@ -15,6 +15,7 @@
         padding: 50px;
         margin-top: 120px;
         color: white;
+        text-align: center;
     }
 
     .text {
@@ -38,6 +39,11 @@
         background-color: #FCDF76;
         color: #002C1D;
     }
+
+    #tavola {
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
 </style>
 
 <!DOCTYPE html>
@@ -50,7 +56,7 @@
 <body>
     <h2 class="text">Leaderboard</h2>
 
-    <table class="text">
+    <table class="text" id="tavola">
         <tr>
             <th>Rank</th>
             <th>User</th>

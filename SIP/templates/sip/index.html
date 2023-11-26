@@ -9,6 +9,7 @@
 
 
 {% extends "sip/base.html" %}
+
 {% block content %}
 
 <style>
@@ -70,7 +71,7 @@
     }
 
     .star.half {
-        background: linear-gradient(90deg, gold 50%, transparent 50%);
+        background: linear-gradient(90deg, white 50%, transparent 50%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -120,6 +121,38 @@
         border-radius: 5px;
     }
 
+<!--    .upload {-->
+<!--        font-family: 'Barlow Semi Condensed', sans-serif;-->
+<!--        text-decoration: none;-->
+<!--        background-color: white;-->
+<!--        border-radius: 25px;-->
+<!--        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;-->
+<!--        margin-left: 25px;-->
+<!--        font-size: 15px;-->
+<!--        font-weight: 600;-->
+<!--        color: white;-->
+<!--        word-wrap: break-word;-->
+<!--        padding-left: 20px;-->
+<!--        padding-right: 20px;-->
+<!--        margin-top: 5.5px;-->
+<!--        height: 30px;-->
+<!--        line-height: 11px;-->
+<!--    }-->
+
+    .upl {
+        display: block;
+        width: 250px;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+        background-color: #282828;
+        text-align: center;
+        border-radius: 5px;
+        margin-top: 9px;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        color: white;
+    }
+
     /* @keyframes carousel {
         0% { 
             transform: translateX(0); 
@@ -133,14 +166,13 @@
 
 
 <body>
-    <h1 class="tdy-rec-text">Searched Cocktails</h1>
-
     {% if search_type == 'ingredient' %}
+    <h1 class="tdy-rec-text">Searched Ingredient</h1>
         {% if ingredients|length > 1 %}
                 <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
                     {% for ingredient in ingredients %}
                         <div class="gallery-cell">
-                            <a href="{% url 'ingredient_detail' ingredient.id %}">
+                            <a href="{% url 'SIP:ingredient_detail' ingredient.id %}">
                                 <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
                                 <h2 class="text">{{ ingredient.name }}</h2>
                             </a>
@@ -160,12 +192,17 @@
             <p class="text-not-found">No ingredients found.</p>
         {% endif %}
     {% elif search_type == 'cocktail' %}
+    <h1 class="tdy-rec-text">Searched Cocktails</h1>
         {% if cocktails %}
         <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
             {% for cocktail in cocktails %}
                 <div class="gallery-cell">
-                    <a href="{% url 'cocktail_detail' cocktail.id %}">
+                    <a href="{% url 'SIP:cocktail_detail' cocktail.id %}">
+                        {% if cocktail.image %}
                         <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+                        {% elif cocktail.user_uploaded_image %}
+                        <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
+                        {% endif %}
                         <div class="block">
                             <h2 class="text" id="name">{{ cocktail.name }}</h2>
                             <div class="star-rating">
@@ -185,11 +222,25 @@
                 </div>
             {% endfor %}
         </div>
+        <br>
+            <a class="upload" href="{% url 'SIP:upload_image' %}"><p class="upl">Upload Your Own Recipe</p></a>
         {% else %}
             <p class="text-not-found">No cocktails found.</p>
+        <a class="upload" href="{% url 'SIP:upload_image' %}"><p class="upl">Upload Your Own Recipe</p></a>
         {% endif %}
     {% endif %}
 
+<!--    <a class="upload" href="{% url 'SIP:upload_image' %}"><p class="text">Upload</p></a>-->
+
+    {% if messages %}
+        <script>
+            window.onload = function() {
+                {% for message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            };
+        </script>
+    {% endif %}
 
 </body>
 </html>
@@ -201,28 +252,7 @@ $(document).ready(function(){
     centerPadding: '60px',
     slidesToShow: 3,
     responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          arrows: false,
-          centerMode: true,
-          centerPadding: '40px',
-          slidesToShow: 3
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          arrows: false,
-          centerMode: true,
-          centerPadding: '40px',
-          slidesToShow: 1
-        }
-      }
-    ]
-  });
-});
-</script> -->
+    -->
 
 {% endblock %}
 

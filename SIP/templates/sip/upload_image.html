@@ -2,112 +2,126 @@
 {% extends 'sip/base.html' %}
 {% load static %}
 
+{% block content %}
 <style>
     .hidden {
         display: none;
     }
-</style>
 
-{% block content %}
-  <form method="post" enctype="multipart/form-data" id="cocktail-form">
-    {% csrf_token %}
-    {{ cocktail_form.as_p }}
-
-    <table id="ingredient-formset">
-      <!-- Header row with labels -->
-      <tr class="form-header">
-        <th>Ingredients</th>
-        <th>Measure</th>
-      </tr>
-      {{ ingredient_formset.management_form }}
-      {% for form in ingredient_formset %}
-        <tr class="form-row" style="display: none;">
-            {% csrf_token %}
-          <td>{{ form.ingredient }}</td>
-          <td>{{ form.measure }}</td>
-        </tr>
-      {% endfor %}
-    </table>
-  <br>
-    <button type="button" id="add-more-forms">Add More Forms</button>
-
-{#    <button type="button" class="btn btn-primary" id="add-form">Add Ingredient</button>#}
-{#    <button type="button" class="btn btn-danger" id="delete-form">Remove Ingredient</button>#}
-"
-    <input type="submit" value=Save">
-  </form>
-
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script>
-  $(document).ready(function () {
-    var totalForms = 15;  // The total number of forms initially rendered
-    var currentForm = 0;  // Track the current visible form
-
-    // Function to show the next form
-    function showNextForm() {
-      $('#ingredient-formset tbody tr.form-row:eq(' + currentForm + ')').show();
-      currentForm++;
-
-      // If all forms are shown, hide the "Add More Forms" button
-      if (currentForm === totalForms) {
-        $('#add-more-forms').hide();
-      }
+    body {
+        background-color: #002C1D;
+        margin-top: 120px;
+        padding: 40px;
     }
 
-    // Initially show the first form
-    showNextForm();
+    .text {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        color: white;
+    }
 
-    // Attach click event to the "Add More Forms" button
-    $('#add-more-forms').on('click', function () {
-      showNextForm();
-    });
-  });
-</script>
-{#    <script>#}
-{#      $(document).ready(function () {#}
-{#        $('#add-more-forms').on('click', function () {#}
-{#          // Clone the first form and append it to the formset table#}
-{#          var newForm = $('#ingredient-formset tbody tr:form-row:first').clone();#}
-{##}
-{#          // Clear values in the cloned form#}
-{#          newForm.find('input'[type="text"]).val('');#}
-{##}
-{#          // Append the cloned form to the formset table#}
-{#          $('#ingredient-formset tbody').append(newForm);#}
-{#        });#}
-{#      });#}
-{#    </script>#}
-{#    <script src="/static/js/jquery.formset.js"></script>#}
-{#  <script>#}
-{#    $(document).ready(function () {#}
-{#      // Function to manage formset forms dynamically#}
-{#      function updateFormset() {#}
-{#        $('#ingredient-formset tbody tr').formset({#}
-{#          prefix: 'ingredient',#}
-{#          formCssClass: 'dynamic-form',#}
-{#          emptyCssClass: 'empty-form',#}
-{#          deleteCssClass: 'delete-row',#}
-{##}
-{#        });#}
-{#      }#}
-{##}
-{#      // Initialize formset#}
-{#      updateFormset();#}
-{##}
-{#      // Add formset form#}
-{#      $('#add-form').click(function () {#}
-{#          $('#ingredient-formset tbody:first').clone().appendTo('#ingredient-formset');#}
-{#        updateFormset();#}
-{#      });#}
-{##}
-{#      // Remove formset form#}
-{#      $('#delete-form').click(function () {#}
-{#        if ($('#ingredient-formset tbody').length > 1) {#}
-{#           $('#ingredient-formset tbody:last-child').remove();#}
-{#           updateFormset();#}
-{##}
-{#        }#}
-{#      });#}
-{#    });#}
-{#  </script>#}
+</style>
+    <body>
+    <form class="text" method="post" enctype="multipart/form-data" id="cocktail-form">
+        {% csrf_token %}
+        {{ cocktail_form.as_p }}
+
+        <table id="ingredient-formset">
+            <!-- Header row with labels -->
+            <tr class="form-header">
+                <th class="text">Ingredients</th>
+                <th class="text">Measure</th>
+            </tr>
+            {{ ingredient_formset.management_form }}
+            {% for form in ingredient_formset %}
+                <tr class="form-row" style="display: none;">
+                    {% csrf_token %}
+                    <td>{{ form.ingredient }}</td>
+                    <td>{{ form.measure }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <button type="button" id="add-more-forms">Add More Forms</button>
+
+        {#    <button type="button" class="btn btn-primary" id="add-form">Add Ingredient</button>#}
+        {#    <button type="button" class="btn btn-danger" id="delete-form">Remove Ingredient</button>#}
+        "
+        <input type="submit" value=Save">
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var totalForms = 15;  // The total number of forms initially rendered
+            var currentForm = 0;  // Track the current visible form
+
+            // Function to show the next form
+            function showNextForm() {
+                $('#ingredient-formset tbody tr.form-row:eq(' + currentForm + ')').show();
+                currentForm++;
+
+                // If all forms are shown, hide the "Add More Forms" button
+                if (currentForm === totalForms) {
+                    $('#add-more-forms').hide();
+                }
+            }
+
+            // Initially show the first form
+            showNextForm();
+
+            // Attach click event to the "Add More Forms" button
+            $('#add-more-forms').on('click', function () {
+                showNextForm();
+            });
+        });
+    </script>
+    {#    <script>#}
+    {#      $(document).ready(function () {#}
+    {#        $('#add-more-forms').on('click', function () {#}
+    {#          // Clone the first form and append it to the formset table#}
+    {#          var newForm = $('#ingredient-formset tbody tr:form-row:first').clone();#}
+    {##}
+    {#          // Clear values in the cloned form#}
+    {#          newForm.find('input'[type="text"]).val('');#}
+    {##}
+    {#          // Append the cloned form to the formset table#}
+    {#          $('#ingredient-formset tbody').append(newForm);#}
+    {#        });#}
+    {#      });#}
+    {#    </script>#}
+    {#    <script src="/static/js/jquery.formset.js"></script>#}
+    {#  <script>#}
+    {#    $(document).ready(function () {#}
+    {#      // Function to manage formset forms dynamically#}
+    {#      function updateFormset() {#}
+    {#        $('#ingredient-formset tbody tr').formset({#}
+    {#          prefix: 'ingredient',#}
+    {#          formCssClass: 'dynamic-form',#}
+    {#          emptyCssClass: 'empty-form',#}
+    {#          deleteCssClass: 'delete-row',#}
+    {##}
+    {#        });#}
+    {#      }#}
+    {##}
+    {#      // Initialize formset#}
+    {#      updateFormset();#}
+    {##}
+    {#      // Add formset form#}
+    {#      $('#add-form').click(function () {#}
+    {#          $('#ingredient-formset tbody:first').clone().appendTo('#ingredient-formset');#}
+    {#        updateFormset();#}
+    {#      });#}
+    {##}
+    {#      // Remove formset form#}
+    {#      $('#delete-form').click(function () {#}
+    {#        if ($('#ingredient-formset tbody').length > 1) {#}
+    {#           $('#ingredient-formset tbody:last-child').remove();#}
+    {#           updateFormset();#}
+    {##}
+    {#        }#}
+    {#      });#}
+    {#    });#}
+    {#  </script>#}
+
+    </body>
 {% endblock %}

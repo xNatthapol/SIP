@@ -2,6 +2,8 @@ from django.urls import path
 from django.views.generic import RedirectView
 from . import views
 
+app_name = "SIP"
+
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('cocktail/<int:pk>/', views.CocktailDetailView.as_view(), name='cocktail_detail'),

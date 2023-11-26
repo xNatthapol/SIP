@@ -59,7 +59,7 @@ class AddReviewView(View):
             review.cocktail = cocktail
             review.user = request.user  # Assuming you have user authentication
             review.save()
-            return redirect(reverse('cocktail_detail', args=[pk]))
+            return redirect(reverse('SIP:cocktail_detail', args=[pk]))
         else:
             # Handle invalid form by rendering the template with the form
             context = {
@@ -76,14 +76,13 @@ class AddStarView(View):
         cocktail = get_object_or_404(Cocktail, pk=pk)
 
         form = StarForm(request.POST)
-        print(form)
 
         if form.is_valid():
             star = form.save(commit=False)
             star.cocktail = cocktail
             star.user = request.user  # Assuming you have user authentication
             star.save()
-            return redirect(reverse('cocktail_detail', args=[pk]))
+            return redirect(reverse('SIP:cocktail_detail', args=[pk]))
         else:
             # Handle invalid form by rendering the template with the form
             context = {

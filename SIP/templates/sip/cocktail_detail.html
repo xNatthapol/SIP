@@ -349,9 +349,13 @@
             </div>
         </div>
 
-        <!-- Image and instructions block -->
-        <div class="img-intr" id="small-block">
-            <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+    <!-- Image and instructions block -->
+    <div class="img-intr" id="small-block">
+        {% if cocktail.image %}
+          <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+        {% elif cocktail.user_uploaded_image %}
+          <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
+        {% endif %}
 
             <div class="intrr">
                 <h2 class="text" id="intr-text">Instructions</h2>
@@ -367,7 +371,7 @@
             
             <div class="form-group">
                 <!-- Comment Form -->
-                <form class="comm-form" method="post" action="{% url 'add_review' pk=cocktail.pk %}">
+                <form class="comm-form" method="post" action="{% url 'SIP:add_review' pk=cocktail.pk %}">
                     {% csrf_token %}
                     <textarea name="{{ comment_form.message.html_name }}" maxlength="255"> </textarea>
 
@@ -375,7 +379,7 @@
                 </form>
 
                 <!-- Star Form -->
-                <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
+                <form method="post" action="{% url 'SIP:add_star' pk=cocktail.pk %}">
                     {% csrf_token %}
                     <input type="number" min="1" max="5" id="{{ star_form.score.id_for_label }}" name="{{ star_form.score.html_name }}">
                     <label for="{{ star_form.score.id_for_label }}"></label>
