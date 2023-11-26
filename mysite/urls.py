@@ -14,16 +14,26 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import environ
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import RedirectView
 from . import views
+from django.urls import re_path
+
+
+env = environ.Env(
+    # set casting, default value
+    ADMIN_PATH=(str, "admin/"),
+)
+
+admin_path = env("ADMIN_PATH")
 
 urlpatterns = [
     path("SIP/", include("SIP.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/allauth/', include('allauth.urls')),
     path('signup/', views.signup, name='signup'),
-    path("admin/", admin.site.urls),
-    path("", RedirectView.as_view(url="SIP/")),
+    path(admin_path, admin.site.urls),
+    re_path(r'^.*$', RedirectView.as_view(url="/SIP/", permanent=False)),
 ]
