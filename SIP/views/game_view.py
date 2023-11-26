@@ -23,7 +23,6 @@ class GameView(View):
         except IndexError:
             cocktail_api = CocktailApi()
             cocktail_api.get_cocktail_by_name('punch')
-        random_cocktail = random.choice(Cocktail.objects.all())
         ingredients = Ingredient.objects.all()
         ingredients_list = []
         for ingredient_cocktail in random_cocktail.ingredients.all():
@@ -52,7 +51,7 @@ class GameView(View):
 
         if 'reload_next_question' in request.session and request.session[
             'reload_next_question'] == True:
-            return redirect(reverse('game'))
+            return redirect(reverse('SIP:game'))
         cocktail = Cocktail.objects.get(id=cocktail_id)
         ingredients = cocktail.ingredients.all()
         selected_values = list(map(int, selected_values))
@@ -64,7 +63,7 @@ class GameView(View):
         if 'score_added' in request.session:
             score = 0
             context = {'score': score}
-            return render(request, 'SIP/success_game.html', context)
+            return render(request, 'sip/success_game.html', context)
         if selected_values == correct_ingredients:
             player = Player.objects.get(user=request.user)
             score = len(correct_ingredients) * 20
@@ -73,7 +72,7 @@ class GameView(View):
             context = {'score': score}
             request.session['score_added'] = True
             request.session['reload_next_question'] = True
-            return render(request, 'SIP/success_game.html', context)
+            return render(request, 'sip/success_game.html', context)
         total_score = 0
         for ingredient in selected_values:
             if ingredient in correct_ingredients:
@@ -84,7 +83,7 @@ class GameView(View):
         context = {"score": total_score}
         request.session['score_added'] = True
         request.session['reload_next_question'] = True
-        return render(request, 'SIP/success_game.html', context)
+        return render(request, 'sip/success_game.html', context)
 
 
 class LeaderboardView(View):
