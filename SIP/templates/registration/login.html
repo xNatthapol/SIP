@@ -5,6 +5,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&display=swap" rel="stylesheet">
 
 
+{% extends "sip/base.html" %}
+
+{% block content %}
+
 {% load socialaccount %}
 
 <style>
@@ -37,18 +41,27 @@ body {
     cursor: pointer;
 }
 
-p {
+/* p {
     font-family: 'Barlow Semi Condensed', sans-serif;
     padding: 5px;
     color: #F5F5DC;
-}
+} */
 
 .block {
     display: inline-block;
     background-color: #F5F5DC;
     border-radius: 5px;
     padding: 20px;
+    padding-top: 1px;
     margin-top: 50px;
+}
+
+.text {
+    color: #F5F5DC;
+}
+
+.text-black {
+    color: #282828;
 }
 
 </style>
@@ -58,19 +71,44 @@ p {
     <title>Login page</title>
   </head>
   <body>
-    <div class="block">
-      <a class ="logo" href="{% url 'index' %}">Sip</a>
       {% if user.is_authenticated %}
+    <div class="block">
+      <a class ="logo" href="{% url 'SIP:index' %}">Sip</a>
           <h1>Welcome, {{ user.username }} !</h1>
+    </div>
       {% else %}
-          <h1>Login Page</h1>
-          <button class="login-gg" onclick="document.location='{% provider_login_url 'google' %}'">
-              <p>Login with Google</p>
-          </button>
-          <button class="login" onclick="document.location='{% provider_login_url 'github' %}'">
-              <p>Login with GitHub</p>
-          </button>
+    <div class="block">
+      <a class ="logo" href="{% url 'SIP:index' %}">Sip</a>
+          <h1 class="text-black">Login Page</h1>
+            <section class="">
+                <h2 class="text">Login</h2>
+                <form method="post" class="">
+                    {% csrf_token %}
+                    <table>
+                    {{ form.as_p }}
+                    </table>
+                    <p>
+                    <button class="text-black" type="submit">Login</button>
+                    </p>
+                    <input type="hidden" name="next" value="{{next}}"/>
+                </form>
+                <p class="text-black">Don't have an account yet? <a class="text-black" href="{% url 'signup' %}">Sign up</a></p>
+            </section>
+            <form method="post" action="{% provider_login_url 'google' %}">
+                {% csrf_token %}
+                <button class="login-gg" type="submit">
+                    <p class="text">Login with Google</p>
+                </button>
+            </form>
+            <form method="post" action="{% provider_login_url 'github' %}">
+                {% csrf_token %}
+                <button class="login-gg" type="submit">
+                    <p class="text">Login with GitHub</p>
+                </button>
+            </form>
       {% endif %}
     </div>
   </body>
 </html>
+
+{% endblock %}

@@ -16,14 +16,16 @@ class CocktailApi:
     def build_url(self, endpoint):
         return self.base_url + endpoint
 
-    def dupicate_check(self, drink_name):
+    @staticmethod
+    def dupicate_check(drink_name):
         cocktail = Cocktail.objects.filter(name__exact=drink_name,
                                            cocktail_tag__exact='o')
         if cocktail:
             return cocktail
         return None
 
-    def ingred_dupicated(self, ingerd_name):
+    @staticmethod
+    def ingred_dupicated(ingerd_name):
         ingredient = Ingredient.objects.filter(name__exact=ingerd_name)
         if ingredient:
             return ingredient
@@ -49,10 +51,11 @@ class CocktailApi:
             print(f'Error: {e}')
             return None
         ingredient_data = api_data['ingredients'][0]
+        name = ingredient_data['strIngredient']
         ingredient = Ingredient(
             name=ingredient_data['strIngredient'],
             description=ingredient_data['strDescription'],
-            image=f'https://www.thecocktaildb.com/images/ingredients/{ingredient_data['strIngredient']}-Medium.png'
+            image=f'https://www.thecocktaildb.com/images/ingredients/{d}-Medium.png'
         )
         ingredient.save()
         return ingredient
@@ -75,55 +78,19 @@ class CocktailApi:
                 else:
                     tag = tag_exist.first()
                 cocktail.tags.add(tag)
-    # @ensure_csrf_cookie
-    # @csrf_protect
-    # @require_POST
-    # def handle_cocktail_search(self, request):
-    #     if request.method == 'POST':
-    #         # Ensure that the CSRF token is present and valid
-    #         if not request.META.get("HTTP_X_CSRFTOKEN"):
-    #             return JsonResponse({'error': 'CSRF token missing or invalid'},
-    #                                 status=403)
-    #
-    #         try:
-    #             data = json.loads(request.body)
-    #             selected_ingredients = data.get('ingredients', [])
-    #
-    #             # Perform your search in the database
-    #             database_results = self.search_in_database(selected_ingredients)
-    #
-    #             # If there are results from the database, return them
-    #             if database_results:
-    #                 response_data = {'source': 'database',
-    #                                  'results': database_results}
-    #                 return JsonResponse(response_data)
-    #
-    #             # If no results in the database, perform a search using an external API
-    #             api_results = search_in_external_api(selected_ingredients)
-    #
-    #             # Return the results from the external API
-    #             response_data = {'source': 'api', 'results': api_results}
-    #             return JsonResponse(response_data)
-    #         except json.JSONDecodeError as e:
-    #             return JsonResponse({'error': 'Invalid JSON format'},
-    #                                 status=400)
-    #
-    #     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
     def search_in_database(self, selected_ingredients):
-        # Implement your database search logic here
         # This is a placeholder; replace it with your actual database query
         selected_ingredient = Ingredient.objects.filter(name__in=selected_ingredients)
         cocktails = Cocktail.objects.filter(cocktailsingredient__ingredient__in=selected_ingredient)
         return cocktails
 
     def search_in_external_api(self, selected_ingredients):
-        # Implement your external API search logic here
-        # This is a placeholder; replace it with your actual API request
-        # and processing logic
+
         selected_ingredients = [str(conv) for conv in selected_ingredients]
         api_params = ','.join(selected_ingredients)
         url = self.build_url('filter.php?i=' + api_params)
+        cocktails = []
         try:
             response = requests.get(url)
             response.raise_for_status()
@@ -136,11 +103,10 @@ class CocktailApi:
 
         for drink in api_data['drink']:
             cocktail = self.dupicate_check(drink['strDrink'])
-            if cocktail:
-                continue
-            else:
+            if not cocktail:
                 data = self.search_by_id(drink['idDrink'])
-                self.Create_Cocktails(data)
+                cocktail = self.Create_Cocktails(data)
+            cocktails.append(cocktail)
 
     def date_modified(self, date_modified_str):
         if date_modified_str:
@@ -175,7 +141,42 @@ class CocktailApi:
                 self.Create_CockIngred(cocktail, self.Create_Ingred(ingredient_name),
                                   measure)
         cocktail.save()
+        return cocktail
 
+    # @ensure_csrf_cookie
+    # @csrf_protect
+    # @require_POST
+    # def handle_cocktail_search(self, request):
+    #     if request.method == 'POST':
+    #         # Ensure that the CSRF token is present and valid
+    #         if not request.META.get("HTTP_X_CSRFTOKEN"):
+    #             return JsonResponse({'error': 'CSRF token missing or invalid'},
+    #                                 status=403)
+    #
+    #         try:
+    #             data = json.loads(request.body)
+    #             selected_ingredients = data.get('ingredients', [])
+    #
+    #             # Perform your search in the database
+    #             database_results = self.search_in_database(selected_ingredients)
+    #
+    #             # If there are results from the database, return them
+    #             if database_results:
+    #                 response_data = {'source': 'database',
+    #                                  'results': database_results}
+    #                 return JsonResponse(response_data)
+    #
+    #             # If no results in the database, perform a search using an external API
+    #             api_results = search_in_external_api(selected_ingredients)
+    #
+    #             # Return the results from the external API
+    #             response_data = {'source': 'api', 'results': api_results}
+    #             return JsonResponse(response_data)
+    #         except json.JSONDecodeError as e:
+    #             return JsonResponse({'error': 'Invalid JSON format'},
+    #                                 status=400)
+    #
+    #     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
 

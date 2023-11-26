@@ -14,6 +14,7 @@
         /* background-color: aqua; */
         /* position: static; */
         /* overflow-x: scroll; */
+        overflow-x: hidden;
     }
 
     /* @media all and (max-width: 1350px) {
@@ -38,7 +39,6 @@
     .ingree {
         width: 450px;
         margin-top: 15px;
-        /* background-color: aqua; */
         padding-bottom: 45px;
         padding-top: 20px;
         border-bottom: #ffffff solid 2px;
@@ -110,6 +110,8 @@
         height: 200px;
         max-width: 450px;
         max-height: 200px;
+        padding-bottom: 40px;
+        border-bottom: white solid 2px;
     }
 
     #intr-text {
@@ -137,15 +139,18 @@
         color: white;
         background-color:#282828;
         display: inline-flex;
-        padding-left: 6px;
+        /* padding-left: 6px; */
         border-radius: 5px;
-        margin-left: 155px
+        height: 40px;
+        padding-left: 7px;
+        padding-right: 7px;
     }
 
     .star {
         color: #FCDF76;
         font-size: 24px; /* Adjust the size as needed */
         display: inline-block;
+        margin-right: 3px;
     }
 
     .star.half {
@@ -155,9 +160,9 @@
         color: transparent;
     }
 
-    .star.half, .star {
+    /* .star.half, .star {
         margin-top: 10px;
-    }
+    } */
 
     img {
         max-width: 450px;
@@ -171,10 +176,10 @@
     }
 
     .reviews {
-        margin-top: 10px;
-        /* margin-left: 200px; */
+        margin-top: 55px;
         width: 69vw;
         max-width: 69vw;
+        min-width: 50vw;
         display: inline-table;
         margin-bottom: 50px;
         overflow-y: scroll;
@@ -186,7 +191,7 @@
         color: #ffffff;
         font-size: 25px;
         margin-left: 10px;
-        margin-top: 15px;
+        margin-top: -40px;
         float: right;
         margin-right: 10px;
     }
@@ -199,7 +204,6 @@
         /* max-width: 450px; */
         /* max-height: 200px; */
         padding: 15px;
-        overflow-y: scroll;
     }
 
     .send-butt {
@@ -217,30 +221,29 @@
 
     .form-group {
         display: inline-flex;
-        /* margin-left: 10px;
-        width: 300px; */
+        height: fit-content;
     }
 
     #avg-scr {
         font-size: 17px;
         color: #ffffff;
         margin-left: 10px;
-        margin-top: 15px;
-        /* float: right; */
-        margin-right: 10px;
+        margin-top: 6px;
     }
 
     textarea {
         max-height: 30px;
         min-height: 30px;
-        width: 500px;
+        width: fit-content;
         min-width: 300px;
-        overflow: scroll;
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+        width: 50vw;
     }
 
     #senddd {
         position: relative;
-        top: -8px;
+        top: -9px;
     }
 
     .big-block {
@@ -250,6 +253,41 @@
         min-width: 900px;
         margin-left: 50%;
         transform: translateX(-50%);
+    }
+
+    .comments {
+        line-height: 2px;
+        padding: 5px;
+        padding-bottom: 0;
+        overflow: scrollง;
+        /* overflow-x: scroll; */
+        overflow-y: scroll;
+        overflow-wrap: break-word;
+        height: 100px;
+    }
+
+    #commento {
+        background-color: #282828;
+        padding: 5px;
+        line-height: 20px;
+        border-radius: 5px;
+        color: white;
+        display: block;
+    }
+
+    .star-container {
+        text-align: center;
+    }
+
+    #rev-user {
+        color: #FCDF76;
+    }
+
+    #rev-mess {
+        color: white;
+        max-width: fit-content;
+        overflow: hidden;
+        overflow-wrap: break-word;
     }
 
 </style>
@@ -311,9 +349,13 @@
             </div>
         </div>
 
-        <!-- Image and instructions block -->
-        <div class="img-intr" id="small-block">
-            <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+    <!-- Image and instructions block -->
+    <div class="img-intr" id="small-block">
+        {% if cocktail.image %}
+          <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+        {% elif cocktail.user_uploaded_image %}
+          <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
+        {% endif %}
 
             <div class="intrr">
                 <h2 class="text" id="intr-text">Instructions</h2>
@@ -329,7 +371,7 @@
             
             <div class="form-group">
                 <!-- Comment Form -->
-                <form class="comm-form" method="post" action="{% url 'add_review' pk=cocktail.pk %}">
+                <form class="comm-form" method="post" action="{% url 'SIP:add_review' pk=cocktail.pk %}">
                     {% csrf_token %}
                     <textarea name="{{ comment_form.message.html_name }}" maxlength="255"> </textarea>
 
@@ -337,7 +379,7 @@
                 </form>
 
                 <!-- Star Form -->
-                <form method="post" action="{% url 'add_star' pk=cocktail.pk %}">
+                <form method="post" action="{% url 'SIP:add_star' pk=cocktail.pk %}">
                     {% csrf_token %}
                     <input type="number" min="1" max="5" id="{{ star_form.score.id_for_label }}" name="{{ star_form.score.html_name }}">
                     <label for="{{ star_form.score.id_for_label }}"></label>
@@ -345,14 +387,19 @@
                 </form>
             </div>
 
-            {% if reviews %}
-                {% for review in reviews %}
-                    <p class="text">{{ review.user }} : {{ review.message }}</p>
-                    <br>
-                {% endfor %}
-            {% else %}
-                <p class="text">No reviews available.</p>
-            {% endif %}
+            <!-- Comments -->
+            <div class="comments">
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="text" id="commento">
+                            <p id="rev-user">{{ review.user }} :</p> <p id="rev-mess">{{ review.message }}</p>
+                        </div>
+                        <br>
+                    {% endfor %}
+                {% else %}
+                    <p class="text">No reviews yet.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 

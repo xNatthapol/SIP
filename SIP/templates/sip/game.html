@@ -141,7 +141,7 @@
     </div>
 
     <div class="select">
-        <form action="{% url 'game' %}" method="post">
+        <form action="{% url 'SIP:game' %}" method="post">
             {% csrf_token %}
             <div class="choices">
                 {% for ingredient in ingredients %}

@@ -136,10 +136,10 @@
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="{% url 'index' %}">Sip</a>
+    <a class="navbar-brand" href="{% url 'SIP:index' %}">Sip</a>
 
     <ul class="nav-right">
-        <form id="argh" class="form-inline" method="post" action="{% url 'index' %}">
+        <form id="argh" class="form-inline" method="post" action="{% url 'SIP:index' %}">
             {% csrf_token %}
             <li>
                 <select class="sel" name="search_type">
@@ -155,9 +155,9 @@
             </li>
         </form>
 
-        <a class="about-us" href="{% url 'game' %}"><p class="gale">Game</p></a>
+        <a class="about-us" href="{% url 'SIP:game' %}"><p class="gale">Game</p></a>
 
-        <a class="about-us" href="{% url 'leaderboard' %}"><p class="gale">Leaderboard</p></a>
+        <a class="about-us" href="{% url 'SIP:leaderboard' %}"><p class="gale">Leaderboard</p></a>
 
         <li>
             <!-- About Us -->
