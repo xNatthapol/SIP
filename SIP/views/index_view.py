@@ -13,17 +13,17 @@ class IndexView(View):
         cocktails = Cocktail.objects.all()
         ingredients = Ingredient.objects.all()
 
-        if cocktails is not None:
-            for cocktail in cocktails:
-                cocktail.average_score = self.calculate_star_rating(cocktail)
-            context = {
-                'cocktails': cocktails,
-                'ingredients': ingredients,
-                'search_type': 'cocktail',
+        # if cocktails is not None:
+        #     for cocktail in cocktails:
+        #         cocktail.average_score = self.calculate_star_rating(cocktail)
+        context = {
+            'cocktails': cocktails,
+            'ingredients': ingredients,
+            'search_type': 'cocktail',
 
-            }
-        else:
-            return render(request, self.template_name)
+        }
+        # else:
+        #     return render(request, self.template_name)
 
         return render(request, self.template_name, context)
 

@@ -133,27 +133,74 @@
         text-align: center;
         margin-top: 9px;
     }
+            /* search ingredients bar */
+    .ingredient-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .ingredient-block {
+        background-color: #ddd;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .ingredient-hints {
+        position: absolute;
+        border: 1px solid #ccc;
+        max-height: 100px;
+        overflow-y: auto;
+        background-color: white;
+    }
+
+    .ingredient-hints div {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    .ingredient-hints div:hover {
+        background-color: #eee;
+    }
+        /* search ingredients bar */
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{% url 'SIP:index' %}">Sip</a>
 
     <ul class="nav-right">
-        <form id="argh" class="form-inline" method="post" action="{% url 'SIP:index' %}">
+{#        <form id="argh" class="form-inline" method="post" action="{% url 'SIP:index' %}">#}
+{#            {% csrf_token %}#}
+{#            <li>#}
+{#                <select class="sel" name="search_type">#}
+{#                    <option value="cocktail" {% if search_type == 'cocktail' %}selected{% endif %}>Cocktail</option>#}
+{#                    <option value="ingredient" {% if search_type == 'ingredient' %}selected{% endif %}>Ingredient</option>#}
+{#                </select>#}
+{#                <select class="sel" name="search_by">#}
+{#                    <option value="api" {% if search_by == 'api' %}selected{% endif %}>API</option>#}
+{#                    <option value="db" {% if search_by == 'db' %}selected{% endif %}>DB</option>#}
+{#                </select>#}
+{#                <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">#}
+{#                <!-- <input class="search-button" type="submit" value/> -->#}
+{#            </li>#}
+{#        </form>#}
+                <!-- /* search ingredients bar */ -->
+        <form id="cocktailSearchForm" onsubmit="submitForm(); return false;">
             {% csrf_token %}
-            <li>
-                <select class="sel" name="search_type">
-                    <option value="cocktail" {% if search_type == 'cocktail' %}selected{% endif %}>Cocktail</option>
-                    <option value="ingredient" {% if search_type == 'ingredient' %}selected{% endif %}>Ingredient</option>
-                </select>
-                <select class="sel" name="search_by">
-                    <option value="api" {% if search_by == 'api' %}selected{% endif %}>API</option>
-                    <option value="db" {% if search_by == 'db' %}selected{% endif %}>DB</option>
-                </select>
-                <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
-                <!-- <input class="search-button" type="submit" value/> -->
-            </li>
+            <select id="searchType" name="searchType">
+                <option value="cocktails">Cocktails</option>
+                <option value="ingredients">Ingredients</option>
+            </select>
+            <div id="ingredientContainer" class="ingredient-container">
+                <!-- Selected ingredients will be added here as blocks -->
+            </div>
+            <input type="text" id="ingredients" name="ingredients" placeholder="E.g., vodka, lime, soda" style="display: none;">
+            <input type="text" id="cocktailQuery" name="cocktailQuery" placeholder="E.g., Mojito" style="display: block;">
+            <div id="ingredientHints" class="ingredient-hints"></div>
+            <button type="button" onclick="submitForm()">Search</button>
         </form>
+            <!-- /* search ingredients bar */ -->
 
         <a class="about-us" href="{% url 'SIP:game' %}"><p class="gale">Game</p></a>
 
@@ -182,3 +229,173 @@
         </li>
     </ul>
 </nav>
+
+<script>
+    // search ingredients bar
+    const csrfToken = "{{ csrf_token }}";
+
+async function fetchIngredientSuggestions() {
+    try {
+        const response = await fetch('/SIP/all_ingredient/');  // Update this with the actual URL
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.ingredients;  // Assuming the response has a property named 'ingredients'
+    } catch (error) {
+        console.error('Error fetching ingredient suggestions:', error.message);
+        return [];
+    }
+}
+
+// Function to initialize the ingredient suggestions
+async function initIngredientSuggestions() {
+    const ingredientSuggestions = await fetchIngredientSuggestions();
+    return ingredientSuggestions;
+}
+
+
+document.addEventListener('DOMContentLoaded', async function () {
+    const searchTypeSelect = document.getElementById('searchType');
+    const cocktailQueryInput = document.getElementById('cocktailQuery');
+    const ingredientsInput = document.getElementById('ingredients');
+
+    const ingredientSuggestions = await initIngredientSuggestions();
+
+    searchTypeSelect.addEventListener('change', function() {
+        const selectedSearchType = this.value;
+
+        // Hide all input elements initially
+        cocktailQueryInput.style.display = 'none';
+        ingredientsInput.style.display = 'none';
+
+        // Show the relevant input element based on the selected search type
+        if (selectedSearchType === 'cocktails') {
+            cocktailQueryInput.style.display = 'block';
+            ingredientsInput.value = '';  // Clear ingredients input
+        } else if (selectedSearchType === 'ingredients') {
+            ingredientsInput.style.display = 'block';
+            cocktailQueryInput.value = '';  // Clear cocktailQuery input
+        }
+    });
+
+    document.getElementById('ingredients').addEventListener('input', function() {
+        const input = this.value.toLowerCase();
+        const ingredientHintsContainer = document.getElementById('ingredientHints');
+
+        // Clear previous suggestions
+        ingredientHintsContainer.innerHTML = '';
+
+        // Filter and display suggestions
+        const matchingIngredients = ingredientSuggestions.filter(ingredient =>
+            ingredient.toLowerCase().includes(input)
+        );
+
+        matchingIngredients.forEach(ingredient => {
+            const hintElement = document.createElement('div');
+            hintElement.textContent = ingredient;
+            hintElement.addEventListener('click', function() {
+                addIngredientBlock(ingredient);
+                this.parentElement.innerHTML = ''; // Clear suggestions after selection
+            });
+            ingredientHintsContainer.appendChild(hintElement);
+        });
+    });
+});
+function addIngredientBlock(ingredient) {
+    const ingredientContainer = document.getElementById('ingredientContainer');
+    const block = document.createElement('div');
+    block.textContent = ingredient;
+    block.className = 'ingredient-block';
+    block.addEventListener('click', function() {
+        this.remove();
+    });
+    ingredientContainer.appendChild(block);
+
+    // Clear input field after adding the ingredient block
+    document.getElementById('ingredients').value = '';
+}
+
+async function submitForm() {
+    const searchType = document.getElementById('searchType').value;
+    console.log('searchType:', searchType);
+
+    let response;  // Declare response variable
+
+    if (searchType === 'cocktails') {
+        const cocktailQuery = document.getElementById('cocktailQuery').value.trim();
+
+        // Ensure that the cocktail query is not empty before sending the request
+        if (cocktailQuery) {
+            response = await fetch('/SIP/search/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ command: 'search_cocktails', query: cocktailQuery }),
+            });
+        }
+    } else if (searchType === 'ingredients') {
+        const ingredientBlocks = document.querySelectorAll('.ingredient-block');
+        const selectedIngredients = Array.from(ingredientBlocks).map(block => block.textContent);
+
+        // Ensure that there are selected ingredients before sending the request
+        if (selectedIngredients.length > 0) {
+            response = await fetch('/SIP/search/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ command: 'search_ingredients', ingredients: selectedIngredients }),
+            });
+        }
+    }
+
+    // Check response.ok inside the same scope
+    if (!response.ok) {
+        // Handle errors
+        console.error('Error:', response.status, response.statusText);
+    } else {
+    // Handle the successful response
+    const data = await response.json();
+    const cocktailsData = JSON.parse(data.cocktails);
+    console.log('Response from the backend:', cocktailsData);
+
+    // You can now use the cocktailsData to update your HTML and display the results on the webpage
+    // For example, you can create DOM elements and append them to a container in your HTML
+    const resultsContainer = document.getElementById('resultsContainer');
+    resultsContainer.innerHTML = '';  // Clear previous results
+
+    cocktailsData.forEach(cocktail => {
+       const cocktailName = cocktail.fields.name;
+       const cocktailImage = cocktail.fields.image;
+       const cocktailpk = cocktail.pk;
+       // Create a container for each cocktail
+       const cocktailContainer = document.createElement('div');
+
+       // Create an element for the cocktail name
+       const nameElement = document.createElement('p');
+       nameElement.textContent = cocktailName;
+
+       // Create an image element for the cocktail image
+       const imageElement = document.createElement('img');
+       imageElement.src = cocktailImage;
+       imageElement.alt = cocktailName;  // Set alt text for accessibility
+
+       // Append the name and image elements to the container
+       cocktailContainer.appendChild(imageElement);
+       cocktailContainer.appendChild(nameElement);
+
+       // Append the container to the results container
+       resultsContainer.appendChild(cocktailContainer);
+    });
+}
+}
+
+
+
+// Rest of the JavaScript code remains the same
+
+</script>
