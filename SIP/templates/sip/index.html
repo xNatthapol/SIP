@@ -117,27 +117,17 @@
         margin-right: 20px;
         background-color: white;
         /* counter-increment: gallery-cell; */
-        animation: carousel 10s linear infinite;
+        /* animation: carousel 10s linear infinite; */
         border-radius: 5px;
     }
 
-<!--    .upload {-->
-<!--        font-family: 'Barlow Semi Condensed', sans-serif;-->
-<!--        text-decoration: none;-->
-<!--        background-color: white;-->
-<!--        border-radius: 25px;-->
-<!--        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;-->
-<!--        margin-left: 25px;-->
-<!--        font-size: 15px;-->
-<!--        font-weight: 600;-->
-<!--        color: white;-->
-<!--        word-wrap: break-word;-->
-<!--        padding-left: 20px;-->
-<!--        padding-right: 20px;-->
-<!--        margin-top: 5.5px;-->
-<!--        height: 30px;-->
-<!--        line-height: 11px;-->
-<!--    }-->
+    .intestine {
+        background-color: aqua;
+        width: 450px;
+        height: 350px;
+        max-width: 450px;
+        height: 350px;
+    }
 
     .upl {
         display: block;
@@ -173,7 +163,11 @@
                     {% for ingredient in ingredients %}
                         <div class="gallery-cell">
                             <a href="{% url 'SIP:ingredient_detail' ingredient.id %}">
+                                {% if ingredient.image %}
                                 <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
+                                {% else %}
+                                <div class="intestine"></div>
+                                {% endif %}
                                 <h2 class="text">{{ ingredient.name }}</h2>
                             </a>
                         </div>

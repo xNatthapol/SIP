@@ -300,7 +300,6 @@
     <title>{{ cocktail.name }} Detail</title>
 </head>
 <body>
-    <!-- <a href="{% url 'index' %}" class="text" id="back-butt">Back to Cocktail Index</a> -->
     <div class="big-block">
         <!-- Text and ingredients block -->
         <div class="text-ingre" id="small-block">
@@ -329,7 +328,7 @@
                     <div class="text" id="ingr-names">
                         {% for ingredient in cocktail.cocktailingredient_set.all %}
                             <li class="text" id="name">
-                                <a class="text" href="{% url 'ingredient_detail' ingredient.ingredient.id %}">
+                                <a class="text" href="{% url 'SIP:ingredient_detail' ingredient.ingredient.id %}">
                                     {{ ingredient.ingredient.name }}
                                 </a>
                             </li>
