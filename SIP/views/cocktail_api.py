@@ -1,4 +1,5 @@
 import json
+from itertools import chain
 
 import requests
 from datetime import datetime
@@ -39,9 +40,15 @@ class CocktailApi:
         selected_ingredient = Ingredient.objects.filter(
             name__in=selected_ingredients)
         cocktails = Cocktail.objects.filter(
-            cocktailsingredient__ingredient__in=selected_ingredient,
+            cocktailingredient__ingredient__in=selected_ingredient,
             cocktail_tag__exact='u'
         )
+        if not cocktails:
+            return []
+        if cocktails and len(cocktails) > 1:
+            cocktails = list(chain(*cocktails))
+        else:
+            cocktails = cocktails[0]
         return cocktails
 
     @staticmethod
@@ -91,10 +98,10 @@ class CocktailApi:
         except requests.exceptions.RequestException as e:
             print(f'Error: {e}')
             return None
-        if api_data['drinks'] is None:
+        if api_data['drinks'] is None or api_data['drinks'] == "None Found":
             return None
         for drink in api_data['drinks']:
-            cocktail = self.dupicate_check(drink['strDrink'])
+            cocktail = self.dupicate_check(drink['strDrink'])[0]
             if not cocktail:
                 data = self.search_by_id(drink['idDrink'])['drinks'][0]
                 cocktail = self.create_cocktails(data)
@@ -133,7 +140,7 @@ class CocktailApi:
 
     def api_search_by_ingredient(self, selected_ingredients):
 
-        selected_ingredients = [str(conv) for conv in selected_ingredients]
+        selected_ingredients = [str(conv).strip().replace(" ","_") for conv in selected_ingredients]
         api_params = ','.join(selected_ingredients)
         url = self.build_url('filter.php?i=' + api_params)
         return self.get_cocktails_endpoint(url)

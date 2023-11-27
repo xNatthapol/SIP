@@ -10,7 +10,6 @@ from ..models import Ingredient
 from ..views.cocktail_api import CocktailApi
 
 
-
 class SearchView(View):
 
     @method_decorator(ensure_csrf_cookie)
@@ -40,38 +39,35 @@ class SearchView(View):
     def get(self, request, *args, **kwargs):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+    def useful(self, item):
+        print('item', item)
+        if not item or len(item) == 0:
+            result = []
+        elif len(item) == 1:
+            result = item[0]
+        else:
+            result = list(chain(*item))
+        return result
+
+
     def search_cocktails(self, query):
         cocktail_api = CocktailApi()
-        cocktails_api = list(chain(*cocktail_api.api_search_by_name(query)))
-        cocktails_db = list(chain(*cocktail_api.database_search_by_name(query)))
+        cocktails_api = self.useful(cocktail_api.api_search_by_name(query))
+        cocktails_db = self.useful(cocktail_api.database_search_by_name(query))
         cocktails = cocktails_db + cocktails_api
+        print('cocktails', cocktails)
         return cocktails
 
-    def search_ingredients(self, query):
-        cocktail_api = CocktailApi()
-        cocktails_api = list(chain(*cocktail_api.api_search_by_ingredient(query)))
-        cocktails_db = list(chain(*cocktail_api.database_search_by_ingredient(query)))
-        cocktails = cocktails_db + cocktails_api
-        print('Cocktails:', cocktails)
-        return cocktails
-    def search_ingredients(self, query):
-        print('Searching ingredients for query:', query)
 
-        # API search
+    def search_ingredients(self, query):
         cocktail_api = CocktailApi()
         cocktails_api = cocktail_api.api_search_by_ingredient(query)
-        print('API search results:', cocktails_api)
-
-        # Database search
         cocktails_db = cocktail_api.database_search_by_ingredient(query)
-        print('Database search results:', cocktails_db)
-
-        # Merge results
-        cocktails = self.merge_cocktails(cocktails_api, cocktails_db)
-        print('Merged cocktails:', cocktails)
-
-        return {'ingredient_results': cocktails}
-
+        print('cocktails_db', cocktails_db)
+        print('cocktails_api', cocktails_api)
+        cocktails = cocktails_db + cocktails_api
+        print('cocktails', cocktails)
+        return cocktails
 
 def all_ingred(request):
     ingredients = Ingredient.objects.values_list('name', flat=True)
