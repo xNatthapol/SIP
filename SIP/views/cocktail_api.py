@@ -211,13 +211,13 @@ class CocktailApi:
             ingredient = self.ingred_dupicated(ingredient_name)
             measure = JsonData['strMeasure' + str(i)]
             if not ingredient:
-
                 self.create_cock_ingred(cocktail,
                                         self.create_ingred(ingredient_name),
                                         measure)
             else:
                 self.create_cock_ingred(cocktail, ingredient, measure)
         cocktail.save()
+
         return cocktail
 
     def api_search_by_name(self, name):

@@ -18,4 +18,6 @@ urlpatterns = [
     path('leaderboard/', views.LeaderboardView.as_view(), name='leaderboard'),
     path('search/', views.SearchView.as_view(), name='search'),
     path('all_ingredient/', views.all_ingred, name='all_ingred'),
+    path('add_to_favourites/<str:model_type>/<int:pk>/', views.AddToFavouritesView.as_view(), name='add_to_favourites'),
+    path('favourite_list/', views.FavouriteListView.as_view(), name='favourite_list'),
 ]

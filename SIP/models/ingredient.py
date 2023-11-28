@@ -17,3 +17,4 @@ class CocktailIngredient(models.Model):
 
     def __str__(self):
         return self.cocktail.name + ' ' + str(self.ingredient)
+

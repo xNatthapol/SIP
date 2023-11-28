@@ -79,6 +79,10 @@ function goBack() {
         <div class="block">
             <h1 class="text">{{ ingredient.name }}</h1>
             <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
+            <form method="post" action="{% url 'SIP:add_to_favourites' 'ingredient' ingredient.pk %}">
+                {% csrf_token %}
+                <button type="submit">Add to Favourites</button>
+            </form>
         </div>
         <h2 class="text">Description</h2>
         <p class="text-desp" id="desp">{{ ingredient.description }}</p>
