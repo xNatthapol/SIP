@@ -1,6 +1,7 @@
 import json
 from itertools import chain
 from django.http import JsonResponse
+from django.urls import reverse
 from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
@@ -32,7 +33,10 @@ class SearchView(View):
                 return JsonResponse({'error': 'Invalid search type'}, status=400)
 
             results = serialize('json', results)
-            return JsonResponse({'cocktails':results}, safe=False, status=200)
+            redirect_url = reverse('SIP:index')
+            # return JsonResponse({'cocktails':results}, safe=False, status=200)
+            return JsonResponse({'cocktails': results, 'redirect_url': redirect_url},
+                     safe=False, status=200)
         except json.JSONDecodeError as e:
             return JsonResponse({'error': 'Invalid JSON format'}, status=400)
 
@@ -40,33 +44,32 @@ class SearchView(View):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
     def useful(self, item):
-        print('item', item)
-        if not item or len(item) == 0:
-            result = []
-        elif len(item) == 1:
+        if item and len(item) == 1:
             result = item[0]
-        else:
+        elif item:
             result = list(chain(*item))
+        else:
+            result = []
         return result
 
+    def api_useful(self, item):
+        if not item:
+            return []
+        return item
 
     def search_cocktails(self, query):
         cocktail_api = CocktailApi()
-        cocktails_api = self.useful(cocktail_api.api_search_by_name(query))
+        cocktails_api = self.api_useful(cocktail_api.api_search_by_name(query))
         cocktails_db = self.useful(cocktail_api.database_search_by_name(query))
         cocktails = cocktails_db + cocktails_api
-        print('cocktails', cocktails)
         return cocktails
 
 
     def search_ingredients(self, query):
         cocktail_api = CocktailApi()
-        cocktails_api = cocktail_api.api_search_by_ingredient(query)
-        cocktails_db = cocktail_api.database_search_by_ingredient(query)
-        print('cocktails_db', cocktails_db)
-        print('cocktails_api', cocktails_api)
+        cocktails_api = self.api_useful(cocktail_api.api_search_by_ingredient(query))
+        cocktails_db = self.useful(cocktail_api.database_search_by_ingredient(query))
         cocktails = cocktails_db + cocktails_api
-        print('cocktails', cocktails)
         return cocktails
 
 def all_ingred(request):

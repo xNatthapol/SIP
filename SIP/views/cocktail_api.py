@@ -101,10 +101,12 @@ class CocktailApi:
         if api_data['drinks'] is None or api_data['drinks'] == "None Found":
             return None
         for drink in api_data['drinks']:
-            cocktail = self.dupicate_check(drink['strDrink'])[0]
+            cocktail = self.dupicate_check(drink['strDrink'])
             if not cocktail:
                 data = self.search_by_id(drink['idDrink'])['drinks'][0]
                 cocktail = self.create_cocktails(data)
+            else:
+                cocktail = cocktail.first()
             cocktails.append(cocktail)
         return cocktails
 
