@@ -59,15 +59,6 @@ class CocktailForm(forms.ModelForm):
             raise forms.ValidationError('You must enter instructions.')
         return cleaned_data
 
-
-    def save(self, commit=True):
-        cocktail = super().save(commit=False)
-        if commit:
-            cocktail.save()
-        return cocktail
-
-
-
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
