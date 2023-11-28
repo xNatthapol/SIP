@@ -6,9 +6,6 @@ from datetime import datetime
 from django.utils import timezone
 from SIP.models import Tag, Ingredient, CocktailIngredient, Cocktail
 from decouple import config
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from django.views.decorators.http import require_POST
-from django.http import JsonResponse
 
 
 class CocktailApi:
@@ -141,13 +138,58 @@ class CocktailApi:
         return ingredient
 
     def api_search_by_ingredient(self, selected_ingredients):
-
         selected_ingredients = [str(conv).strip().replace(" ","_") for conv in selected_ingredients]
         api_params = ','.join(selected_ingredients)
         url = self.build_url('filter.php?i=' + api_params)
         return self.get_cocktails_endpoint(url)
 
-    def create_cocktails(self, JsonData):
+    def Create_Tags(self, tags, cocktail):
+        if tags:
+            for tag_name in tags.split(','):
+                tag_exist = Tag.objects.filter(name__exact=tag_name.strip())
+                if not tag_exist:
+                    tag = Tag(name=tag_name.strip())
+                    tag.save()
+                else:
+                    tag = tag_exist.first()
+                cocktail.tags.add(tag)
+
+    def search_in_database(self, selected_ingredients):
+        selected_ingredient = Ingredient.objects.filter(name__in=selected_ingredients)
+        cocktails = Cocktail.objects.filter(cocktailsingredient__ingredient__in=selected_ingredient)
+        return cocktails
+
+    def search_in_external_api(self, selected_ingredients):
+
+        selected_ingredients = [str(conv) for conv in selected_ingredients]
+        api_params = ','.join(selected_ingredients)
+        url = self.build_url('filter.php?i=' + api_params)
+        cocktails = []
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            api_data = response.json()
+        except requests.exceptions.RequestException as e:
+            print(f'Error: {e}')
+            return None
+        if api_data['drink'] is None:
+            return None
+
+        for drink in api_data['drink']:
+            cocktail = self.dupicate_check(drink['strDrink'])
+            if not cocktail:
+                data = self.search_by_id(drink['idDrink'])
+                cocktail = self.Create_Cocktails(data)
+            cocktails.append(cocktail)
+
+    def date_modified(self, date_modified_str):
+        if date_modified_str:
+            date_modified = datetime.strptime(date_modified_str, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)
+        else:
+            date_modified = None
+        return date_modified
+
+    def Create_Cocktails(self, JsonData):
         cocktail = Cocktail(
             name=JsonData['strDrink'],
             alternate_name=JsonData['strDrinkAlternate'],
@@ -175,8 +217,7 @@ class CocktailApi:
                                         measure)
             else:
                 self.create_cock_ingred(cocktail, ingredient, measure)
-
-
+        cocktail.save()
         return cocktail
 
     def api_search_by_name(self, name):

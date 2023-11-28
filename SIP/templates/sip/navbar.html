@@ -321,7 +321,6 @@ async function submitForm() {
     console.log('searchType:', searchType);
 
     let response;  // Declare response variable
-
     if (searchType === 'cocktails') {
         const cocktailQuery = document.getElementById('cocktailQuery').value.trim();
 
@@ -362,6 +361,10 @@ async function submitForm() {
     const data = await response.json();
     const cocktailsData = JSON.parse(data.cocktails);
     console.log('Response from the backend:', cocktailsData);
+    // After handling the successful response
+    {#window.location.href = '/SIP/' + encodeURIComponent(JSON.stringify(cocktailsData));#}
+
+
 
     // You can now use the cocktailsData to update your HTML and display the results on the webpage
     // For example, you can create DOM elements and append them to a container in your HTML
@@ -369,28 +372,38 @@ async function submitForm() {
     resultsContainer.innerHTML = '';  // Clear previous results
 
     cocktailsData.forEach(cocktail => {
-       const cocktailName = cocktail.fields.name;
-       const cocktailImage = cocktail.fields.image;
-       const cocktailpk = cocktail.pk;
-       // Create a container for each cocktail
-       const cocktailContainer = document.createElement('div');
+    const cocktailName = cocktail.fields.name;
+    const cocktailImage = cocktail.fields.image;
+    const cocktailpk = cocktail.pk;
 
-       // Create an element for the cocktail name
-       const nameElement = document.createElement('p');
-       nameElement.textContent = cocktailName;
+    // Create a container for each cocktail
+    const cocktailContainer = document.createElement('div');
 
-       // Create an image element for the cocktail image
-       const imageElement = document.createElement('img');
-       imageElement.src = cocktailImage;
-       imageElement.alt = cocktailName;  // Set alt text for accessibility
+    // Create a link element for the cocktail
+    const linkElement = document.createElement('a');
+    linkElement.href = `cocktail/${cocktailpk}`; // Set the href attribute
+    linkElement.target = '_self'; // Open the link in the same tab
 
-       // Append the name and image elements to the container
-       cocktailContainer.appendChild(imageElement);
-       cocktailContainer.appendChild(nameElement);
+    // Create an element for the cocktail name
+    const nameElement = document.createElement('p');
+    nameElement.textContent = cocktailName;
 
-       // Append the container to the results container
-       resultsContainer.appendChild(cocktailContainer);
-    });
+    // Create an image element for the cocktail image
+    const imageElement = document.createElement('img');
+    imageElement.src = cocktailImage;
+    imageElement.alt = cocktailName;  // Set alt text for accessibility
+
+    // Append the name and image elements to the link element
+    linkElement.appendChild(imageElement);
+    linkElement.appendChild(nameElement);
+
+    // Append the link element to the container
+    cocktailContainer.appendChild(linkElement);
+
+    // Append the container to the results container
+    resultsContainer.appendChild(cocktailContainer);
+});
+
 }
 }
 
