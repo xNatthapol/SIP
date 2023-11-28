@@ -152,6 +152,17 @@
         }
     } */
 
+    /* .picture-frame {
+        background-color: white;
+    } */
+
+    /* #resultsContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    } */
+
 </style>
 
 
@@ -168,7 +179,7 @@
     <h1>Cocktail Search Results</h1>
     <!-- Your existing HTML content -->
 
-<div id="resultsContainer">
+<div id="resultsContainer" class="gallery js-flickity">
         <div class="picture-frame">
         </div>
 </div>
@@ -178,7 +189,7 @@
 </body>
 </html>
 
-{#    {% if search_type == 'ingredient' %}#}
+<!-- {#    {% if search_type == 'ingredient' %}#}
 {#    <h1 class="tdy-rec-text">Searched Ingredient</h1>#}
 {#        {% if ingredients|length > 1 %}#}
 {#                <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>#}
@@ -240,7 +251,7 @@
 {#            <p class="text-not-found">No cocktails found.</p>#}
 {#        <a class="upload" href="{% url 'SIP:upload_image' %}"><p class="upl">Upload Your Own Recipe</p></a>#}
 {#        {% endif %}#}
-{#    {% endif %}#}
+{#    {% endif %}#} -->
 
 <!--    <a class="upload" href="{% url 'SIP:upload_image' %}"><p class="text">Upload</p></a>-->
 
