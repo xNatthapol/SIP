@@ -33,10 +33,7 @@ class SearchView(View):
                 return JsonResponse({'error': 'Invalid search type'}, status=400)
 
             results = serialize('json', results)
-            redirect_url = reverse('SIP:index')
-            # return JsonResponse({'cocktails':results}, safe=False, status=200)
-            return JsonResponse({'cocktails': results, 'redirect_url': redirect_url},
-                     safe=False, status=200)
+            return JsonResponse({'cocktails':results}, safe=False, status=200)
         except json.JSONDecodeError as e:
             return JsonResponse({'error': 'Invalid JSON format'}, status=400)
 

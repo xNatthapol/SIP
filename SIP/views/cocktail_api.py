@@ -168,12 +168,14 @@ class CocktailApi:
                 break
             ingredient = self.ingred_dupicated(ingredient_name)
             measure = JsonData['strMeasure' + str(i)]
-            if isinstance(ingredient, Ingredient):
-                self.create_cock_ingred(cocktail, ingredient, measure)
-            else:
+            if not ingredient:
+
                 self.create_cock_ingred(cocktail,
                                         self.create_ingred(ingredient_name),
                                         measure)
+            else:
+                self.create_cock_ingred(cocktail, ingredient, measure)
+
 
         return cocktail
 
