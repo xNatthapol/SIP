@@ -168,7 +168,7 @@ class CocktailApi:
             cocktail = self.dupicate_check(drink['strDrink'])
             if not cocktail:
                 data = self.search_by_id(drink['idDrink'])
-                cocktail = self.Create_Cocktails(data)
+                cocktail = self.create_cocktails(data)
             cocktails.append(cocktail)
 
     def create_cocktails(self, JsonData):
@@ -197,7 +197,7 @@ class CocktailApi:
                                         self.create_ingred(ingredient_name),
                                         measure)
             else:
-                self.create_cock_ingred(cocktail, ingredient, measure)
+                self.create_cock_ingred(cocktail, ingredient[0], measure)
         cocktail.save()
 
         return cocktail

@@ -105,7 +105,7 @@
 </head>
 
     <h1 class="tdy-rec-text">Cocktail Index</h1>
-
+{% if cocktails %}
     <h2 class="text-topic">Latest Cocktails</h2>
     <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
        {% for cocktail in cocktails %}
@@ -131,8 +131,9 @@
           </div>
        {% endfor %}
     </div>
+{% endif %}
 
-
+{% if randoms %}
     <h2 class="text-topic">Random Cocktails</h2>
     <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
        {% for cocktail in randoms %}
@@ -158,7 +159,9 @@
           </div>
        {% endfor %}
     </div>
+{% endif %}
 
+{% if ingredients %}
     <h2 class="text-topic">Latest Ingredient</h2>
     <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
     {% for ingredient in ingredients %}
@@ -176,6 +179,7 @@
         </div>
     {% endfor %}
     </div>
+{% endif %}
 </html>
 </body>
 {% endblock %}
