@@ -56,7 +56,7 @@
     }
 
 
-    a, a:hover, a:visited {
+    .tag-a, .tag-a:hover, .tag-a:visited {
         font-family: 'Barlow Semi Condensed', sans-serif;
         font-size: 25px;
         list-style: none;
@@ -95,7 +95,10 @@
 
 </style>
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,7 +113,7 @@
     <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
        {% for cocktail in cocktails %}
           <div class="gallery-cell">
-             <a href="{% url 'SIP:cocktail_detail' cocktail.id %}">
+             <a class="tag-a" href="{% url 'SIP:cocktail_detail' cocktail.id %}">
                 {% if cocktail.image %}
                    <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
                 {% elif cocktail.user_uploaded_image %}
@@ -138,7 +141,7 @@
     <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
        {% for cocktail in randoms %}
           <div class="gallery-cell">
-             <a href="{% url 'SIP:cocktail_detail' cocktail.id %}">
+             <a class="tag-a" href="{% url 'SIP:cocktail_detail' cocktail.id %}">
                 {% if cocktail.image %}
                    <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
                 {% elif cocktail.user_uploaded_image %}
@@ -166,7 +169,7 @@
     <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
     {% for ingredient in ingredients %}
         <div class="gallery-cell">
-        <a href="{% url 'SIP:ingredient_detail' ingredient.id %}">
+        <a class="tag-a" href="{% url 'SIP:ingredient_detail' ingredient.id %}">
             {% if ingredient.image %}
                 <img src="{{ ingredient.image }}" alt="{{ ingredient.name }}">
             {% elif ingredient.user_uploaded_image %}
@@ -180,8 +183,15 @@
     {% endfor %}
     </div>
 {% endif %}
-</html>
+{% if messages %}
+    <script>
+        window.onload = function() {
+            {% for message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        };
+    </script>
+{% endif %}
 </body>
+</html>
 {% endblock %}
-
-

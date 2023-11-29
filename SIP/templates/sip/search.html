@@ -84,7 +84,7 @@
         text-decoration: none;
     }
 
-    a, a:hover, a:visited {
+    .tag-a, .tag-a:hover, .tag-a:visited {
         font-family: 'Barlow Semi Condensed', sans-serif;
         font-size: 25px;
         list-style: none;
@@ -179,7 +179,7 @@
     <h1 class="tdy-rec-text">Cocktail Search Results</h1>
     <div id="resultsContainer" class="gallery js-flickity">
         <div class="picture-frame">
-            <a class="text"></a>
+            <a class="tag-a"></a>
         </div>
     </div>
 
@@ -337,6 +337,7 @@ async function submitForm() {
 
     // Create a link element for the cocktail
     const linkElement = document.createElement('a');
+    linkElement.classList.add('tag-a');  // Add a class for styling 
     linkElement.href = `cocktail/${cocktailpk}`; // Set the href attribute
     linkElement.target = '_self'; // Open the link in the same tab
 
