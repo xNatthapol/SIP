@@ -1,23 +1,17 @@
 import json
 from itertools import chain
 from django.http import JsonResponse
-from django.urls import reverse
+from django.shortcuts import render
 from django.views import View
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from django.utils.decorators import method_decorator
-from django.views.decorators.http import require_POST
 from django.core.serializers import serialize
 from ..models import Ingredient
 from ..views.cocktail_api import CocktailApi
 
 
 class SearchView(View):
-
-    @method_decorator(ensure_csrf_cookie)
-    @method_decorator(csrf_protect)
-    @method_decorator(require_POST)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    template_name = 'sip/search.html'
+    def get(self, request):
+        return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
         try:
@@ -37,9 +31,6 @@ class SearchView(View):
         except json.JSONDecodeError as e:
             return JsonResponse({'error': 'Invalid JSON format'}, status=400)
 
-    def get(self, request, *args, **kwargs):
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
-
     def useful(self, item):
         if item and len(item) == 1:
             result = item[0]
@@ -56,7 +47,7 @@ class SearchView(View):
 
     def search_cocktails(self, query):
         cocktail_api = CocktailApi()
-        cocktails_api = self.api_useful(cocktail_api.api_search_by_name(query))
+        cocktails_api = self.api_useful(cocktail_api.get_search_by_name(query))
         cocktails_db = self.useful(cocktail_api.database_search_by_name(query))
         cocktails = cocktails_db + cocktails_api
         return cocktails

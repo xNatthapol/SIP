@@ -143,17 +143,6 @@ class CocktailApi:
         url = self.build_url('filter.php?i=' + api_params)
         return self.get_cocktails_endpoint(url)
 
-    def Create_Tags(self, tags, cocktail):
-        if tags:
-            for tag_name in tags.split(','):
-                tag_exist = Tag.objects.filter(name__exact=tag_name.strip())
-                if not tag_exist:
-                    tag = Tag(name=tag_name.strip())
-                    tag.save()
-                else:
-                    tag = tag_exist.first()
-                cocktail.tags.add(tag)
-
     def search_in_database(self, selected_ingredients):
         selected_ingredient = Ingredient.objects.filter(name__in=selected_ingredients)
         cocktails = Cocktail.objects.filter(cocktailsingredient__ingredient__in=selected_ingredient)
@@ -182,14 +171,7 @@ class CocktailApi:
                 cocktail = self.Create_Cocktails(data)
             cocktails.append(cocktail)
 
-    def date_modified(self, date_modified_str):
-        if date_modified_str:
-            date_modified = datetime.strptime(date_modified_str, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)
-        else:
-            date_modified = None
-        return date_modified
-
-    def Create_Cocktails(self, JsonData):
+    def create_cocktails(self, JsonData):
         cocktail = Cocktail(
             name=JsonData['strDrink'],
             alternate_name=JsonData['strDrinkAlternate'],
@@ -220,6 +202,10 @@ class CocktailApi:
 
         return cocktail
 
-    def api_search_by_name(self, name):
+    def get_search_by_name(self, name):
         url = self.build_url('search.php?s=' + name)
+        return self.get_cocktails_endpoint(url)
+
+    def get_random_cocktails(self):
+        url = self.build_url('randomselection.php')
         return self.get_cocktails_endpoint(url)
