@@ -146,6 +146,7 @@
         justify-content: center;
         background: #002C1D;
         transition: opacity 0.4s, visibility 0.4s;
+        z-index: 9999;
     }
 
     .wine-loader--hidden {
@@ -214,6 +215,14 @@
 
     window.addEventListener("load", () => {
         hideLoader();
+    });
+
+    document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') {
+            hideLoader();
+        } else {
+            showLoader();
+        }
     });
 
     $(document).ready(function () {
