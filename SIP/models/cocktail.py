@@ -45,10 +45,3 @@ class Cocktail(models.Model):
 
     def __str__(self):
         return self.name
-
-# class Favorite(models.Model):
-#     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-#     cocktail = models.ForeignKey('SIP.Cocktail', on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return f'{self.user} likes {self.cocktail}'

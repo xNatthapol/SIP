@@ -8,17 +8,17 @@ from ..models import Star, Cocktail, Ingredient
 
 class IndexView(View):
     template_name = 'sip/index.html'
-    # api = CocktailApi()
+    api = CocktailApi()
 
     def get(self, request):
         cocktails = self.calculate_star_rating(Cocktail.objects.order_by('-id')[:10])
-        # random = self.calculate_star_rating(self.api.get_random_cocktails())
+        random = self.calculate_star_rating(self.api.get_random_cocktails())
         ingredients = Ingredient.objects.order_by('-id')[:10]
 
         context = {
             'cocktails': cocktails,
             'ingredients': ingredients,
-            # 'randoms': random,
+            'randoms': random,
         }
         return render(request, self.template_name, context)
 

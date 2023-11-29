@@ -128,7 +128,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # This database setting is only intended for testing.
 DATABASES = {
     "default": env.db(
-        "DB_URL",
+        "DATABASE_URL",
         default="postgres:///sipdb",
     ),
 }

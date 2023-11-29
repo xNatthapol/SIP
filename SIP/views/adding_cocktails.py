@@ -1,9 +1,8 @@
 # views.py
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views import View
 from ..forms import CocktailForm, CocktailIngredientFormSet
-from django.forms import inlineformset_factory
-from ..models import Cocktail, CocktailIngredient
+
 
 class CreateCocktail(View):
     template_name = 'sip/upload_image.html'
@@ -11,7 +10,6 @@ class CreateCocktail(View):
     def get(self, request, *args, **kwargs):
         cocktail_form = CocktailForm()
         ingredient_formset = CocktailIngredientFormSet(prefix='ingredient')
-        # ingredient_formset = inlineformset_factory(Cocktail, CocktailIngredient, fields=('ingredient', 'measure'))
 
         return render(request, self.template_name, {
             'cocktail_form': cocktail_form,

@@ -1,6 +1,4 @@
-# views.py
-from django.core.exceptions import ValidationError
-from django.db.models import Avg, DecimalField
+from django.db.models import Avg
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View

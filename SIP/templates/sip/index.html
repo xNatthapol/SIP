@@ -95,7 +95,7 @@
 
 </style>
 
-<body>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,7 +103,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
+<body>
     <h1 class="tdy-rec-text">Cocktail Index</h1>
 {% if cocktails %}
     <h2 class="text-topic">Latest Cocktails</h2>
@@ -132,34 +132,34 @@
        {% endfor %}
     </div>
 {% endif %}
-{##}
-{#{% if randoms %}#}
-{#    <h2 class="text-topic">Random Cocktails</h2>#}
-{#    <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>#}
-{#       {% for cocktail in randoms %}#}
-{#          <div class="gallery-cell">#}
-{#             <a href="{% url 'SIP:cocktail_detail' cocktail.id %}">#}
-{#                {% if cocktail.image %}#}
-{#                   <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">#}
-{#                {% elif cocktail.user_uploaded_image %}#}
-{#                   <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">#}
-{#                {% else %}#}
-{#                   <img src="https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg" alt="{{ cocktail.name }}">#}
-{#                {% endif %}#}
-{#                <div class="text">{{ cocktail.name }}</div>#}
-{#             {% if cocktail.star_rating is not None %}#}
-{#                 <p>#}
-{#                    <span class="text">Average Score:</span>#}
-{#                    <span>{{ cocktail.star_rating|floatformat:2 }} &#9733;</span>#}
-{#                 </p>#}
-{#            {% else %}#}
-{#               <p class="name">No average score available</p>#}
-{#            {% endif %}#}
-{#             </a>#}
-{#          </div>#}
-{#       {% endfor %}#}
-{#    </div>#}
-{#{% endif %}#}
+
+{% if randoms %}
+    <h2 class="text-topic">Random Cocktails</h2>
+    <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true }'>
+       {% for cocktail in randoms %}
+          <div class="gallery-cell">
+             <a href="{% url 'SIP:cocktail_detail' cocktail.id %}">
+                {% if cocktail.image %}
+                   <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+                {% elif cocktail.user_uploaded_image %}
+                   <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
+                {% else %}
+                   <img src="https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg" alt="{{ cocktail.name }}">
+                {% endif %}
+                <div class="text">{{ cocktail.name }}</div>
+             {% if cocktail.star_rating is not None %}
+                 <p>
+                    <span class="text">Average Score:</span>
+                    <span>{{ cocktail.star_rating|floatformat:2 }} &#9733;</span>
+                 </p>
+            {% else %}
+               <p class="name">No average score available</p>
+            {% endif %}
+             </a>
+          </div>
+       {% endfor %}
+    </div>
+{% endif %}
 
 {% if ingredients %}
     <h2 class="text-topic">Latest Ingredient</h2>
