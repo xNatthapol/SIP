@@ -41,7 +41,7 @@
         font-size: 55px;
         font-weight: 400;
         word-wrap: break-word;
-        margin-top: 120px;
+        /* margin-top: 20px; */
         text-align: center;
         margin-bottom: 50px;
     }
@@ -85,8 +85,11 @@
     }
 
     a, a:hover, a:visited {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        font-size: 25px;
         list-style: none;
         text-decoration: none;
+        color: #FCDF76;
     }
 
     * {
@@ -95,10 +98,10 @@
     }
 
     img {
-        max-width: 450px;
-        max-height: 350px;
-        width: 450px;
-        height: 350px;
+        /* max-width: 450px;
+        max-height: 350px; */
+        width: 350px;
+        height: 250px;
         object-fit: cover;
         border-radius: 5px;
     }
@@ -106,20 +109,11 @@
     .gallery {
         display: flex;
         overflow: auto;
-        /* scroll-snap-type: x mandatory;
-        scroll-behavior: smooth; */
-        /* animation: moveSlideshow 1s linear infinite; */
-        /* transition: 0.3s; */
+        border-radius: 5px;
     }
 
     .gallery-cell {
-        /* width: 66%;
-        height: 200px; */
-        scroll-snap-align: start;
         margin-right: 20px;
-        background-color: white;
-        /* counter-increment: gallery-cell; */
-        /* animation: carousel 10s linear infinite; */
         border-radius: 5px;
     }
 
@@ -154,16 +148,16 @@
         }
     } */
 
-    /* .picture-frame {
-        background-color: white;
-    } */
+    .picture-frame {
+        border-radius: 5px;
+    }
 
-    /* #resultsContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    } */
+    #resultsContainer {
+        /* background-color: aqua; */
+        border-radius: 5px;
+        gap: 30px;
+        text-align: center;
+    }
 
 </style>
 
@@ -177,18 +171,32 @@
     <title>Cocktail Search Results</title>
 </head>
 <body>
-    <h1 class="text">Cocktail Search Results</h1>
-    <!-- Your existing HTML content -->
+    <h1 class="tdy-rec-text">Cocktail Search Results</h1>
 
-<div id="resultsContainer" class="gallery js-flickity">
-        <div class="picture-frame">
-            <a class=text">
-            </a>
+    <!-- Search bar -->
+    <form id="cocktailSearchForm" onsubmit="submitForm(); return false;">
+        {% csrf_token %}
+        <select id="searchType" name="searchType">
+            <option value="cocktails">Cocktails</option>
+            <option value="ingredients">Ingredients</option>
+        </select>
+        <div id="ingredientContainer" class="ingredient-container">
+            <!-- Selected ingredients will be added here as blocks -->
         </div>
-</div>
+        <input type="text" id="ingredients" name="ingredients" placeholder="E.g., vodka, lime, soda" style="display: none;">
+        <input type="text" id="cocktailQuery" name="cocktailQuery" placeholder="E.g., Mojito" style="display: block;">
+        <div id="ingredientHints" class="ingredient-hints"></div>
+        <button type="button" onclick="submitForm()">Search</button>
+    </form>
+    <!-- Search bar -->
 
-
-
+    <!-- Results container -->
+    <div id="resultsContainer" class="gallery js-flickity">
+        <div class="picture-frame">
+            <a class="text"></a>
+        </div>
+    </div>
+    <!-- Results container -->
 </body>
 </html>
 
@@ -258,27 +266,183 @@
 
 <!--    <a class="upload" href="{% url 'SIP:upload_image' %}"><p class="text">Upload</p></a>-->
 
-    {% if messages %}
-        <script>
-            window.onload = function() {
-                {% for message in messages %}
-                    alert("{{ message }}");
-                {% endfor %}
-            };
-        </script>
-    {% endif %}
+<script>
+    // search ingredients bar
+    const csrfToken = "{{ csrf_token }}";
 
-</body>
-</html>
+async function fetchIngredientSuggestions() {
+    try {
+        const response = await fetch('/SIP/all_ingredient/');  // Update this with the actual URL
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.ingredients;  // Assuming the response has a property named 'ingredients'
+    } catch (error) {
+        console.error('Error fetching ingredient suggestions:', error.message);
+        return [];
+    }
+}
 
-<!-- <script>
-$(document).ready(function(){
-  $('.gallery').slick({
-    centerMode: true,
-    centerPadding: '60px',
-    slidesToShow: 3,
-    responsive: [
-    -->
+// Function to initialize the ingredient suggestions
+async function initIngredientSuggestions() {
+    const ingredientSuggestions = await fetchIngredientSuggestions();
+    return ingredientSuggestions;
+}
+
+
+document.addEventListener('DOMContentLoaded', async function () {
+    const searchTypeSelect = document.getElementById('searchType');
+    const cocktailQueryInput = document.getElementById('cocktailQuery');
+    const ingredientsInput = document.getElementById('ingredients');
+
+    const ingredientSuggestions = await initIngredientSuggestions();
+
+    searchTypeSelect.addEventListener('change', function() {
+        const selectedSearchType = this.value;
+
+        // Hide all input elements initially
+        cocktailQueryInput.style.display = 'none';
+        ingredientsInput.style.display = 'none';
+
+        // Show the relevant input element based on the selected search type
+        if (selectedSearchType === 'cocktails') {
+            cocktailQueryInput.style.display = 'block';
+            ingredientsInput.value = '';  // Clear ingredients input
+        } else if (selectedSearchType === 'ingredients') {
+            ingredientsInput.style.display = 'block';
+            cocktailQueryInput.value = '';  // Clear cocktailQuery input
+        }
+    });
+
+    document.getElementById('ingredients').addEventListener('input', function() {
+        const input = this.value.toLowerCase();
+        const ingredientHintsContainer = document.getElementById('ingredientHints');
+
+        // Clear previous suggestions
+        ingredientHintsContainer.innerHTML = '';
+
+        // Filter and display suggestions
+        const matchingIngredients = ingredientSuggestions.filter(ingredient =>
+            ingredient.toLowerCase().includes(input)
+        );
+
+        matchingIngredients.forEach(ingredient => {
+            const hintElement = document.createElement('div');
+            hintElement.textContent = ingredient;
+            hintElement.addEventListener('click', function() {
+                addIngredientBlock(ingredient);
+                this.parentElement.innerHTML = ''; // Clear suggestions after selection
+            });
+            ingredientHintsContainer.appendChild(hintElement);
+        });
+    });
+});
+
+function addIngredientBlock(ingredient) {
+    const ingredientContainer = document.getElementById('ingredientContainer');
+    const block = document.createElement('div');
+    block.textContent = ingredient;
+    block.className = 'ingredient-block';
+    block.addEventListener('click', function() {
+        this.remove();
+    });
+    ingredientContainer.appendChild(block);
+
+    // Clear input field after adding the ingredient block
+    document.getElementById('ingredients').value = '';
+}
+
+async function submitForm() {
+    const searchType = document.getElementById('searchType').value;
+    console.log('searchType:', searchType);
+
+    let response;  // Declare response variable
+    if (searchType === 'cocktails') {
+        const cocktailQuery = document.getElementById('cocktailQuery').value.trim();
+
+        // Ensure that the cocktail query is not empty before sending the request
+        if (cocktailQuery) {
+            response = await fetch('/SIP/search/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ command: 'search_cocktails', query: cocktailQuery }),
+            });
+        }
+    } else if (searchType === 'ingredients') {
+        const ingredientBlocks = document.querySelectorAll('.ingredient-block');
+        const selectedIngredients = Array.from(ingredientBlocks).map(block => block.textContent);
+
+        // Ensure that there are selected ingredients before sending the request
+        if (selectedIngredients.length > 0) {
+            response = await fetch('/SIP/search/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ command: 'search_ingredients', ingredients: selectedIngredients }),
+            });
+        }
+    }
+
+    // Check response.ok inside the same scope
+    if (!response.ok) {
+        // Handle errors
+        console.error('Error:', response.status, response.statusText);
+    } else {
+    // Handle the successful response
+    const data = await response.json();
+    const cocktailsData = JSON.parse(data.cocktails);
+    console.log('Response from the backend:', cocktailsData);
+    // After handling the successful response
+
+
+    // You can now use the cocktailsData to update your HTML and display the results on the webpage
+    // For example, you can create DOM elements and append them to a container in your HTML
+    const resultsContainer = document.getElementById('resultsContainer');
+    resultsContainer.innerHTML = '';  // Clear previous results
+
+    cocktailsData.forEach(cocktail => {
+    const cocktailName = cocktail.fields.name;
+    const cocktailImage = cocktail.fields.image;
+    const cocktailpk = cocktail.pk;
+
+    // Create a container for each cocktail
+    const cocktailContainer = document.createElement('div');
+
+    // Create a link element for the cocktail
+    const linkElement = document.createElement('a');
+    linkElement.href = `cocktail/${cocktailpk}`; // Set the href attribute
+    linkElement.target = '_self'; // Open the link in the same tab
+
+    // Create an element for the cocktail name
+    const nameElement = document.createElement('p');
+    nameElement.textContent = cocktailName;
+
+    // Create an image element for the cocktail image
+    const imageElement = document.createElement('img');
+    imageElement.src = cocktailImage;
+    imageElement.alt = cocktailName;  // Set alt text for accessibility
+
+    // Append the name and image elements to the link element
+    linkElement.appendChild(imageElement);
+    linkElement.appendChild(nameElement);
+
+    // Append the link element to the container
+    cocktailContainer.appendChild(linkElement);
+
+    // Append the container to the results container
+    resultsContainer.appendChild(cocktailContainer);
+});
+
+}
+}
+
+</script>
 
 {% endblock %}
 
