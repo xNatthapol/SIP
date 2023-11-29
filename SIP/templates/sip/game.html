@@ -8,135 +8,138 @@
 
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cocktail Game</title>
-    <style>
-        body {
-            background-color: #002C1D;
-            align-items: center;
-        }
-        
-        .text {
-            font-family: 'Barlow Semi Condensed', sans-serif;
-            color: white;
-        }
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cocktail Game</title>
+        <style>
+            body {
+                background-color: #002C1D;
+                padding: 50px;
+                align-items: center;
+            }
 
-        .select {
-            width: 100vw;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+            .text {
+                font-family: 'Barlow Semi Condensed', sans-serif;
+                color: white;
+            }
 
-        .select-item {
-            padding: 10px;
-            cursor: pointer;
-            font-family: "Heebo", sans-serif;
-            text-align: center;
-            border-radius: 3px;
-            background-color: #F5F5DC;
-            transition: background 0.1s ease-in-out;
+            .select {
+                /* display: grid; */
+                /* grid-template-columns: repeat(3, 1fr); */
+                max-width: 500px;
+                gap: 20px;
+                justify-content: center;
+            }
 
-            display: block;
-            margin: 10px;
-        }
+            .select-item {
+                padding: 10px;
+                cursor: pointer;
+                font-family: "Heebo", sans-serif;
+                text-align: center;
+                border-radius: 3px;
+                background-color: #F5F5DC;
+                transition: background 0.1s ease-in-out;
 
-        #choice-img {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 5px;
-            object-fit: cover;
-            margin: 20px;
-        }
+                display: block;
+                margin: 10px;
+            }
 
-        #choice-img:hover, #choice-text:hover, .select-item:hover {
-            cursor: pointer;
-        }
+            #choice-img {
+                max-width: 100px;
+                max-height: 100px;
+                border-radius: 5px;
+                object-fit: cover;
+                margin: 20px;
+            }
 
-        #choice-text {
-            color: #282828;
-        }
+            #choice-img:hover, #choice-text:hover, .select-item:hover {
+                cursor: pointer;
+            }
 
-        .select-item input[type="checkbox"] {
-            opacity: 0;
-            cursor: pointer;
-        }
+            #choice-text {
+                color: #282828;
+            }
 
-        .selected-item {
-            background: #6b6b6b;
-        }
+            .select-item input[type="checkbox"] {
+                opacity: 0;
+                cursor: pointer;
+            }
 
-        .info {
-            margin-top: 20px;
-        }
+            .selected-item {
+                background: #6b6b6b;
+            }
 
-        .jote {
-            text-align: center;
-        }
+            .info {
+                margin-top: 20px;
+            }
 
-        #jote-name {
-            font-family: 'Italianno', cursive;
-            color: #FCDF76;
-            font-size: 55px;
-            font-weight: 400;
-            word-wrap: break-word;
-            margin-top: 120px;
-            text-align: center;
-        }
+            .jote {
+                text-align: center;
+            }
 
-        #jote-img {
-            max-width: 450px;
-            max-height: 270px;
-            border-radius: 5px;
-            object-fit: cover;
-            margin: 20px;
-        }
+            #jote-name {
+                font-family: 'Italianno', cursive;
+                color: #FCDF76;
+                font-size: 55px;
+                font-weight: 400;
+                word-wrap: break-word;
+                margin-top: 120px;
+                text-align: center;
+            }
 
-        #selectedCount {
-            padding: 5px;
-            background-color: #282828;
-            color: white;
-            border-radius: 5px;
-        }
+            #jote-img {
+                max-width: 450px;
+                max-height: 270px;
+                border-radius: 5px;
+                object-fit: cover;
+                margin: 20px;
+            }
 
-        .choices {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
+            #selectedCount {
+                padding: 5px;
+                background-color: #282828;
+                color: white;
+                border-radius: 5px;
+            }
 
-        .subbutt {
-            font-family: 'Barlow Semi Condensed', sans-serif;
-            color: white;
-            background-color: #282828;
-            border-radius: 5px;
-            padding: 10px;
-            padding-left: 20px;
-            padding-right: 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border: white solid 1px;
-            transition: background 0.1s ease-in-out;
-        }
+            .choices {
+                padding: 10px;
+                /* display: flex;
+                flex-wrap: wrap; */
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+            }
 
-    </style>
-</head>
-<body>
+            .subbutt {
+                font-family: 'Barlow Semi Condensed', sans-serif;
+                color: white;
+                background-color: #282828;
+                border-radius: 5px;
+                padding: 10px;
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border: white solid 1px;
+                transition: background 0.1s ease-in-out;
+            }
+
+        </style>
+    </head>
+    <body>
     <div class="jote">
         <h2 class="text" id="jote-name">{{ cocktail.name }}</h2>
-        <img id="jote-img" class="img-intr" src="{{ cocktail.image }}" alt="cocktail image">
+        <img id="jote-img" class="img-intr" src="{{ cocktail.image }}"
+             alt="cocktail image">
 
-        <h2 class="text">Choose the correct ingredients (Select up to {{ cocktail.ingredients.count }})</h2>
+        <h2 class="text">Choose the correct ingredients (Select up
+            to {{ cocktail.ingredients.count }})</h2>
 
         <div class="info">
-            <h4 class="text" id="selectedCount">Selected: 0</h4>
-            <!-- <h4 class="text" id="selectionLimit">You can only select up to {{ cocktail.ingredients.count }} ingredients.</h4> -->
+            <h4 class="text" id="selectedCount">Selected: 0/{{ cocktail.ingredients.count }}</h4>
         </div>
     </div>
 
@@ -184,17 +187,21 @@
             });
 
             function updateSelectedCount(count) {
-                selectedCount.textContent = 'Selected: ' + count;
+                selectedCount.textContent = 'Selected: ' + count + '/' + selectionLimit;
             }
 
-            // Attach event listener to the Submit button
-            var submitButton = document.getElementById('submitButton');
-            submitButton.addEventListener('click', function() {
-                checkSelection();
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted || (typeof window.performance != 'undefined' && window.performance.navigation.type === 2)) {
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = false;
+                        checkbox.closest('.select-item').classList.remove('selected-item');
+                    });
+                    updateSelectedCount(0);
+                }
             });
         });
     </script>
-</body>
-</html>
+    </body>
+    </html>
 
 {% endblock %}
