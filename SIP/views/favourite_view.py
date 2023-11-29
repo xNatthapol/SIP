@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from ..models import FavouriteCocktail, FavouriteIngredient, Cocktail, Ingredient
+from django.shortcuts import get_object_or_404
 
 
 class AddToFavouritesView(View):
@@ -8,7 +9,7 @@ class AddToFavouritesView(View):
 
     def post(self, request, model_type, pk):
         if not request.user.is_authenticated:
-            return redirect('login')  # Redirect to login if user is not authenticated
+            return redirect('login')  # Redirect to login if the user is not authenticated
 
         user = request.user
         model_class = None
@@ -20,16 +21,27 @@ class AddToFavouritesView(View):
             model_class = Ingredient
             favourite_model = FavouriteIngredient
         else:
-            # Handle invalid model_type, you can customize this part based on your needs
+            # Handle an invalid model_type, customize this part based on your needs
             return render(request, 'error.html', {'error_message': 'Invalid model type'})
 
-        item = model_class.objects.get(pk=pk)
+        # Use get_object_or_404 to raise a 404 error if the object is not found
+        item = get_object_or_404(model_class, pk=pk)
 
         # Check if the item is already in favourites
-        if not favourite_model.objects.filter(user=user, **{f'{model_type}_id': pk}).exists():
-            favourite_model.objects.create(user=user, **{f'{model_type}_id': pk})
+        favourite_entry = favourite_model.objects.filter(user=user, **{f'{model_type}_id': pk}).first()
+
+        try:
+            if favourite_entry:
+                # If the item is already in favourites, remove it
+                favourite_entry.delete()
+            else:
+                # If the item is not in favourites, add it
+                favourite_model.objects.create(user=user, **{f'{model_type}_id': pk})
+        except Exception as e:
+            print(f'Error deleting item from favourites: {e}')
 
         return redirect('SIP:favourite_list')
+
 
 class FavouriteListView(View):
     template_name = 'sip/favourite_list.html'
