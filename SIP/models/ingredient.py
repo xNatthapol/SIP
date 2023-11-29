@@ -16,4 +16,5 @@ class CocktailIngredient(models.Model):
     measure = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return self.measure + ' ' + str(self.ingredient)
+        return self.cocktail.name + ' ' + str(self.ingredient)
+

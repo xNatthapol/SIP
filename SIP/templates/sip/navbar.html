@@ -8,6 +8,10 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
 <style>
+    nav {
+        z-index: 10000;
+    }
+
     body {
         padding-top: 110px;
     }
@@ -128,7 +132,6 @@
     .gale {
         text-align: center;
         margin-top: 9px;
-    }
 
     .wine-loader {
         position: fixed;
@@ -223,25 +226,14 @@
     <a class="navbar-brand" href="{% url 'SIP:index' %}">Sip</a>
 
     <ul class="nav-right">
-        <form id="argh" class="form-inline" method="post" action="{% url 'SIP:index' %}">
-            {% csrf_token %}
-            <li>
-                <select class="sel" name="search_type">
-                    <option value="cocktail" {% if search_type == 'cocktail' %}selected{% endif %}>Cocktail</option>
-                    <option value="ingredient" {% if search_type == 'ingredient' %}selected{% endif %}>Ingredient</option>
-                </select>
-                <select class="sel" name="search_by">
-                    <option value="api" {% if search_by == 'api' %}selected{% endif %}>API</option>
-                    <option value="db" {% if search_by == 'db' %}selected{% endif %}>DB</option>
-                </select>
-                <input class="about-us" type="text" id="search" name="search" placeholder="Search" value="{{ search_cocktail }}">
-                <!-- <input class="search-button" type="submit" value/> -->
-            </li>
-        </form>
 
         <a class="about-us" href="{% url 'SIP:game' %}"><p class="gale">Game</p></a>
 
         <a class="about-us" href="{% url 'SIP:leaderboard' %}"><p class="gale">Leaderboard</p></a>
+
+        <a class="about-us" href="{% url 'SIP:favourite_list' %}"><p class="gale">Favourites</p></a>
+
+        <a class="about-us" href="{% url 'SIP:search' %}"><p class="gale">Search</p></a>
 
         <li>
             <!-- About Us -->
@@ -272,3 +264,4 @@
     <div class="wine-stem"></div>
     <div class="wine-foot"></div>
 </div>
+

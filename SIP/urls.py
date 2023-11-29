@@ -2,6 +2,7 @@ from django.urls import path
 from django.views.generic import RedirectView
 from . import views
 
+
 app_name = "SIP"
 
 urlpatterns = [
@@ -15,4 +16,8 @@ urlpatterns = [
     path('upload_image/', views.CreateCocktail.as_view(), name='upload_image'),
     path('game/', views.GameView.as_view(), name='game'),
     path('leaderboard/', views.LeaderboardView.as_view(), name='leaderboard'),
+    path('search/', views.SearchView.as_view(), name='search'),
+    path('all_ingredient/', views.all_ingred, name='all_ingred'),
+    path('add_to_favourites/<str:model_type>/<int:pk>/', views.AddToFavouritesView.as_view(), name='add_to_favourites'),
+    path('favourite_list/', views.FavouriteListView.as_view(), name='favourite_list'),
 ]
