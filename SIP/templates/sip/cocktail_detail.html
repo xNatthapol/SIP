@@ -3,6 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200&family=Italianno&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-GLhlTQ8iKIcon3PM6zCJ7UpiJAgR9GqVZ1FOSSj6LJ7ZF4JQVnWLaU5d7iFpDZl" crossorigin="anonymous">
 
 
 {% extends "sip/base.html" %}
@@ -22,6 +23,10 @@
             display: none;
         }
     } */
+
+    .fav-link i {
+        font-size: 30px;
+    }
 
     .text {
         font-family: 'Barlow Semi Condensed', sans-serif;
@@ -303,7 +308,12 @@
     <div class="big-block">
         <!-- Text and ingredients block -->
         <div class="text-ingre" id="small-block">
-            <h1 class="text" id="cock-text">{{ cocktail.name }}</h1>
+            <h1 class="text" id="cock-text">
+                {{ cocktail.name }}
+                <a href="{% url 'SIP:add_to_favourites' 'cocktail' cocktail.pk %}?action=add" class="fav-link">
+                    <i class="far fa-heart"></i>
+                </a>
+            </h1>
 
             <!-- Star Rating -->
             <div class="star-container">
@@ -355,11 +365,6 @@
         {% elif cocktail.user_uploaded_image %}
           <img src="{{ cocktail.user_uploaded_image.url }}" alt="{{ cocktail.name }}">
         {% endif %}
-        <form method="post" action="{% url 'SIP:add_to_favourites' 'cocktail' cocktail.pk %}">
-            {% csrf_token %}
-            <button type="submit">Add to Favourites</button>
-        </form>
-
             <div class="intrr">
                 <h2 class="text" id="intr-text">Instructions</h2>
                 <p class="text" id="intr">{{ cocktail.instructions }}</p>
