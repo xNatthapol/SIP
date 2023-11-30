@@ -197,7 +197,9 @@
 {% endif %}
 
 <br>
-<a class="btn-a" href="{% url 'SIP:upload_image' %}"><p class="upl">Upload Your Own Recipe</p></a>
+    {% if user.is_authenticated %}
+        <a class="btn-a" href="{% url 'SIP:cocktail_create' %}"><p class="upl">Create Your Own Cocktail</p></a>
+    {% endif %}
 
 {% if messages %}
     <script>
