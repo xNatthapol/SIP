@@ -23,6 +23,7 @@ class CreateCocktail(View):
 
         if cocktail_form.is_valid() and ingredient_formset.is_valid():
             # Process the forms and save data
+
             cocktail = cocktail_form.save()
             ingredient_formset.instance = cocktail
             ingredient_formset.save()

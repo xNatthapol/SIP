@@ -489,8 +489,8 @@
     "model": "sites.site",
     "pk": 3,
     "fields": {
-      "domain": "http://127.0.0.1:8000",
-      "name": "http://127.0.0.1:8000"
+      "domain": "https://sip-app-8bf7dfa6ffd7.herokuapp.com/",
+      "name": "https://sip-app-8bf7dfa6ffd7.herokuapp.com/"
     }
   },
   {
