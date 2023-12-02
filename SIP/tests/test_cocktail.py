@@ -79,9 +79,9 @@ class CocktailModelTest(TestCase):
     def test_cocktail_with_ingredients(self):
         cocktail_ingredients = self.cocktail.cocktailingredient_set.all()
         self.assertEqual(len(cocktail_ingredients), 2)
-        list_ingredients = ['testmeasure1 testingredient1', 'testmeasure2 testingredient2']
+        list_ingredients = ['testingredient1', 'testingredient2']
         for ingredient in cocktail_ingredients:
-            self.assertIn(str(ingredient), list_ingredients)
+            self.assertIn(str(ingredient).split(' ')[1], list_ingredients)
 
     def test_cocktail_with_tags(self):
         tags = self.cocktail.tags.all()

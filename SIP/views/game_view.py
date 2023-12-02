@@ -22,7 +22,7 @@ class GameView(View):
             random_cocktail = random.choice(Cocktail.objects.all())
         except IndexError:
             cocktail_api = CocktailApi()
-            cocktail_api.get_cocktail_by_name('punch')
+            cocktail_api.get_search_by_name('punch')
         ingredients = Ingredient.objects.all()
         ingredients_list = []
         for ingredient_cocktail in random_cocktail.ingredients.all():

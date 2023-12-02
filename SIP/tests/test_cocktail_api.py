@@ -4,9 +4,9 @@ from SIP.views import CocktailApi
 
 
 class CocktailApiTest(TestCase):
-    def test_get_cocktail_by_name(self):
+    def test_get_search_by_name(self):
         cocktail_api = CocktailApi()
-        cocktails_list = cocktail_api.get_cocktail_by_name('Mojito')
+        cocktails_list = cocktail_api.get_search_by_name('Mojito')
         self.assertIsInstance(cocktails_list, list)
         if cocktails_list != []:
             first_cocktail = cocktails_list[0]
@@ -14,7 +14,7 @@ class CocktailApiTest(TestCase):
             
             self.assertEqual(first_cocktail.name, 'Mojito')
 
-    def test_get_cocktail_by_name_not_found(self):
+    def test_get_search_by_name_not_found(self):
         cocktail_api = CocktailApi()
-        cocktails_list = cocktail_api.get_cocktail_by_name('NonExistentCocktail')
+        cocktails_list = cocktail_api.get_search_by_name('NonExistentCocktail')
         self.assertIsNone(cocktails_list)
