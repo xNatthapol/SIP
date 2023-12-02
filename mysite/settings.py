@@ -130,14 +130,6 @@ DATABASES = {
         "DATABASE_URL",
         default="postgres:///sipdb",
     ),
-    'postgres': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'sip',
-        'PASSWORD': 'sip',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    },
 }
 
 # Password validation
