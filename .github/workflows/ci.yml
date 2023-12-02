@@ -11,13 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_DB: sipdb
-          POSTGRES_USER: zanut
-          POSTGRES_PASSWORD: pbuiX92yLsYV
+        image: postgres:16
         ports:
           - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
 
     steps:
     - uses: actions/checkout@v3
@@ -31,8 +29,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Set env
-      run: cp test.env .env
+    # - name: Set env
+    #   run: cp test.env .env
 
     - name: Run Migrations
       run: python manage.py migrate
