@@ -9,7 +9,6 @@ Pillow
 cryptography
 python-magic
 django-storages
-dj-database-url
 django-heroku
 gunicorn
 whitenoise

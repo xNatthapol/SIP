@@ -13,7 +13,6 @@ import os
 from pathlib import Path
 from decouple import config, Csv
 import environ
-import dj_database_url
 import django_heroku
 
 env = environ.Env(
@@ -128,7 +127,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     "default": env.db(
         "DATABASE_URL",
-        default="postgres:///sipdb",
+        default="postgres://postgres:postgres@localhost:5432/postgres",
     ),
 }
 
@@ -192,15 +191,15 @@ else:
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", default="No-access-key-id")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", default="No-secret-access-key")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", default="No-storage-bucket-name")
+AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default="No-s3-region-name")
 AWS_QUERYSTRING_EXPIRE = 600
 
-AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN")
-AWS_CLOUDFRONT_KEY_ID = env.str("AWS_CLOUDFRONT_KEY_ID").strip()
-AWS_CLOUDFRONT_KEY = env.str("AWS_CLOUDFRONT_KEY", multiline=True).encode(
+AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN", default="No-s3-custom-domain")
+AWS_CLOUDFRONT_KEY_ID = env.str("AWS_CLOUDFRONT_KEY_ID", default="No-cloudfront-key-id").strip()
+AWS_CLOUDFRONT_KEY = env.str("AWS_CLOUDFRONT_KEY", default="No-cloudfront-key", multiline=True).encode(
     "ascii").strip()
 
 
