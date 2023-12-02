@@ -29,9 +29,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # - name: Set env
-    #   run: cp test.env .env
-
     - name: Run Migrations
       run: python manage.py migrate
 
