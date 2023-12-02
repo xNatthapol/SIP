@@ -27,6 +27,10 @@ jobs:
         pip install -r requirements.txt
     - name: Set env
       run: cp test.env .env
+    - name: Setup PostgreSQL
+      run: sudo apt-get install postgresql
+    - name: Start PostgreSQL
+      run: sudo service postgresql start
     - name: Run Tests
       run: |
         python manage.py test
