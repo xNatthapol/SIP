@@ -126,9 +126,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db(
-        "DATABASE_URL",
-        default="postgres:///sipdb",
+    "default": dj_database_url.config(
+        default=config("DATABASE_URL", default="postgres://postgres:postgres@localhost:5432/postgres"),
+        conn_max_age=600,
+        conn_health_checks=True,
     ),
 }
 
