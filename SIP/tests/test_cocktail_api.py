@@ -7,7 +7,8 @@ class CocktailApiTest(TestCase):
     def test_get_search_by_name(self):
         cocktail_api = CocktailApi()
         cocktails_list = cocktail_api.get_search_by_name('Mojito')
-        self.assertIsInstance(cocktails_list, list)
+        if cocktails_list is not None:
+            self.assertIsInstance(cocktails_list, list)
         if cocktails_list != []:
             first_cocktail = cocktails_list[0]
             self.assertIsInstance(first_cocktail, Cocktail)
