@@ -132,7 +132,7 @@ DATABASES = {
     ),
     'postgres': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sipdb',
+        'NAME': 'postgres',
         'USER': 'sip',
         'PASSWORD': 'sip',
         'HOST': 'localhost',
