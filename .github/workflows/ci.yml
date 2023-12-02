@@ -9,6 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: sipdb
+          POSTGRES_USER: zanut
+          POSTGRES_PASSWORD: pbuiX92yLsYV
+        ports:
+          - 5432:5432
 
     steps:
     - uses: actions/checkout@v3
