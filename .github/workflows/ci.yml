@@ -32,7 +32,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Set env
-      run: cp test.env .env
+      run: |
+        echo "DATABASE_URL=postgres://sip:sip@localhost:5432/sipdb" >> $GITHUB_ENV
+        cp test.env .env
     - name: Run Tests
       run: |
         python manage.py test
