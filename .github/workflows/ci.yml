@@ -14,7 +14,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: sipdb
+          POSTGRES_DB: postgres
           POSTGRES_USER: sip
           POSTGRES_PASSWORD: sip
         ports:
@@ -33,7 +33,7 @@ jobs:
         pip install -r requirements.txt
     - name: Set env
       run: |
-        echo "DATABASE_URL=postgres://sip:sip@localhost:5432/sipdb?sslmode=disable" >> $GITHUB_ENV
+        echo "DATABASE_URL=postgres://sip:sip@localhost:5432/postgres?sslmode=disable" >> $GITHUB_ENV
         cp test.env .env
     - name: Run Tests
       run: |
